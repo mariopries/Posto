@@ -1,0 +1,2 @@
+Install-Package Mono.Security -Version 5.4.0.201	
+Install-Package Hardcodet.Wpf.TaskbarNotification -Version 1.0.5	

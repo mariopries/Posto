@@ -1,0 +1,290 @@
+﻿<Window x:Class="Posto.Win.Update.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:v="clr-namespace:Posto.Win.Update.View"
+        xmlns:vm="clr-namespace:Posto.Win.Update.ViewModel"    
+        xmlns:b="clr-namespace:Posto.Win.Update.Behavior"    
+        xmlns:converter="clr-namespace:Posto.Win.Update.Converters"
+        WindowStartupLocation="CenterScreen" 
+        Icon="/Fator.ico"
+        ResizeMode="CanMinimize" 
+        Title="Posto - Controle de atualização do servidor" 
+        WindowState="Normal"
+        ShowInTaskbar="False"
+        SourceInitialized="Window_SourceInitialized"
+        StateChanged="Window_StateChanged"
+        Height="235" Width="400">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <v:LoginView />
+        </DataTemplate>
+
+        <SolidColorBrush x:Key="ImageButtonBackground" Color="#FF767676" />
+        <SolidColorBrush x:Key="ButtonBackground" Color="#FF25A0DA" />
+
+        <Style x:Key="TextoNormal" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+
+        <Style x:Key="TextoNegrito" BasedOn="{StaticResource TextoNormal}" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="10,5,10,5" />
+        </Style>
+
+        <Style TargetType="ToggleButton">
+            <Setter Property="Padding" Value="10,5,10,5" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Height" Value="15" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="bg" BorderBrush="#a5a5a5" BorderThickness="1" Background="White">
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                        <Border x:Name="bg" BorderBrush="#a5a5a5" BorderThickness="1" Background="White">
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type xctk:MaskedTextBox}">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="bg" BorderBrush="#a5a5a5" BorderThickness="1" Background="White">
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botões na grid -->
+        <Style x:Key="TransparentStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid Background="Transparent">
+                                <ContentPresenter></ContentPresenter>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Canvas x:Key="MiImageLock" Width="12" Height="16" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+            <Path Width="12" Height="16" Stretch="Fill" Fill="Black" Data="M7.44999980926514,11.2559003829956L6.45993757247925,11.6660995483398 6.05000019073486,12.6559000015259 6.29403781890869,13.4448871612549 6.92080020904541,13.9509000778198 6.8394250869751,14.5210723876953 6.66039991378784,15.7754497528076 6.48137474060059,17.0298290252686 6.39999961853027,17.6000003814697 6.72812461853027,17.6000003814697 7.44999980926514,17.6000003814697 8.171875,17.6000003814697 8.5,17.6000003814697 8.41851615905762,17.0298290252686 8.23925018310547,15.7754497528076 8.05998420715332,14.5210723876953 7.97850036621094,13.9509000778198 8.60587501525879,13.4448871612549 8.84999942779541,12.6559000015259 8.43980026245117,11.6660995483398 7.44999980926514,11.2559003829956z M7.44999980926514,1.5L5.95127820968628,1.80250930786133 4.72752475738525,2.62752485275269 3.9025092124939,3.85127782821655 3.59999990463257,5.34999990463257 3.59999990463257,5.84218740463257 3.59999990463257,6.92500019073486 3.59999990463257,8.0078125 3.59999990463257,8.5 3.93085932731628,8.5 4.80312490463257,8.5 7.44999980926514,8.5 10.0968751907349,8.5 10.9691410064697,8.5 11.3000001907349,8.5 11.3000001907349,8.0078125 11.3000001907349,6.92500019073486 11.3000001907349,5.84218740463257 11.3000001907349,5.34999990463257 10.9973926544189,3.85127782821655 10.172212600708,2.62752485275269 8.94842624664307,1.80250930786133 7.44999980926514,1.5z M7.09999942779541,-0.600000023841858L7.44999980926514,-0.600000023841858 7.80000019073486,-0.600000023841858 9.97969055175781,-0.159896910190582 11.7597246170044,1.04027497768402 12.9598960876465,2.82030940055847 13.3999996185303,5 13.3999996185303,5.546875 13.3999996185303,6.75 13.3999996185303,7.953125 13.3999996185303,8.5 13.7281246185303,8.5 14.4499998092651,8.5 15.171875,8.5 15.5,8.5 15.5,8.98124980926514 15.5,10.25 15.5,12.0437498092651 15.5,14.0999994277954 15.5,16.15625 15.5,17.9499988555908 15.5,19.2187480926514 15.5,19.6999988555908 15.3191890716553,19.6999988555908 14.8082027435303,19.6999988555908 12.984375,19.6999988555908 10.4058589935303,19.6999988555908 7.44999980926514,19.6999988555908 4.494140625,19.6999988555908 1.91562497615814,19.6999988555908 0.0917968526482582,19.6999988555908 -0.419189482927322,19.6999988555908 -0.600000023841858,19.6999988555908 -0.600000023841858,19.2187480926514 -0.600000023841858,17.9499988555908 -0.600000023841858,16.15625 -0.600000023841858,14.0999994277954 -0.600000023841858,12.0437498092651 -0.600000023841858,10.25 -0.600000023841858,8.98124980926514 -0.600000023841858,8.5 -0.271875023841858,8.5 0.449999988079071,8.5 1.171875,8.5 1.5,8.5 1.5,7.953125 1.5,6.75 1.5,5.546875 1.5,5 1.94000470638275,2.82030940055847 3.14001250267029,1.04027497768402 4.92001390457153,-0.159896910190582 7.09999942779541,-0.600000023841858z"/>
+        </Canvas>
+
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converter:BooleanToVisibilityConverter>
+        <converter:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter"></converter:InvertBooleanToVisibilityConverter>
+        <converter:InvertBooleanConverter x:Key="InvertBooleanConverter"></converter:InvertBooleanConverter>
+    </Window.Resources>
+
+    <Grid b:FocusBehavior.FocusElement="{Binding FocusElement}">
+
+        <tb:TaskbarIcon
+                x:Name="MyNotifyIcon"
+                IconSource="/Fator.ico"
+                ToolTipText="Posto"
+                DoubleClickCommand="" />
+
+        <TabControl Visibility="{Binding DynamicContentControlIsActive, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <TabItem Header="Atualização">
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel VerticalAlignment="Center" Grid.Row="1">
+                        <TextBlock Text="Próxima:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
+                        <TextBlock Text="Última:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
+                        <TextBlock Text="Versão Atual:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
+                    </StackPanel>
+
+                    <StackPanel VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="0,23,0,0">
+                        <TextBlock Text="{Binding Path=Atualizar.GetDataProximaAtualizacao, StringFormat=dd/MM/yyyy HH:mm}" Style="{StaticResource TextoNormal}" />
+                        <TextBlock Text="{Binding Path=Atualizar.UltimaData, StringFormat=dd/MM/yyyy, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
+                        <TextBlock Text="{Binding Path=Atualizar.Versao, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
+                    </StackPanel>
+                    
+                    <Grid Grid.Column="3" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Viewbox 
+                        Margin="10"
+                        Width="50" Height="50"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                            <Image Source="/Fator.ico" />
+                        </Viewbox>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,5,5">
+                            <Button Grid.Row="1" 
+                                Command="{Binding BloquearCommand}" 
+                                Content="{StaticResource MiImageLock}" 
+                                Style="{StaticResource TransparentStyle}">
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <Border Grid.Row="2" Grid.ColumnSpan="3" Background="#FF646464" />
+
+                    <Grid Grid.Row="3" Grid.ColumnSpan="3" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Command="{Binding AtualizarCommand}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" Margin="0,0,5,0">Atualizar</Button>
+                            <Button Command="{Binding PausarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}">Parar</Button>
+                            <Button Command="{Binding IniciarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource InvertBooleanToVisibilityConverter}}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}">Iniciar</Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Configuração">
+                <Grid Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Servidor:" />
+                    <TextBox x:Name="InputServidor" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Configuracao.Servidor, Mode=TwoWay}" />
+
+                    <Label Content="Porta:" Grid.Column="3"  />
+                    <xctk:MaskedTextBox 
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        PromptChar=" "                       
+                        Mask="9999"
+                        x:Name="InputPorta"
+                        Text="{Binding Configuracao.Porta, Mode=TwoWay}" />
+
+                    <Label Content="Banco de dados:" Grid.Column="5" Grid.ColumnSpan="3" />
+                    <TextBox x:Name="InputBanco" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding Configuracao.Banco, Mode=TwoWay}" />
+
+                    <Label Content="Usuário:" Grid.Row="2" />
+                    <TextBox x:Name="InputUsuario" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding Configuracao.Usuario, Mode=TwoWay}" />
+
+                    <Label Content="Senha:" Grid.Row="2" Grid.Column="5" />
+                    <TextBox x:Name="InputSenha" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding Configuracao.Senha, Mode=TwoWay}" />
+
+                    <Label Content="Local dos Executáveis:" Grid.Row="4" Grid.ColumnSpan="7" />
+                    <TextBox x:Name="InputLocalDiretorio" Grid.Row="5" Grid.ColumnSpan="7" Text="{Binding Configuracao.LocalDiretorio, Mode=TwoWay}" />
+                    <Button Grid.Row="5" Grid.Column="8" Margin="3,0,0,0" Padding="5,0" Command="{Binding AbrirExplorerCommand}">...</Button>
+
+                    <Border Grid.Row="6" Grid.ColumnSpan="8" Margin="0,10" Height="1" Background="#FF646464" />
+
+                    <Grid Grid.Row="7" Grid.ColumnSpan="8" Margin="0,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <Label FontWeight="Bold" Content="{Binding Configuracao.Mensagem, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Command="{Binding TestarConexaoCommand}" Margin="0,0,5,0" IsEnabled="{Binding EnableButtonConfiguracao}">Testar Conexão</Button>
+                            <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding EnableButtonConfiguracao}">Salvar</Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <ContentControl 
+                x:Name="DynamicContentControl"
+                Content="{Binding DynamicContentControl}"
+                Visibility="{Binding DynamicContentControlIsActive, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                IsEnabled="{Binding DynamicContentControlIsActive}" />
+    </Grid>
+</Window>
