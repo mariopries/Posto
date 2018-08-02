@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuracao xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Servidor>server</Servidor>
   <Porta>5432</Porta>
+  <Banco>postoprot</Banco>
+  <Usuario>posto</Usuario>
+  <Senha>p172202o</Senha>
+  <LocalDiretorio>C:\metodos</LocalDiretorio>
+  <LeitorBomba>true</LeitorBomba>
+  <PostoWeb>true</PostoWeb>
 </Configuracao>

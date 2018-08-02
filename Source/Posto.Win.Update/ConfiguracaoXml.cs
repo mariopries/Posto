@@ -55,7 +55,19 @@ namespace Posto.Win.Update
         /// </summary>
         [XmlElement("LocalDiretorio")]
         public string LocalDiretorio { get; set; }
-        
+
+        /// <summary>
+        /// Leitor de bombas
+        /// </summary>
+        [XmlElement("LeitorBomba")]
+        public bool LeitorBomba { get; set; }
+
+        /// <summary>
+        /// Posto web
+        /// </summary>
+        [XmlElement("PostoWeb")]
+        public bool PostoWeb { get; set; }
+
         /// <summary>
         /// Carrega as informações do xml
         /// </summary>

@@ -14,7 +14,6 @@ C:\Workspace\Posto\Source\Posto.Win.Update\bin\Debug\log4net.xml
 C:\Workspace\Posto\Source\Posto.Win.Update\bin\Debug\Microsoft.Practices.Prism.xml
 C:\Workspace\Posto\Source\Posto.Win.Update\bin\Debug\Npgsql.xml
 C:\Workspace\Posto\Source\Posto.Win.Update\bin\Debug\System.Threading.Tasks.Extensions.xml
-C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csprojResolveAssemblyReference.cache
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\View\LoginView.baml
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\View\LoginView.g.cs
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\View\MainWindow.g.cs

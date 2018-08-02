@@ -43,7 +43,7 @@ namespace Posto.Win.UpdateLocal
 
                 // Verifica quais arquivos devem ser copiados do servidor
                 this.VerificaVersaoDosArquivos();
-                
+
                 // Faz a cópia somente dos arquivos modificados/novos
                 this.AtualizaArquivos();
 
@@ -123,7 +123,7 @@ namespace Posto.Win.UpdateLocal
                     this._arquivos.Add(new FileInfo(newPath));
                 }
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
             }
         }
@@ -135,52 +135,52 @@ namespace Posto.Win.UpdateLocal
         /// <returns>Lista de arquivos que podem ser copiados</returns>
         private static IEnumerable<FileInfo> FiltarArquivos(FileInfo[] files)
         {
-           var visibleFiles = from f in files
-                              where (f.Attributes & FileAttributes.Hidden)    == 0 &&
-                                    (f.Attributes & FileAttributes.Temporary) == 0 &&
-                                    (f.Attributes & FileAttributes.System)    == 0 &&
-                                    (f.Attributes & FileAttributes.ReadOnly)  == 0
-                              select f;
-           return visibleFiles;
+            var visibleFiles = from f in files
+                               where (f.Attributes & FileAttributes.Hidden) == 0 &&
+                                     (f.Attributes & FileAttributes.Temporary) == 0 &&
+                                     (f.Attributes & FileAttributes.System) == 0 &&
+                                     (f.Attributes & FileAttributes.ReadOnly) == 0
+                               select f;
+            return visibleFiles;
         }
-        
+
         /// <summary>
         /// Verifica a versão dos arquivos numa determinada pasta
         /// </summary>
         private void VerificaVersaoDosArquivos()
         {
-           try
-           {
-               UpdateProgress("Verificando novos arquivos no servidor.");
+            try
+            {
+                UpdateProgress("Verificando novos arquivos no servidor.");
 
-               _arquivosNovos = new List<FileInfo>();
+                _arquivosNovos = new List<FileInfo>();
 
-               foreach (var arquivo in _arquivos)
-               {
-                   if (arquivo.Exists)
-                   {
-                       var local = new FileInfo(arquivo.FullName.Replace(this._servidor, this._local));
-                       var servidor = arquivo;
+                foreach (var arquivo in _arquivos)
+                {
+                    if (arquivo.Exists)
+                    {
+                        var local = new FileInfo(arquivo.FullName.Replace(this._servidor, this._local));
+                        var servidor = arquivo;
 
-                       if (local.LastWriteTimeUtc != servidor.LastWriteTimeUtc || local.Length != servidor.Length)
-                       {
-                           _arquivosNovos.Add(arquivo);
-                       }
-                   }
-                   else
-                   {
-                       _arquivosNovos.Add(arquivo);
-                   }
-               }
-           }
-           catch (Exception e)
-           {
-               while (e.InnerException != null)
-               {
-                   e = e.InnerException;
-               }
-               throw new Exception(String.Format("Não foi possível verificar a versão dos arquivos: \n{0}", e.Message));
-           }
+                        if (local.LastWriteTimeUtc != servidor.LastWriteTimeUtc || local.Length != servidor.Length)
+                        {
+                            _arquivosNovos.Add(arquivo);
+                        }
+                    }
+                    else
+                    {
+                        _arquivosNovos.Add(arquivo);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null)
+                {
+                    e = e.InnerException;
+                }
+                throw new Exception(String.Format("Não foi possível verificar a versão dos arquivos: \n{0}", e.Message));
+            }
         }
 
 
@@ -191,47 +191,47 @@ namespace Posto.Win.UpdateLocal
         {
             try
             {
-            UpdateProgress("Atualizando o Posto, aguarde...");
+                UpdateProgress("Atualizando o Posto, aguarde...");
 
-            foreach (var arquivo in _arquivosNovos)
-            {
-               var local     = arquivo.FullName.Replace(this._servidor, this._local);
-               var diretorio = Path.GetDirectoryName(local);
+                foreach (var arquivo in _arquivosNovos)
+                {
+                    var local = arquivo.FullName.Replace(this._servidor, this._local);
+                    var diretorio = Path.GetDirectoryName(local);
 
 
-               if (!Directory.Exists(diretorio))
-               {
-                   Directory.CreateDirectory(diretorio);
-               }
+                    if (!Directory.Exists(diretorio))
+                    {
+                        Directory.CreateDirectory(diretorio);
+                    }
 
-               File.Copy(arquivo.FullName, local, true);
-            }
+                    File.Copy(arquivo.FullName, local, true);
+                }
             }
             catch (Exception e)
             {
-            while (e.InnerException != null)
-            {
-               e = e.InnerException;
-            }
-            throw new Exception(String.Format("Não foi possível atualizar os arquivos: \n{0}", e.Message));
+                while (e.InnerException != null)
+                {
+                    e = e.InnerException;
+                }
+                throw new Exception(String.Format("Não foi possível atualizar os arquivos: \n{0}", e.Message));
             }
         }
 
-        
+
         /// <summary>
         /// Atualiza o status doque está sendo feito
         /// </summary>
         /// <param name="mensagem">Mensagem a ser mostrada na tela</param>
         private void UpdateProgress(string mensagem)
         {
-           try
-           {
-               // Mostra a mensagem
-               _bgWInicializador.ReportProgress(0, mensagem);
-           }
-           catch
-           {
-           }
+            try
+            {
+                // Mostra a mensagem
+                _bgWInicializador.ReportProgress(0, mensagem);
+            }
+            catch
+            {
+            }
         }
 
         public string GetEnumCategory<TEnum>(TEnum value)

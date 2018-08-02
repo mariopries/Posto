@@ -19,6 +19,8 @@ namespace Posto.Win.Update.Extensions
                 Usuario = model.Usuario,
                 Senha = model.Senha,
                 LocalDiretorio = model.LocalDiretorio,
+                LeitorBomba = model.LeitorBomba,
+                PostoWeb = model.PostoWeb,
             };
         }
 
@@ -32,6 +34,8 @@ namespace Posto.Win.Update.Extensions
                 Usuario = model.Usuario,
                 Senha = model.Senha,
                 LocalDiretorio = model.LocalDiretorio,
+                LeitorBomba = model.LeitorBomba,
+                PostoWeb = model.PostoWeb,
             };
         }
 

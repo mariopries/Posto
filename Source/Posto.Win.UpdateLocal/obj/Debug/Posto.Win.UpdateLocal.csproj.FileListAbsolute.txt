@@ -1,1 +1,9 @@
 C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.exe.config
+C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.exe
+C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.pdb
+C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.csprojResolveAssemblyReference.cache
+C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.Posto.resources
+C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.Properties.Resources.resources
+C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.csproj.GenerateResource.Cache
+C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.exe
+C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.pdb

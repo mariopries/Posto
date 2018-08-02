@@ -16,6 +16,8 @@ namespace Posto.Win.Update.Model
         private string  _senha;
         private string  _localDiretorio;
         private string  _mensagem;
+        private bool    _leitor;
+        private bool    _web;
 
         public string Servidor 
         {
@@ -125,6 +127,38 @@ namespace Posto.Win.Update.Model
                 {
                     this._mensagem = value;
                     this.RaisePropertyChanged(() => this.Mensagem);
+                }
+            }
+        }
+
+        public bool LeitorBomba
+        {
+            get
+            {
+                return _leitor;
+            }
+            set
+            {
+                if (_leitor != value)
+                {
+                    _leitor = value;
+                    RaisePropertyChanged(() => LeitorBomba);
+                }
+            }
+        }
+
+        public bool PostoWeb
+        {
+            get
+            {
+                return _web;
+            }
+            set
+            {
+                if (_web != value)
+                {
+                    _web = value;
+                    RaisePropertyChanged(() => PostoWeb);
                 }
             }
         }
