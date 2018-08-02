@@ -206,7 +206,7 @@
                             <Button Command="{Binding IniciarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource InvertBooleanToVisibilityConverter}}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" VerticalContentAlignment="Center" VerticalAlignment="Center">Iniciar</Button>
                         </StackPanel>
                     </Grid>
-                    <ProgressBar HorizontalAlignment="Left" Height="23" Margin="10,13,0,4" Grid.Row="3" Width="347" Grid.ColumnSpan="2" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                    <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="23" Margin="10,14,0,3" Grid.Row="3" Width="347" Grid.ColumnSpan="2" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding Atualizar.Progresso}">
                         <ProgressBar.BorderBrush>
                             <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                 <GradientStop Color="#FFC38C8C"/>

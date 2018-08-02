@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
 
 namespace Posto.Win.Update.Model
 {
@@ -16,6 +17,7 @@ namespace Posto.Win.Update.Model
         private int? _versao;
         private DateTime _dataAtual;
         private string _mensagemStatus;
+        private double _progress;
 
         public int Dia
         {
@@ -112,6 +114,22 @@ namespace Posto.Win.Update.Model
                 {
                     this._mensagemStatus = value;
                     this.RaisePropertyChanged(() => this.MensagemStatus);
+                }
+            }
+        }
+
+        public double Progresso
+        {
+            get
+            {
+                return _progress;
+            }
+            set
+            {
+                if (_progress != value)
+                {
+                    _progress = value;
+                    RaisePropertyChanged(() => Progresso);
                 }
             }
         }
