@@ -1,4 +1,5 @@
 ﻿using System;
+using log4net;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,38 +14,72 @@ namespace Posto.Win.Update.DataContext
 {
     public class PostoContext
     {
-        private NpgsqlConnection  _conexao;
+        #region Gerenciador de log
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        #endregion
+
+        private NpgsqlConnection _conexao;
         private NpgsqlTransaction _transaction;
 
         public PostoContext(ConfiguracaoModel configuracao = null)
         {
-            this._conexao = new NpgsqlConnection(configuracao.GetConnection);
-            this._conexao.Open();
+            _conexao = new NpgsqlConnection(configuracao.GetConnection);
+            _conexao.Open();
         }
 
         public NpgsqlCommand Query(string sql)
         {
-            return new NpgsqlCommand(sql, this._conexao);
+            return new NpgsqlCommand(sql, _conexao);
         }
 
         public void BeginTransaction()
         {
-            this._transaction = this._conexao.BeginTransaction();
+            try
+            {
+                _transaction = _conexao.BeginTransaction();
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+            }
         }
 
         public void Commit()
         {
-            this._transaction.Commit();
+            try
+            {
+                _transaction.Commit();
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+            }
         }
 
         public void RollBack()
         {
-            this._transaction.Rollback();
+            try
+            {
+                _transaction.Rollback();
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+            }
         }
 
-        public void Close() 
+        public void Close()
         {
-            this._conexao.Close();
+            try
+            {
+                _conexao.Close();
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+            }
         }
     }
 }

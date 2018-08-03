@@ -69,8 +69,8 @@ namespace Posto.Win.Update.ViewModel
             IsEnableButtonAtualizar     = true;
             IsEnableProgressBar         = false;
 
-            LeitorBomba    = LeitorBomba;
-            PostoWeb       = PostoWeb;
+            LeitorBomba    = Configuracao.LeitorBomba;
+            PostoWeb       = Configuracao.PostoWeb;
 
             var conexao = await OnTestarConexaoAsync();
 

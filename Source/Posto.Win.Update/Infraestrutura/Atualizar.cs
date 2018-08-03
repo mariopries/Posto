@@ -14,11 +14,19 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Forms;
 
 namespace Posto.Win.Update.Infraestrutura
 {
     public class Atualizar
     {
+
+        public class Server
+        {
+            public static int Versao;
+            public static string Arquivo;            
+        }
+
         #region Gerenciador de log
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -29,7 +37,7 @@ namespace Posto.Win.Update.Infraestrutura
 
         private const string PathExe = "public_html/posto_att/PostoSQL_Exe.zip";
 
-        private const string PathSql = "public_html/posto_att/sql/";
+        private const string PathSql = "public_html/posto_att/rmenu/";
 
         private const string PathLeitor = @"C:\Metodos\uLeitor.exe";
 
@@ -41,11 +49,13 @@ namespace Posto.Win.Update.Infraestrutura
 
         private AtualizarModel _atualizar;
 
-        private Timer _timerProximaAtualizacao;
+        private System.Timers.Timer _timerProximaAtualizacao;
 
         private Ftp _ftp;
 
         private ConfiguracaoModel _configuracaoModel;
+
+        private Tuple<int,string> ListaSql;
 
         #endregion
 
@@ -62,7 +72,7 @@ namespace Posto.Win.Update.Infraestrutura
             _atualizar = atualizar;
             _ftp = new Ftp();
 
-            _timerProximaAtualizacao = new Timer();
+            _timerProximaAtualizacao = new System.Timers.Timer();
             _timerProximaAtualizacao.AutoReset = false;
             _timerProximaAtualizacao.Elapsed += Execute;
         }
@@ -80,9 +90,17 @@ namespace Posto.Win.Update.Infraestrutura
 
         public async void Manual(ConfiguracaoModel configuracaoModel, DelegateCommand atualizarAfter)
         {
-            _configuracaoModel = configuracaoModel;
-            await ExecuteAsync();
-            _timerProximaAtualizacao.Stop();
+            //AtualizaViewModel();
+            //if (_atualizar.Versao < UltimaVersao)
+            //{
+                _configuracaoModel = configuracaoModel;
+                await ExecuteAsync();
+                _timerProximaAtualizacao.Stop();
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Seu sistema já está na ultima versão disponível", "Sistema atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
             atualizarAfter.Execute();
         }
 
@@ -146,7 +164,7 @@ namespace Posto.Win.Update.Infraestrutura
         {
             await Task.Run(() =>
             {
-                
+
                 // INDICA AO GENEXUS MANUTENÇÃO ATIVADA E DESCONECTA TODOS OS USUÁRIOS DO BANCO.
                 ManutencaoAtiva();
 
@@ -156,8 +174,10 @@ namespace Posto.Win.Update.Infraestrutura
                 {
                     context.BeginTransaction();
 
-                    _atualizar.MensagemStatus = "Iniciando atualização...";
+                    //-- Inicia a atualização
                     _atualizar.Progresso = 0;
+                    _atualizar.MensagemStatus = "Iniciando atualização...";
+
 
                     //-- Encerra o processo do leitor de bombas caso parâmetro seja true
                     if (_configuracaoModel.LeitorBomba)
@@ -182,8 +202,9 @@ namespace Posto.Win.Update.Infraestrutura
                     _timerProximaAtualizacao.Stop();
                     AtualizaViewModel();
 
+                    //-- Roda os Rmenu de acordo com a versão
                     _atualizar.Progresso = 10;
-                    var ultimaVersao = AtualizarSql(context);
+                    AtualizarSql(context);
 
                     //-- Baixa os arquivos do FTP e extrai na pasta Update
                     _atualizar.Progresso = 50;
@@ -191,55 +212,38 @@ namespace Posto.Win.Update.Infraestrutura
 
                     //-- Atualiza o parversao no banco
                     _atualizar.Progresso = 80;
-                    AtualizarBanco(context, ultimaVersao);
+                    AtualizarBanco(context, UltimaVersao);
 
                     //-- Salva as atualizações
-                    context.Commit();
-
                     _atualizar.Progresso = 100;
-                    _atualizar.MensagemStatus = "Atualizado com sucesso.";
+                    context.Commit();
                 }
                 catch (Exception e)
                 {
                     context.RollBack();
+
                     log.Error(e.Message);
 
                     _atualizar.MensagemStatus = "Problemas ao atualizar.";
+
+                    //-- Reinicializa os programas
+                    ReinicializaProgramas(true, context);
                 }
                 finally
                 {
-                    context.Close();
-
                     _timerProximaAtualizacao.Stop();
+
+                    _atualizar.MensagemStatus = "Atualizado com sucesso.";
+
                     SetTime();
 
                     //-- Indica fim de atualização
                     ManutencaoDesativa();
 
-                    //-- Inicia processo do leitor de bombas caso parâmetro seja true
-                    if (_configuracaoModel.LeitorBomba)
-                    {
-                        //-- Se diretório existir, inicia processo
-                        if (File.Exists(PathLeitor))
-                        {
-                            Process.Start(PathLeitor, "4");
-                        }
-                    }
-
-                    //-- Inicia processo do posto web caso parâmetro seja true
-                    if (_configuracaoModel.PostoWeb)
-                    {
-                        //-- Se diretório existir, inicia processo
-                        if (File.Exists(PathPostoWeb))
-                        {
-                            Process.Start(PathPostoWeb, "7");
-                        }
-                    }
-
-                    _atualizar.Progresso = 0;
+                    //-- Reinicializa os programas
+                    ReinicializaProgramas(false, context);
                 }
             });
-
         }
 
         /// <summary>
@@ -249,28 +253,30 @@ namespace Posto.Win.Update.Infraestrutura
         {
             try
             {
-                _atualizar.MensagemStatus = "Baixando atualizações...";
+                _atualizar.MensagemStatus = "Baixando arquivos da atualizaçãos...";
 
                 var arquivos = _ftp.Download(PathExe);
 
                 using (MemoryStream mem = new MemoryStream(arquivos))
                 using (ZipArchive zipStream = new ZipArchive(mem))
                 {
+                    var filesCount = 1;
                     foreach (ZipArchiveEntry file in zipStream.Entries)
                     {
-                        
                         string completeFileName = Path.Combine(_configuracaoModel.LocalDiretorio, file.FullName);
 
                         if (file.Name == "")
-                        {// Assuming Empty for Directory
+                        {
+                            //-- Assuming Empty for Directory
                             Directory.CreateDirectory(Path.GetDirectoryName(completeFileName));
                             continue;
                         }
 
-                        _atualizar.MensagemStatus = "Extraindo arquivo " + file.FullName + "...";
+                        _atualizar.MensagemStatus = "Extraindo arquivo (" + filesCount + "/" + zipStream.Entries.Count.ToString() + ")";
                         file.ExtractToFile(completeFileName, true);
+                        filesCount++;
                     }
-                }                
+                }
             }
             catch (Exception e)
             {
@@ -282,11 +288,11 @@ namespace Posto.Win.Update.Infraestrutura
         /// <summary>
         /// Roda Rmenu todos de uma vez e retorna a ultima versão
         /// </summary>
-        private int? AtualizarSql(PostoContext context)
+        private void AtualizarSql(PostoContext context)
         {
             try
             {
-                var retornoSql = this._ftp.GetFileList(PathSql);
+                var retornoSql = _ftp.GetFileList(PathSql);
                 var listaSql = retornoSql.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
                                             .Select(row => new
                                             {
@@ -308,14 +314,16 @@ namespace Posto.Win.Update.Infraestrutura
                                        .Select(x => x.Versao)
                                        .FirstOrDefault();
 
-                _atualizar.MensagemStatus = "Executando Rmenu v." + PrimeiraVersao.ToString() + " - v." + UltimaVersao.ToString() + "...";
+                _atualizar.MensagemStatus = "Executando Rmenu de v." + PrimeiraVersao.ToString() + " até v." + UltimaVersao.ToString() + "";
+
+                Rmenu = "";
 
                 listaSql.ForEach(row =>
                 {
                     Rmenu += Encoding.ASCII.GetString(_ftp.Download(PathSql + row.Arquivo));
                 });
 
-                context.Query(Rmenu).ExecuteNonQuery();                
+                context.Query(Rmenu).ExecuteNonQuery();
             }
             catch (Exception e)
             {
@@ -323,7 +331,10 @@ namespace Posto.Win.Update.Infraestrutura
                 _atualizar.MensagemStatus = "Problemas ao rodar o Rmenu.";
             }
 
-            return UltimaVersao > 0 ? UltimaVersao : _atualizar.Versao;
+            if (UltimaVersao <= 0)
+            {
+                UltimaVersao = _atualizar.Versao.GetValueOrDefault();
+            }
         }
 
         /// <summary>
@@ -333,7 +344,7 @@ namespace Posto.Win.Update.Infraestrutura
         {
             try
             {
-                _atualizar.MensagemStatus = "Atualizando versão...";
+                _atualizar.MensagemStatus = "Atualizando versão do banco de dados...";
 
                 if (versao != null)
                 {
@@ -353,7 +364,7 @@ namespace Posto.Win.Update.Infraestrutura
         {
             try
             {
-                _atualizar.MensagemStatus = "Atualizando dados...";
+                _atualizar.MensagemStatus = "Preparando para a atualização...";
 
                 var context = new PostoContext(_configuracaoModel);
                 context.Query("UPDATE atualiz SET atumanuten = 'S'").ExecuteNonQuery();
@@ -381,6 +392,75 @@ namespace Posto.Win.Update.Infraestrutura
                 log.Error(e.Message);
                 _atualizar.MensagemStatus = "Problemas ao finalizar manutenção.";
             }
+        }
+
+        private void ReinicializaProgramas(bool teveErro, PostoContext context)
+        {
+
+            context.Close();
+            _atualizar.Progresso = 0;
+
+            //-- Inicia processo do leitor de bombas caso parâmetro seja true
+            if (_configuracaoModel.LeitorBomba)
+            {
+                //-- Se diretório existir, inicia processo
+                if (File.Exists(PathLeitor))
+                {
+                    Process.Start(PathLeitor, "6");
+                }
+            }
+
+            //-- Inicia processo do posto web caso parâmetro seja true
+            if (_configuracaoModel.PostoWeb)
+            {
+                //-- Se diretório existir, inicia processo
+                if (File.Exists(PathPostoWeb))
+                {
+                    Process.Start(PathPostoWeb, "7");
+                }
+            }
+
+            if (teveErro)
+            {
+                MessageBox.Show("Houve um erro ao atualizar a versão do sistema. Por favor, entre em contato com o suporte.", "Erro na atualização", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }            
+        }
+
+        //-- Não finalizado
+        private void BuscaVersoes()
+        {
+            var retornoSql = _ftp.GetFileList(PathSql);
+            
+
+            //ListaSql = retornoSql.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
+            //                             .Select(c => Tuple.Create(c.Versao :Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")), row)
+            //                             .Where(row => row. > _atualizar.Versao)
+            //                            .OrderBy(row => row.Versao)
+            //                            .ToList();
+
+
+
+            var listaSql = retornoSql.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
+                                        .Select(row => new
+                                        {
+                                            Versao = Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")),
+                                            Arquivo = row,
+                                        })
+                                        .Where(row => row.Versao > _atualizar.Versao)
+                                        .OrderBy(row => row.Versao)
+                                        .ToList();
+
+            //ListaSql = listaSql;
+
+            //-- Primeira versão Rmenu disponível
+            PrimeiraVersao = listaSql.OrderBy(x => x.Versao)
+                                     .Select(x => x.Versao)
+                                     .FirstOrDefault();
+
+            //-- Última versão Rmnu disponível
+            UltimaVersao = listaSql.OrderByDescending(x => x.Versao)
+                                   .Select(x => x.Versao)
+                                   .FirstOrDefault();
         }
     }
 }

@@ -157,31 +157,33 @@
                             <TextBlock Text="Última:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
                             <TextBlock Text="Versão Atual:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
                         </StackPanel>
-                        <StackPanel VerticalAlignment="Top" Grid.Column="1" Margin="0,32,0,0" Height="78">
+                        <StackPanel VerticalAlignment="Top" Grid.Column="1" Margin="0,31,0,0" Height="78">
                             <TextBlock Text="{Binding Path=Atualizar.GetDataProximaAtualizacao, StringFormat=dd/MM/yyyy HH:mm}" Style="{StaticResource TextoNormal}" />
                             <TextBlock Text="{Binding Path=Atualizar.UltimaData, StringFormat=dd/MM/yyyy, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
-                            <TextBlock Text="{Binding Path=Atualizar.Versao, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
+                            <TextBlock Text="{Binding Path=Atualizar.Versao, Mode=TwoWay}" Style="{StaticResource TextoNormal}" Margin="5,5,0,5" />
                         </StackPanel>
                         <Image HorizontalAlignment="Left" Height="50" Margin="38,10,0,0" VerticalAlignment="Top" Width="50" Grid.Column="2" Source="/AtualizacaoAutomatica;component/Fator.ico" RenderTransformOrigin="0.7,0.72"/>
                         <Button Command="{Binding BloquearCommand}" Content="{StaticResource MiImageLock}" Style="{StaticResource TransparentStyle}" Margin="68,114,12,10" RenderTransformOrigin="0.583,-0.8" Grid.Column="2"/>
                     </Grid>
                     <Border BorderBrush="#FF646464" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,5,0,0" VerticalAlignment="Top" Width="515" Grid.Row="1"/>
                     <Grid HorizontalAlignment="Left" Height="80" Grid.Row="1" VerticalAlignment="Top" Width="515">
-                        <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" Margin="10,16,247,47" Height="Auto" />
-                        <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="24" Margin="10,36,0,20" Width="347" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding Atualizar.Progresso}">
-                            <ProgressBar.BorderBrush>
-                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                    <GradientStop Color="#FFC38C8C"/>
-                                    <GradientStop Color="#FF8C8C8C"/>
-                                </LinearGradientBrush>
-                            </ProgressBar.BorderBrush>
-                        </ProgressBar>
-                        <Button Command="{Binding AtualizarCommand}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" Margin="0,32,69,20" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.25" Height="28">Atualizar
-                        </Button>
-                        <Button Command="{Binding PausarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Parar" Width="54" Margin="0,32,10,20" HorizontalContentAlignment="Right" Grid.Column="1" HorizontalAlignment="Right"/>
-                        <Button Command="{Binding IniciarCommand}" Visibility="{Binding IsVisibleButtonPausar, Converter={StaticResource InvertBooleanToVisibilityConverter}, Mode=TwoWay}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Iniciar" Margin="0,32,10,20" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="28"/>
+                        <StackPanel Margin="360,37,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="145" Height="33">
+                            <Button Command="{Binding AtualizarCommand}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" HorizontalContentAlignment="Right" RenderTransformOrigin="0.456,0.25" Height="28" Content="Atualizar" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Button Command="{Binding IniciarCommand}" Visibility="{Binding IsVisibleButtonPausar, Converter={StaticResource InvertBooleanToVisibilityConverter}, Mode=TwoWay}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" VerticalContentAlignment="Center" Content="Iniciar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
+                            <Button Command="{Binding PausarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalContentAlignment="Center" Content="Parar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Left" Height="50" Margin="0,24,0,0" VerticalAlignment="Top" Width="346">
+                            <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" Margin="10,0,44,0" Height="17" />
+                            <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="24" Width="326" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding Atualizar.Progresso}" Margin="10,0,0,0">
+                                <ProgressBar.BorderBrush>
+                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                        <GradientStop Color="#FFC38C8C"/>
+                                        <GradientStop Color="#FF8C8C8C"/>
+                                    </LinearGradientBrush>
+                                </ProgressBar.BorderBrush>
+                            </ProgressBar>
+                        </StackPanel>
                     </Grid>
-
                 </Grid>
             </TabItem>
 

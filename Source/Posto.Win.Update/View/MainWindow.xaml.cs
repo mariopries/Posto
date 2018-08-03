@@ -53,6 +53,6 @@ namespace Posto.Win.Update.View
                 this.ShowInTaskbar = false;
                 this.Hide();
             }
-        }
+        }       
     }
 }

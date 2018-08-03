@@ -167,7 +167,7 @@ namespace Posto.Win.Update.Model
         {
             get 
             {
-                return string.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};Encoding=utf-8;ClientEncoding=utf8;Pooling=False;",
+                return string.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};Encoding=utf-8;ClientEncoding=utf8;Pooling=False;CommandTimeout=0;",
                                     this.Servidor,
                                     this.Porta.ToString(),
                                     this.Usuario,

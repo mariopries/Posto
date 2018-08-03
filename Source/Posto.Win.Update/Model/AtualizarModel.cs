@@ -69,22 +69,6 @@ namespace Posto.Win.Update.Model
             }
         }
 
-        public DateTime? UltimaData
-        {
-            get
-            {
-                return _ultimaData;
-            }
-            set
-            {
-                if (_ultimaData != value)
-                {
-                    _ultimaData = value;
-                    RaisePropertyChanged(() => UltimaData);
-                }
-            }
-        }
-        
         public int? Versao
         {
             get
@@ -146,6 +130,22 @@ namespace Posto.Win.Update.Model
                     _dataAtual = value;
                     RaisePropertyChanged(() => DataAtual);
                     RaisePropertyChanged(() => GetDataProximaAtualizacao);
+                }
+            }
+        }
+
+        public DateTime? UltimaData
+        {
+            get
+            {
+                return _ultimaData;
+            }
+            set
+            {
+                if (_ultimaData != value)
+                {
+                    _ultimaData = value;
+                    RaisePropertyChanged(() => UltimaData);
                 }
             }
         }
