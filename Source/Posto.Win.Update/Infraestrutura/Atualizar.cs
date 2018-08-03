@@ -222,7 +222,7 @@ namespace Posto.Win.Update.Infraestrutura
                         //-- Se diretório existir, inicia processo
                         if (File.Exists(PathLeitor))
                         {
-                            Process.Start(PathLeitor);
+                            Process.Start(PathLeitor, "4");
                         }
                     }
 
@@ -232,7 +232,7 @@ namespace Posto.Win.Update.Infraestrutura
                         //-- Se diretório existir, inicia processo
                         if (File.Exists(PathPostoWeb))
                         {
-                            Process.Start(PathPostoWeb);
+                            Process.Start(PathPostoWeb, "7");
                         }
                     }
 
@@ -308,11 +308,11 @@ namespace Posto.Win.Update.Infraestrutura
                                        .Select(x => x.Versao)
                                        .FirstOrDefault();
 
-                _atualizar.MensagemStatus = "Executando Rmenu V." + PrimeiraVersao.ToString() + " - V." + UltimaVersao.ToString() + "...";
+                _atualizar.MensagemStatus = "Executando Rmenu v." + PrimeiraVersao.ToString() + " - v." + UltimaVersao.ToString() + "...";
 
                 listaSql.ForEach(row =>
                 {
-                    Rmenu = Encoding.ASCII.GetString(_ftp.Download(PathSql + row.Arquivo));
+                    Rmenu += Encoding.ASCII.GetString(_ftp.Download(PathSql + row.Arquivo));
                 });
 
                 context.Query(Rmenu).ExecuteNonQuery();                

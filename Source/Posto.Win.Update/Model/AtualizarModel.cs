@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System;
 
 namespace Posto.Win.Update.Model
 {
@@ -23,15 +22,15 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                return this._dia;
+                return _dia;
             }
             set
             {
-                if (this._dia != value)
+                if (_dia != value)
                 {
-                    this._dia = value;
-                    this.RaisePropertyChanged(() => this.Dia);
-                    this.RaisePropertyChanged(() => this.GetDataProximaAtualizacao);
+                    _dia = value;
+                    RaisePropertyChanged(() => Dia);
+                    RaisePropertyChanged(() => GetDataProximaAtualizacao);
                 }
             }
         }
@@ -40,15 +39,15 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                return this._hora;
+                return _hora;
             }
             set
             {
-                if (this._hora != value)
+                if (_hora != value)
                 {
-                    this._hora = value;
-                    this.RaisePropertyChanged(() => this.Hora);
-                    this.RaisePropertyChanged(() => this.GetDataProximaAtualizacao);
+                    _hora = value;
+                    RaisePropertyChanged(() => Hora);
+                    RaisePropertyChanged(() => GetDataProximaAtualizacao);
                 }
             }
         }
@@ -57,15 +56,15 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                return this._minuto;
+                return _minuto;
             }
             set
             {
-                if (this._minuto != value)
+                if (_minuto != value)
                 {
-                    this._minuto = value;
-                    this.RaisePropertyChanged(() => this.Minuto);
-                    this.RaisePropertyChanged(() => this.GetDataProximaAtualizacao);
+                    _minuto = value;
+                    RaisePropertyChanged(() => Minuto);
+                    RaisePropertyChanged(() => GetDataProximaAtualizacao);
                 }
             }
         }
@@ -74,14 +73,14 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                return this._ultimaData;
+                return _ultimaData;
             }
             set
             {
-                if (this._ultimaData != value)
+                if (_ultimaData != value)
                 {
-                    this._ultimaData = value;
-                    this.RaisePropertyChanged(() => this.UltimaData);
+                    _ultimaData = value;
+                    RaisePropertyChanged(() => UltimaData);
                 }
             }
         }
@@ -90,14 +89,14 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                return this._versao;
+                return _versao;
             }
             set
             {
-                if (this._versao != value)
+                if (_versao != value)
                 {
-                    this._versao = value;
-                    this.RaisePropertyChanged(() => this.Versao);
+                    _versao = value;
+                    RaisePropertyChanged(() => Versao);
                 }
             }
         }
@@ -106,14 +105,14 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                return this._mensagemStatus;
+                return _mensagemStatus;
             }
             set
             {
-                if (this._mensagemStatus != value)
+                if (_mensagemStatus != value)
                 {
-                    this._mensagemStatus = value;
-                    this.RaisePropertyChanged(() => this.MensagemStatus);
+                    _mensagemStatus = value;
+                    RaisePropertyChanged(() => MensagemStatus);
                 }
             }
         }
@@ -138,15 +137,15 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                return this._dataAtual;
+                return _dataAtual;
             }
             set
             {
-                if (this._dataAtual != value)
+                if (_dataAtual != value)
                 {
-                    this._dataAtual = value;
-                    this.RaisePropertyChanged(() => this.DataAtual);
-                    this.RaisePropertyChanged(() => this.GetDataProximaAtualizacao);
+                    _dataAtual = value;
+                    RaisePropertyChanged(() => DataAtual);
+                    RaisePropertyChanged(() => GetDataProximaAtualizacao);
                 }
             }
         }
@@ -155,18 +154,18 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                if (this.DataAtual == DateTime.MinValue) 
+                if (DataAtual == DateTime.MinValue) 
                 {
                     return (DateTime?)null;
                 }
 
-                var dataSemana = this.DataAtual
-                                     .AddDays(this.Dia - ((int)this.DataAtual.DayOfWeek + 1))
+                var dataSemana = DataAtual
+                                     .AddDays(Dia - ((int)DataAtual.DayOfWeek + 1))
                                      .Date
-                                     .AddHours(this.Hora)
-                                     .AddMinutes(this.Minuto);
+                                     .AddHours(Hora)
+                                     .AddMinutes(Minuto);
 
-                if (dataSemana < this.DataAtual)
+                if (dataSemana < DataAtual)
                 {
                     dataSemana = dataSemana.AddDays(7);
                 }

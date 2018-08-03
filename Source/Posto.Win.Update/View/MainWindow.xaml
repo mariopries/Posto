@@ -143,77 +143,45 @@
             <TabItem Header="Atualização">
                 <Grid Background="White">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="1" />
-                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="Auto" MinHeight="145" />
+                        <RowDefinition Height="Auto" MinHeight="80" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel VerticalAlignment="Center" Grid.Row="1">
-                        <TextBlock Text="Próxima:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
-                        <TextBlock Text="Última:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
-                        <TextBlock Text="Versão Atual:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
-                    </StackPanel>
-
-                    <StackPanel VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Margin="0,23,0,0">
-                        <TextBlock Text="{Binding Path=Atualizar.GetDataProximaAtualizacao, StringFormat=dd/MM/yyyy HH:mm}" Style="{StaticResource TextoNormal}" />
-                        <TextBlock Text="{Binding Path=Atualizar.UltimaData, StringFormat=dd/MM/yyyy, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
-                        <TextBlock Text="{Binding Path=Atualizar.Versao, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
-                    </StackPanel>
-
-                    <Grid Grid.Column="3" Grid.Row="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Viewbox 
-                        Margin="10"
-                        Width="50" Height="50"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                            <Image Source="/Fator.ico" />
-                        </Viewbox>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,5,5"/>
-                        <Button 
-                                Command="{Binding BloquearCommand}" 
-                                Content="{StaticResource MiImageLock}" 
-                                Style="{StaticResource TransparentStyle}" Margin="53,134,5,26"/>
-                    </Grid>
-
-                    <Border Grid.Row="1" Grid.ColumnSpan="3" Background="#FF646464" Margin="0,159,0,21" />
-
-                    <Grid Grid.Row="3" Grid.ColumnSpan="3" Margin="0,10,0,0">
+                    <Grid HorizontalAlignment="Left" Height="145" VerticalAlignment="Top" Width="515">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="99*" />
+                            <ColumnDefinition Width="316*" />
+                            <ColumnDefinition Width="100*" />
                         </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="2" Margin="10,-28,245,28">
-                            <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" />
+                        <StackPanel VerticalAlignment="Center" Margin="0,31,0,36" Height="78">
+                            <TextBlock Text="Próxima:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
+                            <TextBlock Text="Última:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
+                            <TextBlock Text="Versão Atual:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
                         </StackPanel>
-
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Command="{Binding AtualizarCommand}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" Margin="0,0,5,0" VerticalContentAlignment="Center" VerticalAlignment="Center">Atualizar
-                            </Button>
-                            <Button Command="{Binding PausarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}">Parar</Button>
-                            <Button Command="{Binding IniciarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource InvertBooleanToVisibilityConverter}}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" VerticalContentAlignment="Center" VerticalAlignment="Center">Iniciar</Button>
+                        <StackPanel VerticalAlignment="Top" Grid.Column="1" Margin="0,32,0,0" Height="78">
+                            <TextBlock Text="{Binding Path=Atualizar.GetDataProximaAtualizacao, StringFormat=dd/MM/yyyy HH:mm}" Style="{StaticResource TextoNormal}" />
+                            <TextBlock Text="{Binding Path=Atualizar.UltimaData, StringFormat=dd/MM/yyyy, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
+                            <TextBlock Text="{Binding Path=Atualizar.Versao, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
                         </StackPanel>
+                        <Image HorizontalAlignment="Left" Height="50" Margin="38,10,0,0" VerticalAlignment="Top" Width="50" Grid.Column="2" Source="/AtualizacaoAutomatica;component/Fator.ico" RenderTransformOrigin="0.7,0.72"/>
+                        <Button Command="{Binding BloquearCommand}" Content="{StaticResource MiImageLock}" Style="{StaticResource TransparentStyle}" Margin="68,114,12,10" RenderTransformOrigin="0.583,-0.8" Grid.Column="2"/>
                     </Grid>
-                    <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="23" Margin="10,14,0,3" Grid.Row="3" Width="347" Grid.ColumnSpan="2" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding Atualizar.Progresso}">
-                        <ProgressBar.BorderBrush>
-                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                <GradientStop Color="#FFC38C8C"/>
-                                <GradientStop Color="#FF8C8C8C"/>
-                            </LinearGradientBrush>
-                        </ProgressBar.BorderBrush>
-                    </ProgressBar>
+                    <Border BorderBrush="#FF646464" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,5,0,0" VerticalAlignment="Top" Width="515" Grid.Row="1"/>
+                    <Grid HorizontalAlignment="Left" Height="80" Grid.Row="1" VerticalAlignment="Top" Width="515">
+                        <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" Margin="10,16,247,47" Height="Auto" />
+                        <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="24" Margin="10,36,0,20" Width="347" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding Atualizar.Progresso}">
+                            <ProgressBar.BorderBrush>
+                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                    <GradientStop Color="#FFC38C8C"/>
+                                    <GradientStop Color="#FF8C8C8C"/>
+                                </LinearGradientBrush>
+                            </ProgressBar.BorderBrush>
+                        </ProgressBar>
+                        <Button Command="{Binding AtualizarCommand}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" Margin="0,32,69,20" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" RenderTransformOrigin="0.456,0.25" Height="28">Atualizar
+                        </Button>
+                        <Button Command="{Binding PausarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Parar" Width="54" Margin="0,32,10,20" HorizontalContentAlignment="Right" Grid.Column="1" HorizontalAlignment="Right"/>
+                        <Button Command="{Binding IniciarCommand}" Visibility="{Binding IsVisibleButtonPausar, Converter={StaticResource InvertBooleanToVisibilityConverter}, Mode=TwoWay}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" VerticalContentAlignment="Center" VerticalAlignment="Center" Content="Iniciar" Margin="0,32,10,20" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Height="28"/>
+                    </Grid>
+
                 </Grid>
             </TabItem>
 
@@ -267,23 +235,22 @@
                     <TextBox x:Name="InputLocalDiretorio" Grid.Row="5" Grid.ColumnSpan="7" Text="{Binding Configuracao.LocalDiretorio, Mode=TwoWay}" />
                     <Button Grid.Row="5" Grid.Column="8" Margin="3,0,0,0" Padding="5,0" Command="{Binding AbrirExplorerCommand}">...</Button>
 
-                    <Border Grid.Row="7" Grid.ColumnSpan="8" Margin="0,66,0,-24" Height="1" Background="#FF646464" />
+                    <CheckBox x:Name="Check_Leitor" Content="Encerrar Leitor de bombas durante atualização" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configuracao.LeitorBomba}" Grid.ColumnSpan="5" Width="289" Command="{Binding LeitorBomba}"/>
+                    <CheckBox x:Name="Check_Web" Content="Encerrar Posto web durante atualização" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configuracao.PostoWeb}" Grid.ColumnSpan="5" Width="289" Command="{Binding PostoWeb}"/>
+
+                    <Border Grid.Row="7" Grid.ColumnSpan="8" Margin="0,59,0,10" Background="#FF646464" Height="2" />
 
                     <Grid Grid.Row="7" Grid.ColumnSpan="8" Margin="0,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right"/>
                     </Grid>
-                    <Button Command="{Binding TestarConexaoCommand}" Margin="35,78,40,-60" IsEnabled="{Binding EnableButtonConfiguracao}" Content="Testar Conexão" Grid.ColumnSpan="2" Grid.Column="5" Grid.Row="7" Height="30"/>
-                    <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding EnableButtonConfiguracao}" Content="Salvar" Grid.ColumnSpan="2" Grid.Column="6" Margin="58,78,0,-60" Grid.Row="7" Height="30"/>
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4" Margin="0,72,33,-72" Grid.Row="7">
-                        <Label FontWeight="Bold" Content="{Binding Configuracao.Mensagem, Mode=TwoWay}" Margin="0,10" />
-                    </StackPanel>
-                    <CheckBox x:Name="Check_Leitor" Content="Encerrar Leitor de bombas durante atualização" HorizontalAlignment="Left" Margin="10,16,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configuracao.LeitorBomba}" Grid.ColumnSpan="5" Width="289" Command="{Binding LeitorBomba}"/>
-                    <CheckBox x:Name="Check_Web" Content="Encerrar Posto web durante atualização" HorizontalAlignment="Left" Margin="10,36,0,-16" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configuracao.PostoWeb}" Grid.ColumnSpan="5" Width="289" Command="{Binding PostoWeb}"/>
+                    <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding EnableButtonConfiguracao}" Content="Salvar" Grid.Column="6" Margin="0,76,10,-38" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"/>
+                    <Button Command="{Binding TestarConexaoCommand}" Margin="0,77,45,-37" IsEnabled="{Binding EnableButtonConfiguracao}" Content="Testar Conexão" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="7"/>
+                    <Label FontWeight="Bold" Content="{Binding Configuracao.Mensagem, Mode=TwoWay}" Margin="10,84,81,-29" Grid.ColumnSpan="6" Grid.Row="7" />
+
+
                 </Grid>
             </TabItem>
         </TabControl>

@@ -337,7 +337,7 @@ namespace Posto.Win.Update.ViewModel
             IsEnableProgressBar = false;
         }
 
-        private async void OnIniciar()
+        private void OnIniciar()
         {
             var config = ConfiguracaoXml.CarregarConfiguracao().ToModel();
 
@@ -353,7 +353,7 @@ namespace Posto.Win.Update.ViewModel
             }
         }
 
-        private async void OnPausar()
+        private void OnPausar()
         {
             _atualizarAsync.Pausar();
             IsVisibleButtonPausar = false;
