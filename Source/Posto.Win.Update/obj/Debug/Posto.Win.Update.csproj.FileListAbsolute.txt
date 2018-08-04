@@ -57,3 +57,4 @@ F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csproj.CoreCompileInputs.cache
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.exe
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.pdb
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csprojResolveAssemblyReference.cache

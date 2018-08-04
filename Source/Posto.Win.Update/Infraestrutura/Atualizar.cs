@@ -21,10 +21,10 @@ namespace Posto.Win.Update.Infraestrutura
     public class Atualizar
     {
 
-        public class Server
+        public class Atualizacao
         {
-            public static int Versao;
-            public static string Arquivo;            
+            public int Versao;
+            public string Arquivo;            
         }
 
         #region Gerenciador de log
@@ -55,7 +55,9 @@ namespace Posto.Win.Update.Infraestrutura
 
         private ConfiguracaoModel _configuracaoModel;
 
-        private Tuple<int,string> ListaSql;
+        private string[] RetornoFtp;
+
+        private List<Atualizacao> ListaSql;
 
         #endregion
 
@@ -90,17 +92,18 @@ namespace Posto.Win.Update.Infraestrutura
 
         public async void Manual(ConfiguracaoModel configuracaoModel, DelegateCommand atualizarAfter)
         {
-            //AtualizaViewModel();
-            //if (_atualizar.Versao < UltimaVersao)
-            //{
+            AtualizaViewModel();
+            BuscaVersoes();
+            if (_atualizar.Versao < UltimaVersao)
+            {
                 _configuracaoModel = configuracaoModel;
                 await ExecuteAsync();
                 _timerProximaAtualizacao.Stop();
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Seu sistema já está na ultima versão disponível", "Sistema atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
+            }
+            else
+            {
+                MessageBox.Show("Seu sistema já está na ultima versão disponível", "Sistema atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             atualizarAfter.Execute();
         }
 
@@ -292,33 +295,13 @@ namespace Posto.Win.Update.Infraestrutura
         {
             try
             {
-                var retornoSql = _ftp.GetFileList(PathSql);
-                var listaSql = retornoSql.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
-                                            .Select(row => new
-                                            {
-                                                Versao = Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")),
-                                                Arquivo = row,
-                                            })
-                                            .Where(row => row.Versao > _atualizar.Versao)
-                                            .OrderBy(row => row.Versao)
-                                            .ToList();
-
-
-                //-- Primeira versão Rmenu disponível
-                PrimeiraVersao = listaSql.OrderBy(x => x.Versao)
-                                         .Select(x => x.Versao)
-                                         .FirstOrDefault();
-
-                //-- Última versão Rmnu disponível
-                UltimaVersao = listaSql.OrderByDescending(x => x.Versao)
-                                       .Select(x => x.Versao)
-                                       .FirstOrDefault();
+                BuscaVersoes();
 
                 _atualizar.MensagemStatus = "Executando Rmenu de v." + PrimeiraVersao.ToString() + " até v." + UltimaVersao.ToString() + "";
 
                 Rmenu = "";
 
-                listaSql.ForEach(row =>
+                ListaSql.ForEach(row =>
                 {
                     Rmenu += Encoding.ASCII.GetString(_ftp.Download(PathSql + row.Arquivo));
                 });
@@ -429,36 +412,26 @@ namespace Posto.Win.Update.Infraestrutura
         //-- Não finalizado
         private void BuscaVersoes()
         {
-            var retornoSql = _ftp.GetFileList(PathSql);
-            
+            ListaSql = new List<Atualizacao>();
+            RetornoFtp = _ftp.GetFileList(PathSql);
 
-            //ListaSql = retornoSql.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
-            //                             .Select(c => Tuple.Create(c.Versao :Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")), row)
-            //                             .Where(row => row. > _atualizar.Versao)
-            //                            .OrderBy(row => row.Versao)
-            //                            .ToList();
-
-
-
-            var listaSql = retornoSql.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
-                                        .Select(row => new
-                                        {
-                                            Versao = Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")),
-                                            Arquivo = row,
-                                        })
-                                        .Where(row => row.Versao > _atualizar.Versao)
-                                        .OrderBy(row => row.Versao)
-                                        .ToList();
-
-            //ListaSql = listaSql;
+            ListaSql = RetornoFtp.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
+                        .Select((row) => new Atualizacao
+                        {
+                            Versao = Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")),
+                            Arquivo = row,
+                        })
+                        .Where(row => row.Versao > _atualizar.Versao)
+                        .OrderBy(row => row.Versao)
+                        .ToList();
 
             //-- Primeira versão Rmenu disponível
-            PrimeiraVersao = listaSql.OrderBy(x => x.Versao)
+            PrimeiraVersao = ListaSql.OrderBy(x => x.Versao)
                                      .Select(x => x.Versao)
                                      .FirstOrDefault();
 
             //-- Última versão Rmnu disponível
-            UltimaVersao = listaSql.OrderByDescending(x => x.Versao)
+            UltimaVersao = ListaSql.OrderByDescending(x => x.Versao)
                                    .Select(x => x.Versao)
                                    .FirstOrDefault();
         }

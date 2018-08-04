@@ -1,3 +1,4 @@
 2018-08-03 05:08:34 ERRO: P0001: Versão do sistema incompatível com a versão a ser atualizada. Versão do sistema: 85   Versão a ser atualizada: 86  ORIGEM: Atualizar.AtualizarSql
 2018-08-03 05:10:51 ERRO: 25P02: current transaction is aborted, commands ignored until end of transaction block  ORIGEM: Atualizar.AtualizarBanco
 2018-08-03 05:40:23 ERRO: O objeto nulo deve ter um valor.  ORIGEM: Atualizar.SetTime
+2018-08-03 08:52:52 ERRO: O registro Final de Diretório Central não foi localizado.  ORIGEM: Atualizar.AtualizarExe
