@@ -85,7 +85,7 @@ namespace Posto.Win.Update.Model
             }
         }
 
-        public string MensagemStatus 
+        public string MensagemStatus
         {
             get
             {
@@ -154,7 +154,7 @@ namespace Posto.Win.Update.Model
         {
             get
             {
-                if (DataAtual == DateTime.MinValue) 
+                if (DataAtual == DateTime.MinValue)
                 {
                     return (DateTime?)null;
                 }
@@ -171,6 +171,28 @@ namespace Posto.Win.Update.Model
                 }
 
                 return dataSemana;
+            }
+        }
+
+        class Stack : NotificationObject
+        {
+            private System.Windows.Thickness _margin;
+
+            public System.Windows.Thickness Margin
+            {
+                get
+                {
+                    return _margin;
+                }
+                set
+                {
+                    if (_margin != value)
+                    {
+                        _margin = value;
+                        RaisePropertyChanged(() => Margin);
+                    }
+
+                }
             }
         }
     }

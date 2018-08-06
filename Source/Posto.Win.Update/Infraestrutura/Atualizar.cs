@@ -24,7 +24,7 @@ namespace Posto.Win.Update.Infraestrutura
         public class Atualizacao
         {
             public int Versao;
-            public string Arquivo;            
+            public string Arquivo;
         }
 
         #region Gerenciador de log
@@ -35,7 +35,7 @@ namespace Posto.Win.Update.Infraestrutura
 
         #region Constantes
 
-        private const string PathExe = "public_html/posto_att/PostoSQL_Exe.zip";
+        private const string PathExe = "public_html/posto_att/Update.zip";
 
         private const string PathSql = "public_html/posto_att/rmenu/";
 
@@ -102,7 +102,7 @@ namespace Posto.Win.Update.Infraestrutura
             }
             else
             {
-                MessageBox.Show("Seu sistema já está na ultima versão disponível", "Sistema atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Seu sistema já está na última versão disponível", "Sistema atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             atualizarAfter.Execute();
         }
@@ -167,90 +167,108 @@ namespace Posto.Win.Update.Infraestrutura
         {
             await Task.Run(() =>
             {
+                //-- Verifica se existe informação para atualizar
+                BuscaVersoes();
 
-                // INDICA AO GENEXUS MANUTENÇÃO ATIVADA E DESCONECTA TODOS OS USUÁRIOS DO BANCO.
-                ManutencaoAtiva();
-
-                var context = new PostoContext(_configuracaoModel);
-
-                try
+                if (_atualizar.Versao < UltimaVersao)
                 {
-                    context.BeginTransaction();
 
-                    //-- Inicia a atualização
-                    _atualizar.Progresso = 0;
-                    _atualizar.MensagemStatus = "Iniciando atualização...";
+                    //-- Ativa manutenção no banco, GeneXus se encarregará de indicar manutenção
+                    ManutencaoAtiva();
 
+                    var context = new PostoContext(_configuracaoModel);
 
-                    //-- Encerra o processo do leitor de bombas caso parâmetro seja true
-                    if (_configuracaoModel.LeitorBomba)
+                    try
                     {
-                        Process[] processes = Process.GetProcessesByName("uLeitor");
-                        foreach (Process process in processes)
-                        {
-                            process.Kill();
-                        }
-                    }
+                        context.BeginTransaction();
 
-                    //-- Encerra o processo do posto web caso parâmetro seja true
-                    if (_configuracaoModel.PostoWeb)
+                        //-- Inicia a atualização
+                        _atualizar.Progresso = 0;
+                        _atualizar.MensagemStatus = "Iniciando atualização...";
+
+
+                        //-- Encerra o processo do leitor de bombas caso parâmetro seja true
+                        if (_configuracaoModel.LeitorBomba)
+                        {
+                            Process[] processes = Process.GetProcessesByName("uLeitor");
+                            foreach (Process process in processes)
+                            {
+                                process.Kill();
+                            }
+                        }
+
+                        //-- Encerra o processo do posto web caso parâmetro seja true
+                        if (_configuracaoModel.PostoWeb)
+                        {
+                            Process[] processes = Process.GetProcessesByName("uPostoWe");
+                            foreach (Process process in processes)
+                            {
+                                process.Kill();
+                            }
+                        }
+
+                        _timerProximaAtualizacao.Stop();
+                        AtualizaViewModel();
+
+                        //-- Roda os Rmenu de acordo com a versão
+                        _atualizar.Progresso = 10;
+                        AtualizarSql(context);
+
+                        //-- Baixa os arquivos do FTP e extrai na pasta Update
+                        _atualizar.Progresso = 50;
+                        AtualizarExe();
+
+                        //-- Atualiza o parversao no banco
+                        _atualizar.Progresso = 80;
+                        AtualizarBanco(context);
+
+                        //-- Salva as atualizações
+                        _atualizar.Progresso = 100;
+                        context.Commit();
+                    }
+                    catch (Exception e)
                     {
-                        Process[] processes = Process.GetProcessesByName("uPostoWe");
-                        foreach (Process process in processes)
-                        {
-                            process.Kill();
-                        }
-                    }
+                        context.RollBack();
 
-                    _timerProximaAtualizacao.Stop();
+                        log.Error(e.Message);
+
+                        _atualizar.MensagemStatus = "Problemas ao atualizar.";
+
+                        //-- Reinicializa os programas
+                        ReinicializaProgramas(true, context);
+                    }
+                    finally
+                    {
+                        _timerProximaAtualizacao.Stop();
+
+                        _atualizar.MensagemStatus = "Atualizado com sucesso.";
+
+                        SetTime();
+
+                        //-- Indica fim de atualização
+                        ManutencaoDesativa();
+
+                        //-- Reinicializa os programas
+                        ReinicializaProgramas(false, context);
+                    }
+                }
+                else
+                {   
+                    var context = new PostoContext(_configuracaoModel);   
+                                     
+                    //-- Atualiza no banco a data da ultima verificação de atualização
+                    AtualizarBanco(context);
+
+                    //-- Atualiza o viewmodel com a nova data
                     AtualizaViewModel();
 
-                    //-- Roda os Rmenu de acordo com a versão
-                    _atualizar.Progresso = 10;
-                    AtualizarSql(context);
-
-                    //-- Baixa os arquivos do FTP e extrai na pasta Update
-                    _atualizar.Progresso = 50;
-                    AtualizarExe();
-
-                    //-- Atualiza o parversao no banco
-                    _atualizar.Progresso = 80;
-                    AtualizarBanco(context, UltimaVersao);
-
-                    //-- Salva as atualizações
-                    _atualizar.Progresso = 100;
-                    context.Commit();
-                }
-                catch (Exception e)
-                {
-                    context.RollBack();
-
-                    log.Error(e.Message);
-
-                    _atualizar.MensagemStatus = "Problemas ao atualizar.";
-
-                    //-- Reinicializa os programas
-                    ReinicializaProgramas(true, context);
-                }
-                finally
-                {
-                    _timerProximaAtualizacao.Stop();
-
-                    _atualizar.MensagemStatus = "Atualizado com sucesso.";
-
-                    SetTime();
-
-                    //-- Indica fim de atualização
-                    ManutencaoDesativa();
-
-                    //-- Reinicializa os programas
-                    ReinicializaProgramas(false, context);
+                    _atualizar.MensagemStatus = "Sistema já atualizado com a última versão.";
                 }
             });
         }
 
         /// <summary>
-        /// Atualiza arquivos
+        /// Atualização de arquivos
         /// </summary>
         private void AtualizarExe()
         {
@@ -258,7 +276,7 @@ namespace Posto.Win.Update.Infraestrutura
             {
                 _atualizar.MensagemStatus = "Baixando arquivos da atualizaçãos...";
 
-                var arquivos = _ftp.Download(PathExe);
+                var arquivos = _ftp.Download(PathExe, _atualizar);
 
                 using (MemoryStream mem = new MemoryStream(arquivos))
                 using (ZipArchive zipStream = new ZipArchive(mem))
@@ -303,7 +321,7 @@ namespace Posto.Win.Update.Infraestrutura
 
                 ListaSql.ForEach(row =>
                 {
-                    Rmenu += Encoding.ASCII.GetString(_ftp.Download(PathSql + row.Arquivo));
+                    Rmenu += Encoding.ASCII.GetString(_ftp.Download((PathSql + row.Arquivo), _atualizar));
                 });
 
                 context.Query(Rmenu).ExecuteNonQuery();
@@ -321,19 +339,13 @@ namespace Posto.Win.Update.Infraestrutura
         }
 
         /// <summary>
-        /// Atualiza parversao no banco
+        /// Atualiza data da atualização no banco de dados com a data atual
         /// </summary>
-        private void AtualizarBanco(PostoContext context, int? versao)
+        private void AtualizarBanco(PostoContext context)
         {
             try
             {
                 _atualizar.MensagemStatus = "Atualizando versão do banco de dados...";
-
-                if (versao != null)
-                {
-                    context.Query("UPDATE oft000 SET parversao = " + versao.ToString()).ExecuteNonQuery();
-                }
-
                 context.Query("UPDATE atualiz SET atuDatAtua = '" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "'").ExecuteNonQuery();
             }
             catch (Exception e)
@@ -343,6 +355,9 @@ namespace Posto.Win.Update.Infraestrutura
             }
         }
 
+        /// <summary>
+        /// Ativa manutenção no banco de dados
+        /// </summary>
         private void ManutencaoAtiva()
         {
             try
@@ -362,6 +377,9 @@ namespace Posto.Win.Update.Infraestrutura
 
         }
 
+        /// <summary>
+        /// Desativa manutenção no banco de dados
+        /// </summary>
         private void ManutencaoDesativa()
         {
             try
@@ -377,6 +395,9 @@ namespace Posto.Win.Update.Infraestrutura
             }
         }
 
+        /// <summary>
+        /// Reinicializa os programas de acordo com os parâmetros
+        /// </summary>
         private void ReinicializaProgramas(bool teveErro, PostoContext context)
         {
 
@@ -405,16 +426,19 @@ namespace Posto.Win.Update.Infraestrutura
 
             if (teveErro)
             {
-                MessageBox.Show("Houve um erro ao atualizar a versão do sistema. Por favor, entre em contato com o suporte.", "Erro na atualização", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Houve um erro ao atualizar a versão do sistema. Por favor, entre em contato com o suporte.", "Erro na atualização", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }            
         }
 
-        //-- Não finalizado
+        /// <summary>
+        /// Busca as versões para atualização de acordo com a versão do cliente
+        /// </summary>
         private void BuscaVersoes()
         {
             ListaSql = new List<Atualizacao>();
             RetornoFtp = _ftp.GetFileList(PathSql);
 
+            //-- Faz a formatação da string e adiciona na lista de SQLs para rodar
             ListaSql = RetornoFtp.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
                         .Select((row) => new Atualizacao
                         {

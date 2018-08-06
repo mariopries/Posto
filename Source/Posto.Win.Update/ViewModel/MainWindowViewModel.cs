@@ -30,17 +30,65 @@ namespace Posto.Win.Update.ViewModel
             InputLocalDiretorio
         }
 
+        public class Barra : NotificationObject
+        {
+            public Barra()
+            {
+                Visao = System.Windows.Visibility.Hidden;
+                IsEnable = false;
+            }
+
+            #region Propriedades
+                        
+            private bool _isEnable;
+            private System.Windows.Visibility _visao;
+
+            #endregion
+
+
+            public bool IsEnable
+            {
+                get
+                {
+                    return _isEnable;
+                }
+                set
+                {
+                    if (_isEnable != value)
+                    {
+                        _isEnable = value;
+                        RaisePropertyChanged(() => IsEnable);
+                    }
+                }
+            }
+
+            public System.Windows.Visibility Visao
+            {
+                get
+                {
+                    return _visao;
+                }
+                set
+                {
+                    if (_visao != value)
+                    {
+                        _visao = value;
+                        RaisePropertyChanged(() => Visao);
+                    }
+                }
+            }
+        }
+
+        private Barra _barraprogresso;
         private ConfiguracaoModel _configuracao;
         private AtualizarModel _atualizar;
         private Atualizar _atualizarAsync;
         private string _focusElement;
         private bool _enableButtonConfiguracao;
         private bool _isVisibleButtonPausar;
-        private bool _isEnableButtonAtualizar;
-        private bool _isEnableProgressBar;
+        private bool _isEnableButtonAtualizar;        
         private bool _leitor;
         private bool _web;
-
         private bool _dynamicContentControlIsActive;
         private NotificationObject _dynamicContentControl;
 
@@ -63,11 +111,11 @@ namespace Posto.Win.Update.ViewModel
             PausarCommand          = new DelegateCommand(OnPausar);
             LoginCommand           = new DelegateCommand(OnLogin);
             BloquearCommand        = new DelegateCommand(OnBloquear);
+            BarraProgresso         = new Barra();
 
             EnableButtonConfiguracao    = true;
             IsVisibleButtonPausar       = false;
             IsEnableButtonAtualizar     = true;
-            IsEnableProgressBar         = false;
 
             LeitorBomba    = Configuracao.LeitorBomba;
             PostoWeb       = Configuracao.PostoWeb;
@@ -92,10 +140,10 @@ namespace Posto.Win.Update.ViewModel
             }
             set
             {
-                if (this._configuracao != value)
+                if (_configuracao != value)
                 {
-                    this._configuracao = value;
-                    this.RaisePropertyChanged(() => this.Configuracao);
+                    _configuracao = value;
+                    RaisePropertyChanged(() => Configuracao);
                 }
             }
         }
@@ -104,14 +152,30 @@ namespace Posto.Win.Update.ViewModel
         {
             get
             {
-                return this._atualizar;
+                return _atualizar;
             }
             set
             {
-                if (this._atualizar != value)
+                if (_atualizar != value)
                 {
-                    this._atualizar = value;
-                    this.RaisePropertyChanged(() => this.Atualizar);
+                    _atualizar = value;
+                    RaisePropertyChanged(() => Atualizar);
+                }
+            }
+        }
+
+        public Barra BarraProgresso
+        {
+            get
+            {
+                return _barraprogresso;
+            }
+            set
+            {
+                if (_barraprogresso != value)
+                {
+                    _barraprogresso = value;
+                    RaisePropertyChanged(() => BarraProgresso);
                 }
             }
         }
@@ -123,12 +187,12 @@ namespace Posto.Win.Update.ViewModel
         {
             get
             {
-                return this._focusElement;
+                return _focusElement;
             }
             set
             {
-                this._focusElement = value;
-                this.RaisePropertyChanged(() => this.FocusElement);
+                _focusElement = value;
+                RaisePropertyChanged(() => FocusElement);
             }
         }
 
@@ -136,14 +200,14 @@ namespace Posto.Win.Update.ViewModel
         {
             get
             {
-                return this._enableButtonConfiguracao;
+                return _enableButtonConfiguracao;
             }
             set
             {
-                if (this._enableButtonConfiguracao != value)
+                if (_enableButtonConfiguracao != value)
                 {
-                    this._enableButtonConfiguracao = value;
-                    this.RaisePropertyChanged(() => this.EnableButtonConfiguracao);
+                    _enableButtonConfiguracao = value;
+                    RaisePropertyChanged(() => EnableButtonConfiguracao);
                 }
             }
         }
@@ -152,14 +216,14 @@ namespace Posto.Win.Update.ViewModel
         {
             get
             {
-                return this._isVisibleButtonPausar;
+                return _isVisibleButtonPausar;
             }
             set
             {
-                if (this._isVisibleButtonPausar != value)
+                if (_isVisibleButtonPausar != value)
                 {
-                    this._isVisibleButtonPausar = value;
-                    this.RaisePropertyChanged(() => this.IsVisibleButtonPausar);
+                    _isVisibleButtonPausar = value;
+                    RaisePropertyChanged(() => IsVisibleButtonPausar);
                 }
             }
         }
@@ -176,22 +240,6 @@ namespace Posto.Win.Update.ViewModel
                 {
                     _isEnableButtonAtualizar = value;
                     RaisePropertyChanged(() => IsEnableButtonAtualizar);
-                }
-            }
-        }
-
-        public bool IsEnableProgressBar
-        {
-            get
-            {
-                return _isEnableProgressBar;
-            }
-            set
-            {
-                if (_isEnableProgressBar != value)
-                {
-                    _isEnableProgressBar = value;
-                    RaisePropertyChanged(() => IsEnableProgressBar);
                 }
             }
         }
@@ -321,9 +369,10 @@ namespace Posto.Win.Update.ViewModel
 
             if (IsValidarConfiguracao(config))
             {
-                _atualizarAsync.Manual(config, AtualizarAfterCommand);
                 IsEnableButtonAtualizar = false;
-                IsEnableProgressBar = true;
+                BarraProgresso.IsEnable = true;
+                BarraProgresso.Visao = System.Windows.Visibility.Visible;
+                _atualizarAsync.Manual(config, AtualizarAfterCommand);
             }
             else
             {
@@ -334,7 +383,8 @@ namespace Posto.Win.Update.ViewModel
         private void OnAtualizarAfter()
         {
             IsEnableButtonAtualizar = true;
-            IsEnableProgressBar = false;
+            BarraProgresso.IsEnable = false;
+            BarraProgresso.Visao = System.Windows.Visibility.Hidden;
         }
 
         private void OnIniciar()

@@ -173,8 +173,8 @@
                             <Button Command="{Binding PausarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalContentAlignment="Center" Content="Parar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Left" Height="50" Margin="0,24,0,0" VerticalAlignment="Top" Width="346">
-                            <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" Margin="10,0,44,0" Height="17" />
-                            <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="24" Width="326" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding Atualizar.Progresso}" Margin="10,0,0,0">
+                            <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" Margin="10,19,10,0" Height="17" BorderThickness="0,6,0,0" />
+                            <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="24" Width="326" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding Atualizar.Progresso}" Margin="10,0,0,0" Visibility="{Binding BarraProgresso.Visao}">
                                 <ProgressBar.BorderBrush>
                                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                         <GradientStop Color="#FFC38C8C"/>
