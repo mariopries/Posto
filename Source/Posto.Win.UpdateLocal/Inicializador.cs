@@ -32,23 +32,23 @@ namespace Posto.Win.UpdateLocal
         {
             try
             {
-                this._arquivos = new List<FileInfo>();
-                this._arquivosNovos = new List<FileInfo>();
+                _arquivos = new List<FileInfo>();
+                _arquivosNovos = new List<FileInfo>();
 
                 // Backgound Worker da tela principal
-                this._bgWInicializador = worker;
+                _bgWInicializador = worker;
 
                 // Carrega as configurações
-                this.LoadConfiguracoes(executavel);
+                LoadConfiguracoes(executavel);
 
                 // Verifica quais arquivos devem ser copiados do servidor
-                this.VerificaVersaoDosArquivos();
+                VerificaVersaoDosArquivos();
 
                 // Faz a cópia somente dos arquivos modificados/novos
-                this.AtualizaArquivos();
+                AtualizaArquivos();
 
                 // Executa o Posto
-                this.Executar(executavel);
+                Executar(executavel);
             }
             catch (Exception e)
             {
@@ -70,7 +70,7 @@ namespace Posto.Win.UpdateLocal
             try
             {
                 //Executa os .EXE corretos
-                processo.StartInfo.FileName = GetEnumCategory<Aplicativo>(executavel);
+                processo.StartInfo.FileName = GetEnumCategory(executavel);
 
                 processo.StartInfo.WorkingDirectory = _local;
                 processo.StartInfo.Arguments = "1";
@@ -100,27 +100,27 @@ namespace Posto.Win.UpdateLocal
         {
             try
             {
-                this.UpdateProgress("Carregando configurações do sistema.");
+                UpdateProgress("Carregando configurações do sistema.");
 
                 // Endereço local
-                this._local = ConfigurationManager.AppSettings["Local"];
+                _local = ConfigurationManager.AppSettings["Local"];
 
                 // Endereço do servidor
-                this._servidor = ConfigurationManager.AppSettings["Servidor"];
+                _servidor = ConfigurationManager.AppSettings["Servidor"];
 
                 //Adiciona Executávl solicitado pelo usuário.
-                this._arquivos.Add(new FileInfo(_servidor + GetEnumCategory<Aplicativo>(aplicativo)));
+                _arquivos.Add(new FileInfo(_servidor + GetEnumCategory(aplicativo)));
 
                 // Adiciona DLLs
                 foreach (string newPath in Directory.GetFiles(_servidor, "*.DLL", SearchOption.AllDirectories))
                 {
-                    this._arquivos.Add(new FileInfo(newPath));
+                    _arquivos.Add(new FileInfo(newPath));
                 }
 
                 // Adiciona todos os arquivos na lista na pasta templater
                 foreach (string newPath in Directory.GetFiles(_servidor + @"\Template", "*.*", SearchOption.AllDirectories))
                 {
-                    this._arquivos.Add(new FileInfo(newPath));
+                    _arquivos.Add(new FileInfo(newPath));
                 }
             }
             catch (Exception e)
@@ -159,7 +159,7 @@ namespace Posto.Win.UpdateLocal
                 {
                     if (arquivo.Exists)
                     {
-                        var local = new FileInfo(arquivo.FullName.Replace(this._servidor, this._local));
+                        var local = new FileInfo(arquivo.FullName.Replace(_servidor, _local));
                         var servidor = arquivo;
 
                         if (local.LastWriteTimeUtc != servidor.LastWriteTimeUtc || local.Length != servidor.Length)
@@ -195,7 +195,7 @@ namespace Posto.Win.UpdateLocal
 
                 foreach (var arquivo in _arquivosNovos)
                 {
-                    var local = arquivo.FullName.Replace(this._servidor, this._local);
+                    var local = arquivo.FullName.Replace(_servidor, _local);
                     var diretorio = Path.GetDirectoryName(local);
 
 

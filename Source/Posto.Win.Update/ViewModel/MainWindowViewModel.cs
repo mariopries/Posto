@@ -30,54 +30,87 @@ namespace Posto.Win.Update.ViewModel
             InputLocalDiretorio
         }
 
-        public class Barra : NotificationObject
+        public class Status : NotificationObject
         {
-            public Barra()
-            {                
-                IsEnable = false;
-                Visao = System.Windows.Visibility.Hidden;
+            public Status()
+            {
+                BarraProgresso = new Barra();
                 MarginStatusLabel = new System.Windows.Thickness(10,19,10,0);
             }
 
             #region Propriedades
 
+            private Barra _barraprogresso;
             private bool _isEnable;
             private System.Windows.Visibility _visao;
             private System.Windows.Thickness _marginstatuslabel;
 
             #endregion
 
+            public Barra BarraProgresso
+            {
+                get
+                {
+                    return _barraprogresso;
+                }
+                set
+                {
+                    if (_barraprogresso != value)
+                    {
+                        _barraprogresso = value;
+                        RaisePropertyChanged(() => BarraProgresso);
+                    }
+                }
+            }
 
-            public bool IsEnable
+            public class Barra : NotificationObject
             {
-                get
+                public Barra()
                 {
-                    return _isEnable;
+                    IsEnable = false;
+                    Visao = System.Windows.Visibility.Hidden;
                 }
-                set
+
+                #region Propriedades
+
+                private bool _isEnable;
+                private System.Windows.Visibility _visao;
+
+                #endregion
+                
+                public bool IsEnable
                 {
-                    if (_isEnable != value)
+                    get
                     {
-                        _isEnable = value;
-                        RaisePropertyChanged(() => IsEnable);
+                        return _isEnable;
+                    }
+                    set
+                    {
+                        if (_isEnable != value)
+                        {
+                            _isEnable = value;
+                            RaisePropertyChanged(() => IsEnable);
+                        }
                     }
                 }
-            }
-            public System.Windows.Visibility Visao
-            {
-                get
+                public System.Windows.Visibility Visao
                 {
-                    return _visao;
-                }
-                set
-                {
-                    if (_visao != value)
+                    get
                     {
-                        _visao = value;
-                        RaisePropertyChanged(() => Visao);
+                        return _visao;
+                    }
+                    set
+                    {
+                        if (_visao != value)
+                        {
+                            _visao = value;
+                            RaisePropertyChanged(() => Visao);
+                        }
                     }
                 }
+
             }
+            
             public System.Windows.Thickness MarginStatusLabel
             {
                 get
@@ -95,7 +128,7 @@ namespace Posto.Win.Update.ViewModel
             }
         }
 
-        private Barra _barraprogresso;
+        private Status _status;
         private ConfiguracaoModel _configuracao;
         private AtualizarModel _atualizar;
         private Atualizar _atualizarAsync;        
@@ -116,7 +149,7 @@ namespace Posto.Win.Update.ViewModel
         private async void OnLoad()
         {
             Atualizar              = new AtualizarModel();
-            BarraProgresso         = new Barra();
+            StackStatus            = new Status();
             _atualizarAsync        = new Atualizar(Atualizar, this);
             Configuracao           = ConfiguracaoXml.CarregarConfiguracao().ToModel();
             AbrirExplorerCommand   = new DelegateCommand(OnAbrirExplorer);
@@ -180,18 +213,18 @@ namespace Posto.Win.Update.ViewModel
             }
         }
 
-        public Barra BarraProgresso
+        public Status StackStatus
         {
             get
             {
-                return _barraprogresso;
+                return _status;
             }
             set
             {
-                if (_barraprogresso != value)
+                if (_status != value)
                 {
-                    _barraprogresso = value;
-                    RaisePropertyChanged(() => BarraProgresso);
+                    _status = value;
+                    RaisePropertyChanged(() => StackStatus);
                 }
             }
         }
@@ -386,7 +419,7 @@ namespace Posto.Win.Update.ViewModel
             if (IsValidarConfiguracao(config))
             {
                 IsEnableButtonAtualizar = false;
-                BarraProgresso.IsEnable = true;
+                StackStatus.BarraProgresso.IsEnable = true;
                 _atualizarAsync.Manual(config, AtualizarAfterCommand);
             }
             else
@@ -398,7 +431,7 @@ namespace Posto.Win.Update.ViewModel
         private void OnAtualizarAfter()
         {
             IsEnableButtonAtualizar = true;
-            BarraProgresso.IsEnable = false;
+            StackStatus.BarraProgresso.IsEnable = false;
         }
 
         private void OnIniciar()
@@ -410,7 +443,7 @@ namespace Posto.Win.Update.ViewModel
                 _atualizarAsync.Iniciar(config);
                 IsVisibleButtonPausar = true;
                 IsEnableButtonAtualizar = false;
-                BarraProgresso.IsEnable = true;
+                StackStatus.BarraProgresso.IsEnable = true;
             }
             else
             {

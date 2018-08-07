@@ -6,6 +6,6 @@
   <Usuario>posto</Usuario>
   <Senha>p172202o</Senha>
   <LocalDiretorio>C:\metodos\Update</LocalDiretorio>
-  <LeitorBomba>false</LeitorBomba>
-  <PostoWeb>false</PostoWeb>
+  <LeitorBomba>true</LeitorBomba>
+  <PostoWeb>true</PostoWeb>
 </Configuracao>

@@ -27,7 +27,6 @@ C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.Properties
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csproj.GenerateResource.Cache
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.exe
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.pdb
-C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csprojResolveAssemblyReference.cache
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\AtualizacaoAutomatica.exe.config
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\AtualizacaoAutomatica.exe
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\AtualizacaoAutomatica.pdb

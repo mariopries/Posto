@@ -40,6 +40,8 @@ namespace Posto.Win.Update.Infraestrutura
 
         private const string PathSql = "public_html/posto_att/rmenu/";
 
+        private const string PathAtualizador = @"C:\Metodos\App\Posto.exe";
+
         private const string PathLeitor = @"C:\Metodos\uLeitor.exe";
 
         private const string PathPostoWeb = @"C:\Metodos\uPostoWe.exe";
@@ -72,6 +74,9 @@ namespace Posto.Win.Update.Infraestrutura
 
         #endregion
 
+        /// <summary>
+        /// Inicia o processo de atualização
+        /// </summary>
         public Atualizar(AtualizarModel atualizar, MainWindowViewModel mainwindowviewmodel)
         {
             _atualizar = atualizar;
@@ -94,6 +99,9 @@ namespace Posto.Win.Update.Infraestrutura
             _timerProximaAtualizacao.Stop();
         }
 
+        /// <summary>
+        /// Inicia o processo de atualização manualmente
+        /// </summary>
         public async void Manual(ConfiguracaoModel configuracaoModel, DelegateCommand atualizarAfter)
         {
             AtualizaViewModel();
@@ -106,8 +114,10 @@ namespace Posto.Win.Update.Infraestrutura
             }
             else
             {
-                _mainwindowviewmodel.BarraProgresso.MarginStatusLabel = new System.Windows.Thickness(10, 19, 10, 0);
+                SetaBarraStatus(System.Windows.Visibility.Hidden, 19);
+
                 _atualizar.MensagemStatus = "Sistema já atualizado com a última versão.";
+
                 MessageBox.Show("Seu sistema já está na última versão disponível", "Sistema atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             atualizarAfter.Execute();
@@ -173,8 +183,7 @@ namespace Posto.Win.Update.Infraestrutura
         {
             await Task.Run(() =>
             {
-                _mainwindowviewmodel.BarraProgresso.Visao = System.Windows.Visibility.Visible;
-                _mainwindowviewmodel.BarraProgresso.MarginStatusLabel = new System.Windows.Thickness(10, 0, 10, 0);
+                SetaBarraStatus(System.Windows.Visibility.Visible, 0);
 
                 //-- Verifica se existe informação para atualizar
                 BuscaVersoes();
@@ -270,6 +279,8 @@ namespace Posto.Win.Update.Infraestrutura
 
                     //-- Atualiza o viewmodel com a nova data
                     AtualizaViewModel();
+
+                    SetaBarraStatus(System.Windows.Visibility.Hidden, 19);
 
                     _atualizar.MensagemStatus = "Sistema já atualizado com a última versão.";
                 }
@@ -409,37 +420,30 @@ namespace Posto.Win.Update.Infraestrutura
         /// </summary>
         private void ReinicializaProgramas(bool teveErro, PostoContext context)
         {
-
             context.Close();
             _atualizar.Progresso = 0;
-
-            //-- Inicia processo do leitor de bombas caso parâmetro seja true
-            if (_configuracaoModel.LeitorBomba)
+            
+            //-- Se diretório existir, inicia processo
+            if (File.Exists(PathAtualizador))
             {
-                //-- Se diretório existir, inicia processo
-                if (File.Exists(PathLeitor))
+                //-- Inicia processo do leitor de bombas caso parâmetro seja true
+                if (_configuracaoModel.LeitorBomba)
                 {
-                    Process.Start(PathLeitor, "6");
+                    Process.Start(PathAtualizador, "6");
+                }
+                //-- Se diretório existir, inicia processo
+                if (_configuracaoModel.PostoWeb)
+                {
+                    Process.Start(PathAtualizador, "7");
                 }
             }
-
-            //-- Inicia processo do posto web caso parâmetro seja true
-            if (_configuracaoModel.PostoWeb)
-            {
-                //-- Se diretório existir, inicia processo
-                if (File.Exists(PathPostoWeb))
-                {
-                    Process.Start(PathPostoWeb, "7");
-                }
-            }
-
+            
             if (teveErro)
             {
                 MessageBox.Show("Houve um erro ao atualizar a versão do sistema. Por favor, entre em contato com o suporte.", "Erro na atualização", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            _mainwindowviewmodel.BarraProgresso.Visao = System.Windows.Visibility.Hidden;
-            _mainwindowviewmodel.BarraProgresso.MarginStatusLabel = new System.Windows.Thickness(10, 19, 10, 0);
+            SetaBarraStatus(System.Windows.Visibility.Hidden, 19);
         }
 
         /// <summary>
@@ -470,6 +474,15 @@ namespace Posto.Win.Update.Infraestrutura
             UltimaVersao = ListaSql.OrderByDescending(x => x.Versao)
                                    .Select(x => x.Versao)
                                    .FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Define o status da barra de progresso
+        /// </summary>
+        private void SetaBarraStatus(System.Windows.Visibility status, double posicao)
+        {
+            _mainwindowviewmodel.StackStatus.BarraProgresso.Visao = status;
+            _mainwindowviewmodel.StackStatus.MarginStatusLabel = new System.Windows.Thickness(10, posicao, 10, 0);
         }
     }
 }
