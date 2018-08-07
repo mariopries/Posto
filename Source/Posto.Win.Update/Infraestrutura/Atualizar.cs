@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.Commands;
 using Posto.Win.Update.DataContext;
 using Posto.Win.Update.Model;
+using Posto.Win.Update.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -51,6 +52,8 @@ namespace Posto.Win.Update.Infraestrutura
 
         private System.Timers.Timer _timerProximaAtualizacao;
 
+        private MainWindowViewModel _mainwindowviewmodel;
+
         private Ftp _ftp;
 
         private ConfiguracaoModel _configuracaoModel;
@@ -69,9 +72,10 @@ namespace Posto.Win.Update.Infraestrutura
 
         #endregion
 
-        public Atualizar(AtualizarModel atualizar)
+        public Atualizar(AtualizarModel atualizar, MainWindowViewModel mainwindowviewmodel)
         {
             _atualizar = atualizar;
+            _mainwindowviewmodel = mainwindowviewmodel;
             _ftp = new Ftp();
 
             _timerProximaAtualizacao = new System.Timers.Timer();
@@ -102,6 +106,8 @@ namespace Posto.Win.Update.Infraestrutura
             }
             else
             {
+                _mainwindowviewmodel.BarraProgresso.MarginStatusLabel = new System.Windows.Thickness(10, 19, 10, 0);
+                _atualizar.MensagemStatus = "Sistema já atualizado com a última versão.";
                 MessageBox.Show("Seu sistema já está na última versão disponível", "Sistema atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             atualizarAfter.Execute();
@@ -167,6 +173,9 @@ namespace Posto.Win.Update.Infraestrutura
         {
             await Task.Run(() =>
             {
+                _mainwindowviewmodel.BarraProgresso.Visao = System.Windows.Visibility.Visible;
+                _mainwindowviewmodel.BarraProgresso.MarginStatusLabel = new System.Windows.Thickness(10, 0, 10, 0);
+
                 //-- Verifica se existe informação para atualizar
                 BuscaVersoes();
 
@@ -427,7 +436,10 @@ namespace Posto.Win.Update.Infraestrutura
             if (teveErro)
             {
                 MessageBox.Show("Houve um erro ao atualizar a versão do sistema. Por favor, entre em contato com o suporte.", "Erro na atualização", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }            
+            }
+
+            _mainwindowviewmodel.BarraProgresso.Visao = System.Windows.Visibility.Hidden;
+            _mainwindowviewmodel.BarraProgresso.MarginStatusLabel = new System.Windows.Thickness(10, 19, 10, 0);
         }
 
         /// <summary>

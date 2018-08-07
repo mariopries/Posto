@@ -33,15 +33,17 @@ namespace Posto.Win.Update.ViewModel
         public class Barra : NotificationObject
         {
             public Barra()
-            {
-                Visao = System.Windows.Visibility.Hidden;
+            {                
                 IsEnable = false;
+                Visao = System.Windows.Visibility.Hidden;
+                MarginStatusLabel = new System.Windows.Thickness(10,19,10,0);
             }
 
             #region Propriedades
-                        
+
             private bool _isEnable;
             private System.Windows.Visibility _visao;
+            private System.Windows.Thickness _marginstatuslabel;
 
             #endregion
 
@@ -61,7 +63,6 @@ namespace Posto.Win.Update.ViewModel
                     }
                 }
             }
-
             public System.Windows.Visibility Visao
             {
                 get
@@ -77,12 +78,27 @@ namespace Posto.Win.Update.ViewModel
                     }
                 }
             }
+            public System.Windows.Thickness MarginStatusLabel
+            {
+                get
+                {
+                    return _marginstatuslabel;
+                }
+                set
+                {
+                    if (_marginstatuslabel != value)
+                    {
+                        _marginstatuslabel = value;
+                        RaisePropertyChanged(() => MarginStatusLabel);
+                    }
+                }
+            }
         }
 
         private Barra _barraprogresso;
         private ConfiguracaoModel _configuracao;
         private AtualizarModel _atualizar;
-        private Atualizar _atualizarAsync;
+        private Atualizar _atualizarAsync;        
         private string _focusElement;
         private bool _enableButtonConfiguracao;
         private bool _isVisibleButtonPausar;
@@ -100,7 +116,8 @@ namespace Posto.Win.Update.ViewModel
         private async void OnLoad()
         {
             Atualizar              = new AtualizarModel();
-            _atualizarAsync        = new Atualizar(Atualizar);
+            BarraProgresso         = new Barra();
+            _atualizarAsync        = new Atualizar(Atualizar, this);
             Configuracao           = ConfiguracaoXml.CarregarConfiguracao().ToModel();
             AbrirExplorerCommand   = new DelegateCommand(OnAbrirExplorer);
             SalvarCommand          = new DelegateCommand(OnSalvar);
@@ -111,7 +128,6 @@ namespace Posto.Win.Update.ViewModel
             PausarCommand          = new DelegateCommand(OnPausar);
             LoginCommand           = new DelegateCommand(OnLogin);
             BloquearCommand        = new DelegateCommand(OnBloquear);
-            BarraProgresso         = new Barra();
 
             EnableButtonConfiguracao    = true;
             IsVisibleButtonPausar       = false;
@@ -371,7 +387,6 @@ namespace Posto.Win.Update.ViewModel
             {
                 IsEnableButtonAtualizar = false;
                 BarraProgresso.IsEnable = true;
-                BarraProgresso.Visao = System.Windows.Visibility.Visible;
                 _atualizarAsync.Manual(config, AtualizarAfterCommand);
             }
             else
@@ -384,7 +399,6 @@ namespace Posto.Win.Update.ViewModel
         {
             IsEnableButtonAtualizar = true;
             BarraProgresso.IsEnable = false;
-            BarraProgresso.Visao = System.Windows.Visibility.Hidden;
         }
 
         private void OnIniciar()
@@ -396,6 +410,7 @@ namespace Posto.Win.Update.ViewModel
                 _atualizarAsync.Iniciar(config);
                 IsVisibleButtonPausar = true;
                 IsEnableButtonAtualizar = false;
+                BarraProgresso.IsEnable = true;
             }
             else
             {

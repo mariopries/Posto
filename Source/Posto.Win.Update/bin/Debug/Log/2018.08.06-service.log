@@ -1,0 +1,28 @@
+2018-08-06 10:55:31 ERRO: Não foi possível localizar uma parte do caminho 'C:\metodos\Update\uGsw002.EXE'.  ORIGEM: Atualizar.AtualizarExe
+2018-08-06 10:55:31 ERRO: Exception while writing to stream  ORIGEM: Atualizar.AtualizarBanco
+2018-08-06 10:55:31 ERRO: System.InvalidOperationException: This NpgsqlTransaction has completed; it is no longer usable.
+   em Npgsql.NpgsqlTransaction.CheckCompleted()
+   em Npgsql.NpgsqlTransaction.CheckReady()
+   em Npgsql.NpgsqlTransaction.<Commit>d__17.MoveNext()
+--- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
+   em System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   em System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   em Npgsql.NpgsqlTransaction.Commit()
+   em Posto.Win.Update.DataContext.PostoContext.Commit() na F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\DataContext\PostoContext.cs:linha 53  ORIGEM: PostoContext.Commit
+2018-08-06 10:58:12 ERRO: System.Net.WebException: Erro de sistema. ---> System.Net.InternalException: Erro de sistema.
+   em System.Net.PooledStream.PrePush(Object expectedOwner)
+   em System.Net.ConnectionPool.PutConnection(PooledStream pooledStream, Object owningObject, Int32 creationTimeout, Boolean canReuse)
+   em System.Net.FtpWebRequest.FinishRequestStage(RequestStage stage)
+   em System.Net.FtpWebRequest.SyncRequestCallback(Object obj)
+   em System.Net.FtpWebRequest.RequestCallback(Object obj)
+   em System.Net.CommandStream.Dispose(Boolean disposing)
+   em System.IO.Stream.Close()
+   em System.IO.Stream.Dispose()
+   em System.Net.ConnectionPool.Destroy(PooledStream pooledStream)
+   em System.Net.ConnectionPool.PutConnection(PooledStream pooledStream, Object owningObject, Int32 creationTimeout, Boolean canReuse)
+   em System.Net.FtpWebRequest.AttemptedRecovery(Exception e)
+   em System.Net.FtpWebRequest.SubmitRequest(Boolean async)
+   --- Fim do rastreamento de pilha de exceções internas ---
+   em System.Net.FtpWebRequest.GetResponse()
+   em Posto.Win.Update.Infraestrutura.Ftp.GetFileSize(String path) na F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\Infraestrutura\Ftp.cs:linha 106  ORIGEM: Ftp.GetFileSize
+2018-08-06 10:58:54 ERRO: Não foi possível localizar uma parte do caminho 'C:\metodos\Update\uGsw002.EXE'.  ORIGEM: Atualizar.AtualizarExe
