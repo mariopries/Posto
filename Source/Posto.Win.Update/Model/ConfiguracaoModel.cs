@@ -14,8 +14,7 @@ namespace Posto.Win.Update.Model
         private string  _banco;
         private string  _usuario;
         private string  _senha;
-        private string  _localDiretorio;
-        private string  _mensagem;
+        private string  _localDiretorio;        
         private bool    _leitor;
         private bool    _web;
 
@@ -111,22 +110,6 @@ namespace Posto.Win.Update.Model
                 {
                     this._localDiretorio = value;
                     this.RaisePropertyChanged(() => this.LocalDiretorio);
-                }
-            }
-        }
-
-        public string Mensagem
-        {
-            get
-            {
-                return this._mensagem;
-            }
-            set
-            {
-                if (this._mensagem != value)
-                {
-                    this._mensagem = value;
-                    this.RaisePropertyChanged(() => this.Mensagem);
                 }
             }
         }

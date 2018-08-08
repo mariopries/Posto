@@ -1,5 +1,6 @@
 ﻿using log4net;
 using Posto.Win.Update.Model;
+using Posto.Win.Update.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -114,11 +115,11 @@ namespace Posto.Win.Update.Infraestrutura
             return FileSize;
         }
 
-        public byte[] Download(string path, AtualizarModel atualizar)
+        public byte[] Download(string path, AtualizarModel atualizar, MainWindowViewModel mainwindowviewmodel)
         {
 
             _atualizar = atualizar;
-            byte[] buffer = new byte[2048];
+            byte[] buffer = new byte[32 * 1024];
             int read;
             try
             {
@@ -145,6 +146,7 @@ namespace Posto.Win.Update.Infraestrutura
                         }
                         else
                         {
+                            mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra1 = Porcentagem;
                             _atualizar.MensagemStatus = "Baixando aquivos... ( " + (Porcentagem / 100).ToString("P1") + " )";
                         }
 

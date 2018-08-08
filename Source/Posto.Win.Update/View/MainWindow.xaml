@@ -172,9 +172,9 @@
                             <Button Command="{Binding IniciarCommand}" Visibility="{Binding IsVisibleButtonPausar, Converter={StaticResource InvertBooleanToVisibilityConverter}, Mode=TwoWay}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" VerticalContentAlignment="Center" Content="Iniciar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
                             <Button Command="{Binding PausarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalContentAlignment="Center" Content="Parar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
                         </StackPanel>
-                        <StackPanel HorizontalAlignment="Left" Height="50" Margin="0,24,0,0" VerticalAlignment="Top" Width="346">
+                        <StackPanel HorizontalAlignment="Left" Height="57" Margin="0,17,0,0" VerticalAlignment="Top" Width="346">
                             <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" Height="17" Margin="{Binding StackStatus.StatusLabel.Margin}" Padding="0"/>
-                            <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="24" Width="326" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding Atualizar.Progresso}" Margin="10,0,0,0" Visibility="{Binding StackStatus.BarraProgresso.Visao}">
+                            <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="13" Width="326" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding StackStatus.BarraProgresso.ProgressoBarra1}" Margin="10,0,0,0" Visibility="{Binding StackStatus.BarraProgresso.Visao}">
                                 <ProgressBar.BorderBrush>
                                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                         <GradientStop Color="#FFC38C8C"/>
@@ -182,6 +182,7 @@
                                     </LinearGradientBrush>
                                 </ProgressBar.BorderBrush>
                             </ProgressBar>
+                            <ProgressBar Height="13" Margin="10,4,10,0" Visibility="{Binding StackStatus.BarraProgresso.Visao}" Value="{Binding StackStatus.BarraProgresso.ProgressoBarra2}"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -213,7 +214,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Servidor:" />
-                    <TextBox x:Name="InputServidor" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Configuracao.Servidor, Mode=TwoWay}" />
+                    <TextBox x:Name="InputServidor" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Configurar.Configuracoes.Servidor}" />
 
                     <Label Content="Porta:" Grid.Column="3"  />
                     <xctk:MaskedTextBox 
@@ -222,23 +223,23 @@
                         PromptChar=" "                       
                         Mask="9999"
                         x:Name="InputPorta"
-                        Text="{Binding Configuracao.Porta, Mode=TwoWay}" />
+                        Text="{Binding Configurar.Configuracoes.Porta}" />
 
                     <Label Content="Banco de dados:" Grid.Column="5" Grid.ColumnSpan="3" />
-                    <TextBox x:Name="InputBanco" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding Configuracao.Banco, Mode=TwoWay}" />
+                    <TextBox x:Name="InputBanco" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding Configurar.Configuracoes.Banco}" />
 
                     <Label Content="Usuário:" Grid.Row="2" />
-                    <TextBox x:Name="InputUsuario" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding Configuracao.Usuario, Mode=TwoWay}" />
+                    <TextBox x:Name="InputUsuario" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding Configurar.Configuracoes.Usuario}" />
 
                     <Label Content="Senha:" Grid.Row="2" Grid.Column="5" />
-                    <TextBox x:Name="InputSenha" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding Configuracao.Senha, Mode=TwoWay}" />
+                    <TextBox x:Name="InputSenha" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding Configurar.Configuracoes.Senha}" />
 
                     <Label Content="Local dos Executáveis:" Grid.Row="4" Grid.ColumnSpan="7" />
-                    <TextBox x:Name="InputLocalDiretorio" Grid.Row="5" Grid.ColumnSpan="7" Text="{Binding Configuracao.LocalDiretorio, Mode=TwoWay}" />
+                    <TextBox x:Name="InputLocalDiretorio" Grid.Row="5" Grid.ColumnSpan="7" Text="{Binding Configurar.Configuracoes.LocalDiretorio}" />
                     <Button Grid.Row="5" Grid.Column="8" Margin="3,0,0,0" Padding="5,0" Command="{Binding AbrirExplorerCommand}">...</Button>
 
-                    <CheckBox x:Name="Check_Leitor" Content="Encerrar Leitor de bombas durante atualização" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configuracao.LeitorBomba}" Grid.ColumnSpan="5" Width="289" Command="{Binding LeitorBomba}"/>
-                    <CheckBox x:Name="Check_Web" Content="Encerrar Posto web durante atualização" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configuracao.PostoWeb}" Grid.ColumnSpan="5" Width="289" Command="{Binding PostoWeb}"/>
+                    <CheckBox x:Name="Check_Leitor" Content="Encerrar Leitor de bombas durante atualização" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configurar.Configuracoes.LeitorBomba}" Grid.ColumnSpan="5" Width="289" Command="{Binding LeitorBomba}"/>
+                    <CheckBox x:Name="Check_Web" Content="Encerrar Posto web durante atualização" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configurar.Configuracoes.PostoWeb}" Grid.ColumnSpan="5" Width="289" Command="{Binding PostoWeb}"/>
 
                     <Border Grid.Row="7" Grid.ColumnSpan="8" Margin="0,59,0,10" Background="#FF646464" Height="2" />
 
@@ -248,9 +249,9 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                     </Grid>
-                    <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding EnableButtonConfiguracao}" Content="Salvar" Grid.Column="6" Margin="0,76,10,-38" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"/>
-                    <Button Command="{Binding TestarConexaoCommand}" Margin="0,77,45,-37" IsEnabled="{Binding EnableButtonConfiguracao}" Content="Testar Conexão" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="7"/>
-                    <Label FontWeight="Bold" Content="{Binding Configuracao.Mensagem, Mode=TwoWay}" Margin="10,84,81,-29" Grid.ColumnSpan="6" Grid.Row="7" />
+                    <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding Configurar.EnableButtonConfiguracao}" Content="Salvar" Grid.Column="6" Margin="0,76,10,-38" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"/>
+                    <Button Command="{Binding TestarConexaoCommand}" Margin="0,77,45,-37" IsEnabled="{Binding Configurar.EnableButtonConfiguracao}" Content="Testar Conexão" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="7"/>
+                    <Label FontWeight="Bold" Content="{Binding Configurar.MensagemLabel}" Margin="10,84,81,-29" Grid.ColumnSpan="6" Grid.Row="7" />
 
 
                 </Grid>

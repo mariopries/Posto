@@ -51,18 +51,10 @@ namespace Posto.Win.Update.Infraestrutura
         #region Propriedades
 
         private AtualizarModel _atualizar;
-
         private System.Timers.Timer _timerProximaAtualizacao;
-
         private MainWindowViewModel _mainwindowviewmodel;
-
-        private Ftp _ftp;
-
+        private Ftp _ftp;        
         private ConfiguracaoModel _configuracaoModel;
-
-        private string[] RetornoFtp;
-
-        private List<Atualizacao> ListaSql;
 
         #endregion
 
@@ -71,6 +63,8 @@ namespace Posto.Win.Update.Infraestrutura
         private string Rmenu;
         private int PrimeiraVersao;
         private int UltimaVersao;
+        private string[] RetornoFtp;
+        private List<Atualizacao> ListaSql;
 
         #endregion
 
@@ -82,6 +76,10 @@ namespace Posto.Win.Update.Infraestrutura
             _atualizar = atualizar;
             _mainwindowviewmodel = mainwindowviewmodel;
             _ftp = new Ftp();
+
+            //--Inicializa os indicadores de manutenção
+            _configuracaoModel = _mainwindowviewmodel.Configurar.Configuracoes;
+            
 
             _timerProximaAtualizacao = new System.Timers.Timer();
             _timerProximaAtualizacao.AutoReset = false;
@@ -106,20 +104,9 @@ namespace Posto.Win.Update.Infraestrutura
         {
             AtualizaViewModel();
             BuscaVersoes();
-            if (_atualizar.Versao < UltimaVersao)
-            {
-                _configuracaoModel = configuracaoModel;
-                await ExecuteAsync();
-                _timerProximaAtualizacao.Stop();
-            }
-            else
-            {
-                SetaBarraStatus(System.Windows.Visibility.Hidden, 19);
-
-                _atualizar.MensagemStatus = "Sistema já atualizado com a última versão.";
-
-                MessageBox.Show("Seu sistema já está na última versão disponível", "Sistema atualizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            _configuracaoModel = configuracaoModel;
+            await ExecuteAsync();
+            _timerProximaAtualizacao.Stop();
             atualizarAfter.Execute();
         }
 
@@ -188,12 +175,11 @@ namespace Posto.Win.Update.Infraestrutura
                 //-- Verifica se existe informação para atualizar
                 BuscaVersoes();
 
+                //-- Ativa manutenção no banco, GeneXus se encarregará de indicar manutenção
+                ManutencaoAtiva();
+
                 if (_atualizar.Versao < UltimaVersao)
                 {
-
-                    //-- Ativa manutenção no banco, GeneXus se encarregará de indicar manutenção
-                    ManutencaoAtiva();
-
                     var context = new PostoContext(_configuracaoModel);
 
                     try
@@ -201,7 +187,7 @@ namespace Posto.Win.Update.Infraestrutura
                         context.BeginTransaction();
 
                         //-- Inicia a atualização
-                        _atualizar.Progresso = 0;
+                        _mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra2 = 0;
                         _atualizar.MensagemStatus = "Iniciando atualização...";
 
 
@@ -229,19 +215,19 @@ namespace Posto.Win.Update.Infraestrutura
                         AtualizaViewModel();
 
                         //-- Roda os Rmenu de acordo com a versão
-                        _atualizar.Progresso = 10;
+                        _mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra2 = 10;
                         AtualizarSql(context);
 
                         //-- Baixa os arquivos do FTP e extrai na pasta Update
-                        _atualizar.Progresso = 50;
+                        _mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra2 = 50;
                         AtualizarExe();
 
                         //-- Atualiza o parversao no banco
-                        _atualizar.Progresso = 80;
+                        _mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra2 = 80;
                         AtualizarBanco(context);
 
                         //-- Salva as atualizações
-                        _atualizar.Progresso = 100;
+                        _mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra2 = 100;
                         context.Commit();
                     }
                     catch (Exception e)
@@ -263,9 +249,6 @@ namespace Posto.Win.Update.Infraestrutura
 
                         SetTime();
 
-                        //-- Indica fim de atualização
-                        ManutencaoDesativa();
-
                         //-- Reinicializa os programas
                         ReinicializaProgramas(false, context);
                     }
@@ -280,10 +263,14 @@ namespace Posto.Win.Update.Infraestrutura
                     //-- Atualiza o viewmodel com a nova data
                     AtualizaViewModel();
 
-                    SetaBarraStatus(System.Windows.Visibility.Hidden, 19);
+                    SetaBarraStatus(System.Windows.Visibility.Hidden, 25);
 
                     _atualizar.MensagemStatus = "Sistema já atualizado com a última versão.";
                 }
+
+                //-- Indica fim de atualização
+                ManutencaoDesativa();
+                
             });
         }
 
@@ -296,7 +283,7 @@ namespace Posto.Win.Update.Infraestrutura
             {
                 _atualizar.MensagemStatus = "Baixando arquivos da atualizaçãos...";
 
-                var arquivos = _ftp.Download(PathExe, _atualizar);
+                var arquivos = _ftp.Download(PathExe, _atualizar, _mainwindowviewmodel);
 
                 using (MemoryStream mem = new MemoryStream(arquivos))
                 using (ZipArchive zipStream = new ZipArchive(mem))
@@ -316,8 +303,11 @@ namespace Posto.Win.Update.Infraestrutura
                         _atualizar.MensagemStatus = "Extraindo arquivo (" + filesCount + "/" + zipStream.Entries.Count.ToString() + ")";
                         file.ExtractToFile(completeFileName, true);
                         filesCount++;
+                        //_mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra1 = 
                     }
                 }
+
+                _mainwindowviewmodel.Indicadores.AtualizouExe = true;
             }
             catch (Exception e)
             {
@@ -333,18 +323,20 @@ namespace Posto.Win.Update.Infraestrutura
         {
             try
             {
-                BuscaVersoes();
-
-                _atualizar.MensagemStatus = "Executando Rmenu de v." + PrimeiraVersao.ToString() + " até v." + UltimaVersao.ToString() + "";
+                BuscaVersoes();              
 
                 Rmenu = "";
 
                 ListaSql.ForEach(row =>
                 {
-                    Rmenu += Encoding.ASCII.GetString(_ftp.Download((PathSql + row.Arquivo), _atualizar));
+                    Rmenu += Encoding.ASCII.GetString(_ftp.Download((PathSql + row.Arquivo), _atualizar, _mainwindowviewmodel));
                 });
 
+                _atualizar.MensagemStatus = "Executando Rmenu de v." + _atualizar.Versao.ToString() + " até v." + UltimaVersao.ToString() + "";
+
                 context.Query(Rmenu).ExecuteNonQuery();
+
+                _mainwindowviewmodel.Indicadores.AtualizouBanco = true;
             }
             catch (Exception e)
             {
@@ -382,12 +374,17 @@ namespace Posto.Win.Update.Infraestrutura
         {
             try
             {
-                _atualizar.MensagemStatus = "Preparando para a atualização...";
+                //_atualizar.MensagemStatus = "Preparando para a atualização...";
 
-                var context = new PostoContext(_configuracaoModel);
-                context.Query("UPDATE atualiz SET atumanuten = 'S'").ExecuteNonQuery();
-                context.Query("SELECT pg_terminate_backend(PID) FROM pg_stat_activity WHERE PID <> pg_backend_pid()").ExecuteNonQuery();
-                context.Close();
+                //var context = new PostoContext(_configuracaoModel);
+                //context.Query("UPDATE atualiz SET atumanuten = 'S'").ExecuteNonQuery();
+                //context.Query("SELECT pg_terminate_backend(PID) FROM pg_stat_activity WHERE PID <> pg_backend_pid()").ExecuteNonQuery();
+                //context.Close();
+                _mainwindowviewmodel.Indicadores.EmManutencao = true;
+                _mainwindowviewmodel.Indicadores.FimManutencao = false;
+                _mainwindowviewmodel.Indicadores.AtualizouBanco = false;
+                _mainwindowviewmodel.Indicadores.AtualizouExe = false;
+                _mainwindowviewmodel.Indicadores.DerrubaConexoes();
             }
             catch (Exception e)
             {
@@ -404,9 +401,11 @@ namespace Posto.Win.Update.Infraestrutura
         {
             try
             {
-                var context = new PostoContext(this._configuracaoModel);
-                context.Query("UPDATE atualiz SET atumanuten = 'N'").ExecuteNonQuery();
-                context.Close();
+                //var context = new PostoContext(this._configuracaoModel);
+                //context.Query("UPDATE atualiz SET atumanuten = 'N'").ExecuteNonQuery();
+                //context.Close();
+                _mainwindowviewmodel.Indicadores.EmManutencao = false;
+                _mainwindowviewmodel.Indicadores.FimManutencao = true;
             }
             catch (Exception e)
             {
@@ -421,7 +420,7 @@ namespace Posto.Win.Update.Infraestrutura
         private void ReinicializaProgramas(bool teveErro, PostoContext context)
         {
             context.Close();
-            _atualizar.Progresso = 0;
+            _mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra2 = 0;
             
             //-- Se diretório existir, inicia processo
             if (File.Exists(PathAtualizador))
@@ -443,7 +442,7 @@ namespace Posto.Win.Update.Infraestrutura
                 MessageBox.Show("Houve um erro ao atualizar a versão do sistema. Por favor, entre em contato com o suporte.", "Erro na atualização", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            SetaBarraStatus(System.Windows.Visibility.Hidden, 19);
+            SetaBarraStatus(System.Windows.Visibility.Hidden, 25);
         }
 
         /// <summary>
