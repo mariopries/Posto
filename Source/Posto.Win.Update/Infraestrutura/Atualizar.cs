@@ -482,7 +482,7 @@ namespace Posto.Win.Update.Infraestrutura
         private void SetaBarraStatus(System.Windows.Visibility status, double posicao)
         {
             _mainwindowviewmodel.StackStatus.BarraProgresso.Visao = status;
-            _mainwindowviewmodel.StackStatus.MarginStatusLabel = new System.Windows.Thickness(10, posicao, 10, 0);
+            _mainwindowviewmodel.StackStatus.StatusLabel.Margin = new System.Windows.Thickness(10, posicao, 10, 0);
         }
     }
 }

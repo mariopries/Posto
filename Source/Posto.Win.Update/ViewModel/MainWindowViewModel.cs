@@ -32,20 +32,24 @@ namespace Posto.Win.Update.ViewModel
 
         public class Status : NotificationObject
         {
+            #region Construtor
+
             public Status()
             {
                 BarraProgresso = new Barra();
-                MarginStatusLabel = new System.Windows.Thickness(10,19,10,0);
+                StatusLabel = new Label();
             }
+
+            #endregion
 
             #region Propriedades
 
             private Barra _barraprogresso;
-            private bool _isEnable;
-            private System.Windows.Visibility _visao;
-            private System.Windows.Thickness _marginstatuslabel;
+            private Label _statuslabel;
 
             #endregion
+
+            #region Elementos
 
             public Barra BarraProgresso
             {
@@ -62,6 +66,25 @@ namespace Posto.Win.Update.ViewModel
                     }
                 }
             }
+            public Label StatusLabel
+            {
+                get
+                {
+                    return _statuslabel;
+                }
+                set
+                {
+                    if (_statuslabel != value)
+                    {
+                        _statuslabel = value;
+                        RaisePropertyChanged(() => StatusLabel);
+                    }
+                }
+            }
+
+            #endregion
+
+            #region Classes
 
             public class Barra : NotificationObject
             {
@@ -110,22 +133,37 @@ namespace Posto.Win.Update.ViewModel
                 }
 
             }
-            
-            public System.Windows.Thickness MarginStatusLabel
+            public class Label : NotificationObject
             {
-                get
+                public Label()
                 {
-                    return _marginstatuslabel;
+                    Margin = new System.Windows.Thickness(10, 19, 10, 0);
                 }
-                set
+
+                #region Propriedades
+
+                private System.Windows.Thickness _margin;
+
+                #endregion
+
+                public System.Windows.Thickness Margin
                 {
-                    if (_marginstatuslabel != value)
+                    get
                     {
-                        _marginstatuslabel = value;
-                        RaisePropertyChanged(() => MarginStatusLabel);
+                        return _margin;
+                    }
+                    set
+                    {
+                        if (_margin != value)
+                        {
+                            _margin = value;
+                            RaisePropertyChanged(() => Margin);
+                        }
                     }
                 }
             }
+
+            #endregion
         }
 
         private Status _status;
