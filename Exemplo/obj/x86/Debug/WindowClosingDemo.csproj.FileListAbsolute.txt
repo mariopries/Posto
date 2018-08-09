@@ -28,3 +28,17 @@ F:\Trabalhos\AtualizadorPosto\Exemplo\obj\x86\Debug\WindowClosingDemo.csproj.Gen
 F:\Trabalhos\AtualizadorPosto\Exemplo\obj\x86\Debug\WindowClosingDemo.csproj.CoreCompileInputs.cache
 F:\Trabalhos\AtualizadorPosto\Exemplo\obj\x86\Debug\WindowClosingDemo.exe
 F:\Trabalhos\AtualizadorPosto\Exemplo\obj\x86\Debug\WindowClosingDemo.pdb
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\WindowClosingDemo.exe
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\WindowClosingDemo.pdb
+C:\Workspace\Posto\Exemplo\bin\Debug\WindowClosingDemo.exe
+C:\Workspace\Posto\Exemplo\bin\Debug\WindowClosingDemo.pdb
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\WindowClosingDemo.csprojResolveAssemblyReference.cache
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\MainWindow.g.cs
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\App.g.cs
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\WindowClosingDemo_MarkupCompile.cache
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\WindowClosingDemo_MarkupCompile.lref
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\MainWindow.baml
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\WindowClosingDemo.g.resources
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\WindowClosingDemo.Properties.Resources.resources
+C:\Workspace\Posto\Exemplo\obj\x86\Debug\WindowClosingDemo.csproj.GenerateResource.Cache

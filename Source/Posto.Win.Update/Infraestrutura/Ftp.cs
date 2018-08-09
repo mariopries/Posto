@@ -40,14 +40,32 @@ namespace Posto.Win.Update.Infraestrutura
 
         #region Propriedades
 
-        private AtualizarModel _atualizar;
+        private MainWindowViewModel _mainwindowviewmodel;
+        private AtualizarModel _atualizarmodel;
 
         #endregion
 
+        #region Construtor
         public Ftp()
         {
             Local = ConfigurationManager.AppSettings["LocalPosto"];
         }
+        #endregion
+
+        #region Objetos
+        public MainWindowViewModel MainWindowViewModel
+        {
+            get { return _mainwindowviewmodel; }
+            set { if (_mainwindowviewmodel != value) { _mainwindowviewmodel = value; } }
+        }
+        public AtualizarModel AtualizarModel
+        {
+            get { return _atualizarmodel; }
+            set { if (_atualizarmodel != value) { _atualizarmodel = value; } }
+        }
+        #endregion
+
+        #region Funçoes
 
         public string[] GetFileList(string path)
         {
@@ -94,7 +112,6 @@ namespace Posto.Win.Update.Infraestrutura
                 return downloadFiles;
             }
         }
-
         public long GetFileSize(string path)
         {
             try
@@ -114,11 +131,11 @@ namespace Posto.Win.Update.Infraestrutura
 
             return FileSize;
         }
-
-        public byte[] Download(string path, AtualizarModel atualizar, MainWindowViewModel mainwindowviewmodel)
+        public byte[] Download(string path, MainWindowViewModel mainwindowviewmodel)
         {
+            MainWindowViewModel = mainwindowviewmodel;
+            AtualizarModel = MainWindowViewModel.AbaAtualizar.AtualizarModel;
 
-            _atualizar = atualizar;
             byte[] buffer = new byte[32 * 1024];
             int read;
             try
@@ -142,12 +159,12 @@ namespace Posto.Win.Update.Infraestrutura
 
                         if (Porcentagem > 100)
                         {
-                            _atualizar.MensagemStatus = "Finalizando o download...";
+                            MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Finalizando o download...";
                         }
                         else
                         {
-                            mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra1 = Porcentagem;
-                            _atualizar.MensagemStatus = "Baixando aquivos... ( " + (Porcentagem / 100).ToString("P1") + " )";
+                            MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra1 = Porcentagem;
+                            MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Baixando aquivos... ( " + (Porcentagem / 100).ToString("P1") + " )";
                         }
 
                     }
@@ -161,5 +178,7 @@ namespace Posto.Win.Update.Infraestrutura
 
             return buffer;
         }
+
+        #endregion
     }
 }

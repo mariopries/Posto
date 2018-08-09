@@ -7,8 +7,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:nsmvvm="clr-namespace:NS.MVVM"
         nsmvvm:WindowClosingBehavior.Closed="{Binding ClosedCommand}"
-        nsmvvm:WindowClosingBehavior.Closing="{Binding closingCommand}"
-        nsmvvm:WindowClosingBehavior.CancelClosing="{Binding cancelClosingCommand}"
+        nsmvvm:WindowClosingBehavior.Closing="{Binding FecharCommand}"
+        nsmvvm:WindowClosingBehavior.CancelClosing="{Binding CancelaFecharCommand}"
         xmlns:v="clr-namespace:Posto.Win.Update.View"
         xmlns:vm="clr-namespace:Posto.Win.Update.ViewModel"    
         xmlns:b="clr-namespace:Posto.Win.Update.Behavior"    
@@ -162,9 +162,9 @@
                             <TextBlock Text="Versão Atual:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
                         </StackPanel>
                         <StackPanel VerticalAlignment="Top" Grid.Column="1" Margin="0,31,0,0" Height="78">
-                            <TextBlock Text="{Binding Path=Atualizar.GetDataProximaAtualizacao, StringFormat=dd/MM/yyyy HH:mm}" Style="{StaticResource TextoNormal}" />
-                            <TextBlock Text="{Binding Path=Atualizar.UltimaData, StringFormat=dd/MM/yyyy, Mode=TwoWay}" Style="{StaticResource TextoNormal}" />
-                            <TextBlock Text="{Binding Path=Atualizar.Versao, Mode=TwoWay}" Style="{StaticResource TextoNormal}" Margin="5,5,0,5" />
+                            <TextBlock Text="{Binding AbaAtualizar.AtualizarModel.GetDataProximaAtualizacao, Mode=OneWay, StringFormat=dd/MM/yyyy HH:mm}" Style="{StaticResource TextoNormal}" />
+                            <TextBlock Text="{Binding AbaAtualizar.AtualizarModel.UltimaData, StringFormat=dd/MM/yyyy}" Style="{StaticResource TextoNormal}" />
+                            <TextBlock Text="{Binding AbaAtualizar.AtualizarModel.Versao}" Style="{StaticResource TextoNormal}" Margin="5,5,0,5" />
                         </StackPanel>
                         <Image HorizontalAlignment="Left" Height="50" Margin="22,10,0,0" VerticalAlignment="Top" Width="50" Grid.Column="2" Source="/AtualizacaoAutomatica;component/Fator.ico" RenderTransformOrigin="0.7,0.72"/>
                         <Button Command="{Binding BloquearCommand}" Content="{StaticResource MiImageLock}" Style="{StaticResource TransparentStyle}" Margin="68,114,12,10" RenderTransformOrigin="0.583,-0.8" Grid.Column="2"/>
@@ -172,13 +172,13 @@
                     <Border BorderBrush="#FF646464" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,5,0,0" VerticalAlignment="Top" Width="515" Grid.Row="1"/>
                     <Grid HorizontalAlignment="Left" Height="80" Grid.Row="1" VerticalAlignment="Top" Width="515">
                         <StackPanel Margin="360,37,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="145" Height="33">
-                            <Button Command="{Binding AtualizarCommand}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" HorizontalContentAlignment="Right" RenderTransformOrigin="0.456,0.25" Height="28" Content="Atualizar" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <Button Command="{Binding IniciarCommand}" Visibility="{Binding IsVisibleButtonPausar, Converter={StaticResource InvertBooleanToVisibilityConverter}, Mode=TwoWay}" IsEnabled="{Binding IsEnableButtonAtualizar, Mode=TwoWay}" VerticalContentAlignment="Center" Content="Iniciar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
-                            <Button Command="{Binding PausarCommand}" Visibility="{Binding IsVisibleButtonPausar, Mode=TwoWay, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalContentAlignment="Center" Content="Parar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
+                            <Button Command="{Binding AtualizarCommand}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}" HorizontalContentAlignment="Right" RenderTransformOrigin="0.456,0.25" Height="28" Content="Atualizar" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Button Command="{Binding IniciarCommand}" Visibility="{Binding AbaAtualizar.IsVisibleButtonPausar, Converter={StaticResource InvertBooleanToVisibilityConverter}}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}" VerticalContentAlignment="Center" Content="Iniciar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
+                            <Button Command="{Binding PausarCommand}" Visibility="{Binding AbaAtualizar.IsVisibleButtonPausar, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalContentAlignment="Center" Content="Parar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Left" Height="57" Margin="0,17,0,0" VerticalAlignment="Top" Width="346">
-                            <Label FontWeight="Bold" Content="{Binding Atualizar.MensagemStatus, Mode=TwoWay}" Height="17" Margin="{Binding StackStatus.StatusLabel.Margin}" Padding="0"/>
-                            <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="13" Width="326" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding StackStatus.BarraProgresso.ProgressoBarra1}" Margin="10,0,0,0" Visibility="{Binding StackStatus.BarraProgresso.Visao}">
+                            <Label FontWeight="Bold" Content="{Binding AbaAtualizar.Status.StatusLabel.LabelContent}" Height="17" Margin="{Binding AbaAtualizar.Status.StatusLabel.LabelMargin}" Padding="0"/>
+                            <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="13" Width="326" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding AbaAtualizar.Status.BarraProgresso.ProgressoBarra1}" Margin="10,0,0,0" Visibility="{Binding AbaAtualizar.Status.BarraProgresso.Visao}">
                                 <ProgressBar.BorderBrush>
                                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                         <GradientStop Color="#FFC38C8C"/>
@@ -186,7 +186,7 @@
                                     </LinearGradientBrush>
                                 </ProgressBar.BorderBrush>
                             </ProgressBar>
-                            <ProgressBar Height="13" Margin="10,4,10,0" Visibility="{Binding StackStatus.BarraProgresso.Visao}" Value="{Binding StackStatus.BarraProgresso.ProgressoBarra2}"/>
+                            <ProgressBar Height="13" Margin="10,4,10,0" Visibility="{Binding AbaAtualizar.Status.BarraProgresso.Visao}" Value="{Binding AbaAtualizar.Status.BarraProgresso.ProgressoBarra2}"/>
                         </StackPanel>
                     </Grid>
                 </Grid>

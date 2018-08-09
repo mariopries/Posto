@@ -43,7 +43,7 @@ namespace Posto.Win.UpdateLocal
         #region Eventos
         private void buttonCancelar_Click(object sender, EventArgs e)
         {
-            Posto.ActiveForm.Close();
+            ActiveForm.Close();
         }
         #endregion
 

@@ -9,14 +9,18 @@ namespace Posto.Win.Update.Model
 {
     public class AtualizarModel : NotificationObject
     {
+        #region Propriedades
+
         private int _dia;
         private int _hora;
         private int _minuto;
         private DateTime? _ultimaData;
         private int? _versao;
         private DateTime _dataAtual;
-        private string _mensagemStatus;
-        
+
+        #endregion
+
+        #region Elementos
 
         public int Dia
         {
@@ -85,24 +89,6 @@ namespace Posto.Win.Update.Model
             }
         }
 
-        public string MensagemStatus
-        {
-            get
-            {
-                return _mensagemStatus;
-            }
-            set
-            {
-                if (_mensagemStatus != value)
-                {
-                    _mensagemStatus = value;
-                    RaisePropertyChanged(() => MensagemStatus);
-                }
-            }
-        }
-
-
-
         public DateTime DataAtual
         {
             get
@@ -159,5 +145,7 @@ namespace Posto.Win.Update.Model
                 return dataSemana;
             }
         }
+
+        #endregion
     }
 }

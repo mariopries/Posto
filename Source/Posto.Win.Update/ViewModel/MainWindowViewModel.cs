@@ -12,398 +12,39 @@ using System.Windows.Forms;
 using Posto.Win.Update.Extensions;
 using Posto.Win.Update.DataContext;
 using System.Windows.Input;
+using Posto.Win.Update.Abas;
 
 namespace Posto.Win.Update.ViewModel
 {
     public class MainWindowViewModel : NotificationObject
     {
-        public class Status : NotificationObject
+        #region Enums
+
+        private enum Focus
         {
-            #region Construtor
-
-            public Status()
-            {
-                BarraProgresso = new Barra();
-                StatusLabel = new Label();
-            }
-
-            #endregion
-
-            #region Propriedades
-
-            private Barra _barraprogresso;
-            private Label _statuslabel;
-
-            #endregion
-
-            #region Elementos
-
-            public Barra BarraProgresso
-            {
-                get
-                {
-                    return _barraprogresso;
-                }
-                set
-                {
-                    if (_barraprogresso != value)
-                    {
-                        _barraprogresso = value;
-                        RaisePropertyChanged(() => BarraProgresso);
-                    }
-                }
-            }
-            public Label StatusLabel
-            {
-                get
-                {
-                    return _statuslabel;
-                }
-                set
-                {
-                    if (_statuslabel != value)
-                    {
-                        _statuslabel = value;
-                        RaisePropertyChanged(() => StatusLabel);
-                    }
-                }
-            }
-
-            #endregion
-
-            #region Classes
-
-            public class Barra : NotificationObject
-            {
-                public Barra()
-                {
-                    IsEnable = false;
-                    Visao = System.Windows.Visibility.Hidden;
-                    ProgressoBarra1 = 0;
-                    ProgressoBarra2 = 0;
-                }
-
-                #region Propriedades
-
-                private bool _isEnable;
-                private System.Windows.Visibility _visao;
-                private double _progressbarra1;
-                private double _progressbarra2;
-
-                #endregion
-
-                public bool IsEnable
-                {
-                    get
-                    {
-                        return _isEnable;
-                    }
-                    set
-                    {
-                        if (_isEnable != value)
-                        {
-                            _isEnable = value;
-                            RaisePropertyChanged(() => IsEnable);
-                        }
-                    }
-                }
-                public System.Windows.Visibility Visao
-                {
-                    get
-                    {
-                        return _visao;
-                    }
-                    set
-                    {
-                        if (_visao != value)
-                        {
-                            _visao = value;
-                            RaisePropertyChanged(() => Visao);
-                        }
-                    }
-                }
-                public double ProgressoBarra1
-                {
-                    get
-                    {
-                        return _progressbarra1;
-                    }
-                    set
-                    {
-                        if (_progressbarra1 != value)
-                        {
-                            _progressbarra1 = value;
-                            RaisePropertyChanged(() => ProgressoBarra1);
-                        }
-                    }
-                }
-                public double ProgressoBarra2
-                {
-                    get
-                    {
-                        return _progressbarra2;
-                    }
-                    set
-                    {
-                        if (_progressbarra2 != value)
-                        {
-                            _progressbarra2 = value;
-                            RaisePropertyChanged(() => ProgressoBarra2);
-                        }
-                    }
-                }
-
-            }
-            public class Label : NotificationObject
-            {
-                public Label()
-                {
-                    Margin = new System.Windows.Thickness(10, 25, 10, 0);
-                }
-
-                #region Propriedades
-
-                private System.Windows.Thickness _margin;
-
-                #endregion
-
-                public System.Windows.Thickness Margin
-                {
-                    get
-                    {
-                        return _margin;
-                    }
-                    set
-                    {
-                        if (_margin != value)
-                        {
-                            _margin = value;
-                            RaisePropertyChanged(() => Margin);
-                        }
-                    }
-                }
-            }
-
-            #endregion
+            InputServidor,
+            InputPorta,
+            InputBanco,
+            InputUsuario,
+            InputSenha,
+            InputLocalDiretorio
         }
 
-        public class Configuracao : NotificationObject
-        {
-            #region Enums
+        #endregion
 
-            private enum Focus
-            {
-                InputServidor,
-                InputPorta,
-                InputBanco,
-                InputUsuario,
-                InputSenha,
-                InputLocalDiretorio
-            }
+        #region Propriedades
 
-            #endregion
-
-            #region Propriedades
-
-            private ConfiguracaoModel _configuracoes;
-            private bool _enableButtonConfiguracao;
-            private string _focusElement;
-            private string _mensagemlabel;
-
-            #endregion
-
-            #region Construtor
-
-            public Configuracao()
-            {
-                Configuracoes = ConfiguracaoXml.CarregarConfiguracao().ToModel();
-                EnableButtonConfiguracao = true;
-            }
-
-            #endregion
-
-            #region Funcoes
-
-            public ConfiguracaoModel Configuracoes
-            {
-                get
-                {
-                    return _configuracoes;
-                }
-                set
-                {
-                    if (_configuracoes != value)
-                    {
-                        _configuracoes = value;
-                        RaisePropertyChanged(() => Configuracoes);
-                    }
-                }
-            }
-            public string FocusElement
-            {
-                get
-                {
-                    return _focusElement;
-                }
-                set
-                {
-                    _focusElement = value;
-                    RaisePropertyChanged(() => FocusElement);
-                }
-            }
-            public bool IsValidarConfiguracao(ConfiguracaoModel configuracao)
-            {
-                if (string.IsNullOrWhiteSpace(configuracao.Servidor))
-                {
-                    MensagemLabel = "Erro: Preencha o servidor";
-                    SetFocus(Focus.InputServidor);
-                    return false;
-                }
-
-                if (configuracao.Porta <= 0)
-                {
-                    MensagemLabel = "Erro: Preencha a porta";
-                    SetFocus(Focus.InputPorta);
-                    return false;
-                }
-
-                if (string.IsNullOrWhiteSpace(configuracao.Banco))
-                {
-                    MensagemLabel = "Erro: Preencha o banco de dados";
-                    SetFocus(Focus.InputBanco);
-                    return false;
-                }
-
-                if (string.IsNullOrWhiteSpace(configuracao.Usuario))
-                {
-                    MensagemLabel = "Erro: Preencha o usuário";
-                    SetFocus(Focus.InputUsuario);
-                    return false;
-                }
-
-                if (string.IsNullOrWhiteSpace(configuracao.Senha))
-                {
-                    MensagemLabel = "Erro: Preencha o senha";
-                    SetFocus(Focus.InputSenha);
-                    return false;
-                }
-
-                if (string.IsNullOrWhiteSpace(configuracao.LocalDiretorio))
-                {
-                    MensagemLabel = "Erro: Preencha o diretório";
-                    SetFocus(Focus.InputLocalDiretorio);
-                    return false;
-                }
-                return true;
-            }
-            public bool EnableButtonConfiguracao
-            {
-                get
-                {
-                    return _enableButtonConfiguracao;
-                }
-                set
-                {
-                    if (_enableButtonConfiguracao != value)
-                    {
-                        _enableButtonConfiguracao = value;
-                        RaisePropertyChanged(() => EnableButtonConfiguracao);
-                    }
-                }
-            }
-            public string MensagemLabel
-            {
-                get
-                {
-                    return _mensagemlabel;
-                }
-                set
-                {
-                    if (_mensagemlabel != value)
-                    {
-                        _mensagemlabel = value;
-                        RaisePropertyChanged(() => MensagemLabel);
-                    }
-                }
-            }
-
-            #endregion
-
-            #region Helpers
-
-            private void SetFocus(Focus? focus)
-            {
-                if (focus.HasValue)
-                {
-                    FocusElement = focus.Value.ToString();
-                }
-                else
-                {
-                    FocusElement = string.Empty;
-                }
-            }
-
-            public async void OnSalvar()
-            {
-                await Task.Run(() =>
-                {
-                    if (IsValidarConfiguracao(Configuracoes))
-                    {
-                        EnableButtonConfiguracao = false;
-                        MensagemLabel = "Salvando configuração...";
-
-                        Configuracoes.ToModel().GravarConfiguracao();
-                        MensagemLabel = "Configuração Salva.";
-                        EnableButtonConfiguracao = true;
-                    }
-                });
-            }
-
-            public async void OnTestarConexao()
-            {
-                await OnTestarConexaoAsync();
-            }
-
-            public async Task<bool> OnTestarConexaoAsync()
-            {
-                return await Task.Run(() =>
-                {
-                    var retorno = false;
-
-                    try
-                    {
-                        EnableButtonConfiguracao = false;
-                        MensagemLabel = "Testando Conexao...";
-
-                        (new PostoContext(Configuracoes)).Close();
-                        MensagemLabel = "Conectado com sucesso!";
-                        retorno = true;
-                    }
-                    catch (Exception e)
-                    {
-                        MensagemLabel = e.Message;
-                    }
-                    finally
-                    {
-                        EnableButtonConfiguracao = true;
-                    }
-
-                    return retorno;
-                });
-            }
-
-            #endregion
-        }
-        
-        private Status _status;        
-        private AtualizarModel _atualizar;
-        private Configuracao _configuracoes;
+        private AbaAtualizar _abaatualizar;        
+        private AbaConfiguracoes _abaconfiguracoes;
         private IndicadoresManutencao _indicadores;
-        private Atualizar _atualizarAsync;               
-        private bool _isVisibleButtonPausar;
-        private bool _isEnableButtonAtualizar;
+        private Atualizar _atualizarAsync;
         private bool _dynamicContentControlIsActive;
         private NotificationObject _dynamicContentControl;
+        private string _focusElement;
+
+        #endregion
+
+        #region Construtor
 
         public MainWindowViewModel()
         {
@@ -412,28 +53,22 @@ namespace Posto.Win.Update.ViewModel
 
         private async void OnLoad()
         {
-            Atualizar              = new AtualizarModel();            
-            StackStatus            = new Status();
-            Configurar             = new Configuracao();
-            Indicadores            = new IndicadoresManutencao(Configurar.Configuracoes);
-            _atualizarAsync        = new Atualizar(Atualizar, this);
-            AbrirExplorerCommand   = new DelegateCommand(OnAbrirExplorer);
-            SalvarCommand          = new DelegateCommand(Configurar.OnSalvar);
-            TestarConexaoCommand   = new DelegateCommand(Configurar.OnTestarConexao);
-            AtualizarCommand       = new DelegateCommand(OnAtualizar);
-            AtualizarAfterCommand  = new DelegateCommand(OnAtualizarAfter);
-            IniciarCommand         = new DelegateCommand(OnIniciar);
-            PausarCommand          = new DelegateCommand(OnPausar);
-            LoginCommand           = new DelegateCommand(OnLogin);
-            BloquearCommand        = new DelegateCommand(OnBloquear);
-
-            //FecharCommand          = new DelegateCommand(OnFechar);
-            //CancelFecharCommand    = new DelegateCommand(OnCancelFechar);
-
-            IsVisibleButtonPausar       = false;
-            IsEnableButtonAtualizar     = true;
+            AbaAtualizar            = new AbaAtualizar();
+            AbaConfiguracoes        = new AbaConfiguracoes();
+            Indicadores             = new IndicadoresManutencao(AbaConfiguracoes.ConfiguracaoModel);
+            _atualizarAsync         = new Atualizar(this);
+            AbrirExplorerCommand    = new DelegateCommand(OnAbrirExplorer);
+            SalvarCommand           = new DelegateCommand(OnSalvar);
+            TestarConexaoCommand    = new DelegateCommand(OnTestarConexao);
+            AtualizarCommand        = new DelegateCommand(OnAtualizar);
+            AtualizarAfterCommand   = new DelegateCommand(OnAtualizarAfter);
+            IniciarCommand          = new DelegateCommand(OnIniciar);
+            PausarCommand           = new DelegateCommand(OnPausar);
+            LoginCommand            = new DelegateCommand(OnLogin);
+            BloquearCommand         = new DelegateCommand(OnBloquear);
+            FecharCommand           = new DelegateCommand(OnFechar, OnPodeFechar);
             
-            var conexao = await Configurar.OnTestarConexaoAsync();
+            var conexao = await OnTestarConexaoAsync();
 
             if (conexao)
             {
@@ -449,89 +84,30 @@ namespace Posto.Win.Update.ViewModel
 
             //this.DynamicContentControl = new LoginViewModel(this.LoginCommand);
         }
+        #endregion
 
-        #region Campos
-        
-        public AtualizarModel Atualizar
+        #region Objetos
+
+        public AbaAtualizar AbaAtualizar
+        {
+            get { return _abaatualizar; }
+            set { if (_abaatualizar != value) { _abaatualizar = value; } }
+        }
+        public AbaConfiguracoes AbaConfiguracoes
         {
             get
             {
-                return _atualizar;
+                return _abaconfiguracoes;
             }
             set
             {
-                if (_atualizar != value)
+                if (_abaconfiguracoes != value)
                 {
-                    _atualizar = value;
-                    RaisePropertyChanged(() => Atualizar);
+                    _abaconfiguracoes = value;
+                    RaisePropertyChanged(() => AbaConfiguracoes);
                 }
             }
         }
-
-        public Configuracao Configurar
-        {
-            get
-            {
-                return _configuracoes;
-            }
-            set
-            {
-                if (_configuracoes != value)
-                {
-                    _configuracoes = value;
-                    RaisePropertyChanged(() => Configurar);
-                }
-            }
-        }
-
-        public Status StackStatus
-        {
-            get
-            {
-                return _status;
-            }
-            set
-            {
-                if (_status != value)
-                {
-                    _status = value;
-                    RaisePropertyChanged(() => StackStatus);
-                }
-            }
-        }
-
-        public bool IsVisibleButtonPausar
-        {
-            get
-            {
-                return _isVisibleButtonPausar;
-            }
-            set
-            {
-                if (_isVisibleButtonPausar != value)
-                {
-                    _isVisibleButtonPausar = value;
-                    RaisePropertyChanged(() => IsVisibleButtonPausar);
-                }
-            }
-        }
-
-        public bool IsEnableButtonAtualizar
-        {
-            get
-            {
-                return _isEnableButtonAtualizar;
-            }
-            set
-            {
-                if (_isEnableButtonAtualizar != value)
-                {
-                    _isEnableButtonAtualizar = value;
-                    RaisePropertyChanged(() => IsEnableButtonAtualizar);
-                }
-            }
-        }
-
         public IndicadoresManutencao Indicadores
         {
             get
@@ -561,6 +137,8 @@ namespace Posto.Win.Update.ViewModel
         public DelegateCommand PausarCommand { get; set; }
         public DelegateCommand LoginCommand { get; set; }
         public DelegateCommand BloquearCommand { get; set; }
+        public DelegateCommand FecharCommand { get; set; }
+        public DelegateCommand CancelaFecharCommand { get; set; }
 
         #endregion
 
@@ -574,88 +152,204 @@ namespace Posto.Win.Update.ViewModel
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
                 {
-                    Configurar.Configuracoes.LocalDiretorio = folderDialog.SelectedPath;
+                    AbaConfiguracoes.ConfiguracaoModel.LocalDiretorio = folderDialog.SelectedPath;
                 }
             }
-        }      
-        
+        }              
         private void OnAtualizar()
         {
-            if (Configurar.IsValidarConfiguracao(Configurar.Configuracoes))
+            if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
             {
-                IsEnableButtonAtualizar = false;
-                StackStatus.BarraProgresso.IsEnable = true;
-                _atualizarAsync.Manual(Configurar.Configuracoes, AtualizarAfterCommand);
+                AbaAtualizar.IsEnableButtonAtualizar = false;
+                AbaAtualizar.Status.BarraProgresso.IsEnable = true;
+                _atualizarAsync.Manual(AtualizarAfterCommand);
             }
             else
             {
                 MessageBox.Show("Verifique a aba de configuração!", "Problemas ao inicializar", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
         private void OnAtualizarAfter()
         {
-            IsEnableButtonAtualizar = true;
-            StackStatus.BarraProgresso.IsEnable = false;
+            AbaAtualizar.IsEnableButtonAtualizar = true;
+            AbaAtualizar.Status.BarraProgresso.IsEnable = false;
         }
-
         private void OnIniciar()
         {
             var config = ConfiguracaoXml.CarregarConfiguracao().ToModel();
 
-            if (Configurar.IsValidarConfiguracao(Configurar.Configuracoes))
+            if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
             {
-                _atualizarAsync.Iniciar(config);
-                IsVisibleButtonPausar = true;
-                IsEnableButtonAtualizar = false;
-                StackStatus.BarraProgresso.IsEnable = true;
+                _atualizarAsync.Iniciar(/*config*/);
+                AbaAtualizar.IsVisibleButtonPausar = true;
+                AbaAtualizar.IsEnableButtonAtualizar = false;
+                AbaAtualizar.Status.BarraProgresso.IsEnable = true;
             }
             else
             {
                 MessageBox.Show("Verifique a aba de configuração!", "Problemas ao inicializar", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
         private void OnPausar()
         {
             _atualizarAsync.Pausar();
-            IsVisibleButtonPausar = false;
-            IsEnableButtonAtualizar = true;
+            AbaAtualizar.IsVisibleButtonPausar = false;
+            AbaAtualizar.IsEnableButtonAtualizar = true;
         }
-
         private void OnLogin()
         {
             DynamicContentControl = null;
         }
-
         private void OnBloquear()
         {
             //this.DynamicContentControl = null;
             DynamicContentControl = new LoginViewModel(this.LoginCommand);
         }
-
         private void OnFechar()
         {
-            if (MessageBox.Show("Existe uma atualização em andamento, se sair o procedimento será cancelado. Tem certeza que deseja sair ?", "Sysloja Informa", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            OnPausar();
+            MessageBox.Show("A manutenção ficará pendente, ao abrir o programa, a atualização será automaticamente iniciada.", "Atualização cancelada", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+        private bool OnPodeFechar()
+        {
+            if (Indicadores.EmManutencao && !Indicadores.FimManutencao)
             {
-                Fecha();
+                return MessageBox.Show("Existe uma atualização em andamento, se sair o procedimento será cancelado. Tem certeza que deseja sair?", "Atualização em andamento", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes;
             }
             else
             {
-
+                return true;
             }
         }
-
-        private void OnCancelFechar()
-        {
-            MessageBox.Show("Fechamento cancelado", "Oi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
         private void Fecha()
         {
             System.Windows.Application.Current.Shutdown();
         }
-       
+        private void SetFocus(Focus? focus)
+        {
+            if (focus.HasValue)
+            {
+                FocusElement = focus.Value.ToString();
+            }
+            else
+            {
+                FocusElement = string.Empty;
+            }
+        }
+
+        #endregion
+
+        #region Async
+
+        private async void OnSalvar()
+        {
+            await Task.Run(() =>
+            {
+                if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
+                {
+                    AbaConfiguracoes.EnableButtonConfiguracao = false;
+                    AbaConfiguracoes.MensagemLabel = "Salvando configuração...";
+
+                    AbaConfiguracoes.ConfiguracaoModel.ToModel().GravarConfiguracao();
+                    AbaConfiguracoes.MensagemLabel = "Configuração Salva.";
+                    AbaConfiguracoes.EnableButtonConfiguracao = true;
+                }
+            });
+        }
+        public async void OnTestarConexao()
+        {
+            await OnTestarConexaoAsync();
+        }
+        private async Task<bool> OnTestarConexaoAsync()
+        {
+            return await Task.Run(() =>
+            {
+                var retorno = false;
+
+                try
+                {
+                    AbaConfiguracoes.EnableButtonConfiguracao = false;
+                    AbaConfiguracoes.MensagemLabel = "Testando Conexao...";
+
+                    (new PostoContext(AbaConfiguracoes.ConfiguracaoModel)).Close();
+                    AbaConfiguracoes.MensagemLabel = "Conectado com sucesso!";
+                    retorno = true;
+                }
+                catch (Exception e)
+                {
+                    AbaConfiguracoes.MensagemLabel = e.Message;
+                }
+                finally
+                {
+                    AbaConfiguracoes.EnableButtonConfiguracao = true;
+                }
+
+                return retorno;
+            });
+        }
+
+        #endregion
+
+        #region Funções
+
+        private string FocusElement
+        {
+            get
+            {
+                return _focusElement;
+            }
+            set
+            {
+                _focusElement = value;
+                RaisePropertyChanged(() => FocusElement);
+            }
+        }
+        public bool IsValidarConfiguracao(ConfiguracaoModel configuracao)
+        {
+            if (string.IsNullOrWhiteSpace(configuracao.Servidor))
+            {
+                AbaConfiguracoes.MensagemLabel = "Erro: Preencha o servidor";
+                SetFocus(Focus.InputServidor);
+                return false;
+            }
+
+            if (configuracao.Porta <= 0)
+            {
+                AbaConfiguracoes.MensagemLabel = "Erro: Preencha a porta";
+                SetFocus(Focus.InputPorta);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(configuracao.Banco))
+            {
+                AbaConfiguracoes.MensagemLabel = "Erro: Preencha o banco de dados";
+                SetFocus(Focus.InputBanco);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(configuracao.Usuario))
+            {
+                AbaConfiguracoes.MensagemLabel = "Erro: Preencha o usuário";
+                SetFocus(Focus.InputUsuario);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(configuracao.Senha))
+            {
+                AbaConfiguracoes.MensagemLabel = "Erro: Preencha o senha";
+                SetFocus(Focus.InputSenha);
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(configuracao.LocalDiretorio))
+            {
+                AbaConfiguracoes.MensagemLabel = "Erro: Preencha o diretório";
+                SetFocus(Focus.InputLocalDiretorio);
+                return false;
+            }
+            return true;
+        }
+
         #endregion
 
         #region Controle de Login

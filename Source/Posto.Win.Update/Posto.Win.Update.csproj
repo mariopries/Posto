@@ -103,6 +103,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Abas\AbaAtualizar.cs" />
+    <Compile Include="Abas\AbaConfiguracoes.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -116,6 +118,7 @@
     <Compile Include="Infraestrutura\Atualizar.cs" />
     <Compile Include="Infraestrutura\IndicadoresManutencao.cs" />
     <Compile Include="Infraestrutura\Ftp.cs" />
+    <Compile Include="Infraestrutura\Status.cs" />
     <Compile Include="Model\ConfiguracaoModel.cs" />
     <Compile Include="Model\AtualizarModel.cs" />
     <Compile Include="DataContext\PostoContext.cs" />
