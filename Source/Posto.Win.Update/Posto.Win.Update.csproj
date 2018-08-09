@@ -119,6 +119,9 @@
     <Compile Include="Model\ConfiguracaoModel.cs" />
     <Compile Include="Model\AtualizarModel.cs" />
     <Compile Include="DataContext\PostoContext.cs" />
+    <Compile Include="NS.MVVM\DelegateCommand.cs" />
+    <Compile Include="NS.MVVM\DelegateCommandT.cs" />
+    <Compile Include="NS.MVVM\WindowClosingBehavior.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\LoginView.xaml.cs">

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\
 Posto.Win.Update
 none
 false
 DEBUG;TRACE
-C:\Workspace\Posto\Source\Posto.Win.Update\App.xaml
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\App.xaml
 21164098765
 
-24-1738879408
-741712058877
+27-1209227663
+74-310606115
 View\LoginView.xaml;View\MainWindow.xaml;
 
-True
+False
 

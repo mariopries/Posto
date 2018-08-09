@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Posto.Win.Update.Extensions;
 using Posto.Win.Update.DataContext;
+using System.Windows.Input;
 
 namespace Posto.Win.Update.ViewModel
 {
@@ -393,7 +394,7 @@ namespace Posto.Win.Update.ViewModel
 
             #endregion
         }
-
+        
         private Status _status;        
         private AtualizarModel _atualizar;
         private Configuracao _configuracoes;
@@ -425,6 +426,9 @@ namespace Posto.Win.Update.ViewModel
             PausarCommand          = new DelegateCommand(OnPausar);
             LoginCommand           = new DelegateCommand(OnLogin);
             BloquearCommand        = new DelegateCommand(OnBloquear);
+
+            //FecharCommand          = new DelegateCommand(OnFechar);
+            //CancelFecharCommand    = new DelegateCommand(OnCancelFechar);
 
             IsVisibleButtonPausar       = false;
             IsEnableButtonAtualizar     = true;
@@ -628,6 +632,28 @@ namespace Posto.Win.Update.ViewModel
         {
             //this.DynamicContentControl = null;
             DynamicContentControl = new LoginViewModel(this.LoginCommand);
+        }
+
+        private void OnFechar()
+        {
+            if (MessageBox.Show("Existe uma atualização em andamento, se sair o procedimento será cancelado. Tem certeza que deseja sair ?", "Sysloja Informa", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            {
+                Fecha();
+            }
+            else
+            {
+
+            }
+        }
+
+        private void OnCancelFechar()
+        {
+            MessageBox.Show("Fechamento cancelado", "Oi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void Fecha()
+        {
+            System.Windows.Application.Current.Shutdown();
         }
        
         #endregion

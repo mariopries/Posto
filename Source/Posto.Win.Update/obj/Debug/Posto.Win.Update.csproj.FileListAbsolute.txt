@@ -27,6 +27,13 @@ C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.Properties
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csproj.GenerateResource.Cache
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.exe
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.pdb
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\View\LoginView.baml
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\View\LoginView.g.cs
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\View\MainWindow.g.cs
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\App.g.cs
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\GeneratedInternalTypeHelper.g.cs
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica_MarkupCompile.cache
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica_MarkupCompile.lref
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\AtualizacaoAutomatica.exe.config
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\AtualizacaoAutomatica.exe
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\AtualizacaoAutomatica.pdb
@@ -43,13 +50,6 @@ F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\log4net.xml
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\Microsoft.Practices.Prism.xml
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\Npgsql.xml
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\bin\Debug\System.Threading.Tasks.Extensions.xml
-F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\View\LoginView.baml
-F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\View\LoginView.g.cs
-F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\View\MainWindow.g.cs
-F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\App.g.cs
-F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\GeneratedInternalTypeHelper.g.cs
-F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica_MarkupCompile.cache
-F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica_MarkupCompile.lref
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\View\MainWindow.baml
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.g.resources
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.Properties.Resources.resources
@@ -57,4 +57,3 @@ F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csproj.CoreCompileInputs.cache
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.exe
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\AtualizacaoAutomatica.pdb
-F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csprojResolveAssemblyReference.cache

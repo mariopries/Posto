@@ -301,9 +301,9 @@ namespace Posto.Win.Update.Infraestrutura
                         }
 
                         _atualizar.MensagemStatus = "Extraindo arquivo (" + filesCount + "/" + zipStream.Entries.Count.ToString() + ")";
+                        _mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra1 = (filesCount / zipStream.Entries.Count) * 100;
                         file.ExtractToFile(completeFileName, true);
-                        filesCount++;
-                        //_mainwindowviewmodel.StackStatus.BarraProgresso.ProgressoBarra1 = 
+                        filesCount++;                        
                     }
                 }
 
