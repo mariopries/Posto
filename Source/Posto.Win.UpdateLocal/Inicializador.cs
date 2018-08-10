@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//
 using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
@@ -12,17 +11,60 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using System.Windows.Forms;
 using System.Reflection;
-
+using Posto.Win.UpdateLocal.Estrutura;
+using Posto.Win.UpdateLocal.Extensions;
 
 namespace Posto.Win.UpdateLocal
 {
     public class Inicializador
     {
-        private string _local;
-        private string _servidor;
+        #region Propriedades
+
+        private Configuracoes _configuracoes;
         private List<FileInfo> _arquivos;
         private List<FileInfo> _arquivosNovos;
         private BackgroundWorker _bgWInicializador;
+
+        #endregion
+
+        #region Construtor
+
+        public Inicializador()
+        {
+            Configuracoes = ConfiguracoesXml.CarregarConfiguracao().ToModel();
+            if (Configuracoes.Local == null) { Configuracoes.Local = @"C:\Metodos\"; }
+            if (Configuracoes.Servidor == null) { Configuracoes.Servidor = @"C:\Metodos\"; }
+            Configuracoes.ToModel().GravarConfiguracao();
+            Arquivos = new List<FileInfo>();
+            ArquivosNovos = new List<FileInfo>();
+        }
+
+        #endregion
+
+        #region Objetos
+
+        public Configuracoes Configuracoes
+        {
+            get { return _configuracoes; }
+            set { if (_configuracoes != value) { _configuracoes = value; } }
+        }
+        public List<FileInfo> Arquivos
+        {
+            get { return _arquivos; }
+            set { if (_arquivos != value) { _arquivos = value; } }
+        }
+        public List<FileInfo> ArquivosNovos
+        {
+            get { return _arquivosNovos; }
+            set { if (_arquivosNovos != value) { _arquivosNovos = value; } }
+        }
+        public BackgroundWorker BackgroundWorker
+        {
+            get { return _bgWInicializador; }
+            set { if (_bgWInicializador != value) { _bgWInicializador = value; } }
+        }
+
+        #endregion
 
         /// <summary>
         /// Inicia o processo de verificação da versão dos arquivos
@@ -32,11 +74,10 @@ namespace Posto.Win.UpdateLocal
         {
             try
             {
-                _arquivos = new List<FileInfo>();
-                _arquivosNovos = new List<FileInfo>();
-
                 //-- Backgound Worker da tela principal
-                _bgWInicializador = worker;
+                BackgroundWorker = worker;
+
+                TestaVersaoPrograma(executavel);
 
                 //-- Carrega as configurações
                 LoadConfiguracoes(executavel);
@@ -61,7 +102,46 @@ namespace Posto.Win.UpdateLocal
         }
 
         /// <summary>
-        /// Executa o Posto
+        /// Testa a versão do exe, se tiver diferença roda o programa de atualizar
+        /// </summary>
+        /// <param name="executavel"></param>
+        private void TestaVersaoPrograma(Aplicativo executavel)
+        {
+            try
+            {
+                UpdateProgress("Verificando a versão do programa.");
+
+                Arquivos = new List<FileInfo>();
+                ArquivosNovos = new List<FileInfo>();
+
+                Arquivos.Add(new FileInfo(Configuracoes.Servidor + @"App\Posto.exe"));
+
+                foreach (var arquivo in Arquivos)
+                {
+                    var local = new FileInfo(arquivo.FullName.Replace(Configuracoes.Servidor, Configuracoes.Local));
+                    var servidor = arquivo;
+
+                    if (servidor.Exists)
+                    {
+                        if (local.LastWriteTimeUtc != servidor.LastWriteTimeUtc || local.Length != servidor.Length)
+                        {
+                            Process.Start(Configuracoes.Local + "uTerUpdate.exe", executavel.ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null)
+                {
+                    e = e.InnerException;
+                }
+                throw new Exception(string.Format("Não foi possível verificar a versão dos arquivos: \n{0}", e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Executa aplicativo de acordo com parâmetro
         /// </summary>
         private void Executar(Aplicativo executavel)
         {
@@ -72,7 +152,7 @@ namespace Posto.Win.UpdateLocal
                 //Executa os .EXE corretos
                 processo.StartInfo.FileName = GetEnumCategory(executavel);
 
-                processo.StartInfo.WorkingDirectory = _local;
+                processo.StartInfo.WorkingDirectory = Configuracoes.Local;
                 processo.StartInfo.Arguments = "1";
                 processo.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
                 processo.Start();
@@ -102,42 +182,36 @@ namespace Posto.Win.UpdateLocal
             {
                 UpdateProgress("Carregando configurações do sistema.");
 
-                //-- Endereço local
-                _local = ConfigurationManager.AppSettings["Local"];
-
-                //-- Endereço do servidor
-                _servidor = ConfigurationManager.AppSettings["Servidor"];
-
                 //-- Adiciona Executávl solicitado pelo usuário.
-                _arquivos.Add(new FileInfo(_servidor + GetEnumCategory(aplicativo)));
+                Arquivos.Add(new FileInfo(Configuracoes.Servidor + GetEnumCategory(aplicativo)));
 
                 //-- Adiciona DLLs
-                foreach (string newPath in Directory.GetFiles(_servidor, "*.dll", SearchOption.AllDirectories))
+                foreach (string newPath in Directory.GetFiles(Configuracoes.Servidor, "*.dll", SearchOption.AllDirectories))
                 {
-                    _arquivos.Add(new FileInfo(newPath));
+                    Arquivos.Add(new FileInfo(newPath));
                 }
 
                 //-- Adiciona todos os arquivos na lista na pasta templater
-                foreach (string newPath in Directory.GetFiles(_servidor + @"\Template", "*.*", SearchOption.AllDirectories))
+                foreach (string newPath in Directory.GetFiles(Configuracoes.Servidor + @"\Template", "*.*", SearchOption.AllDirectories))
                 {
-                    _arquivos.Add(new FileInfo(newPath));
+                    Arquivos.Add(new FileInfo(newPath));
                 }
                 //-- Adiciona .jpg
-                foreach (string newPath in Directory.GetFiles(_servidor, "*.jpg", SearchOption.AllDirectories))
+                foreach (string newPath in Directory.GetFiles(Configuracoes.Servidor, "*.jpg", SearchOption.AllDirectories))
                 {
-                    _arquivos.Add(new FileInfo(newPath));
+                    Arquivos.Add(new FileInfo(newPath));
                 }
 
                 //-- Adiciona .xml
-                foreach (string newPath in Directory.GetFiles(_servidor, "*.xml", SearchOption.AllDirectories))
+                foreach (string newPath in Directory.GetFiles(Configuracoes.Servidor, "*.xml", SearchOption.AllDirectories))
                 {
-                    _arquivos.Add(new FileInfo(newPath));
+                    Arquivos.Add(new FileInfo(newPath));
                 }
 
                 //-- Adiciona .config
-                foreach (string newPath in Directory.GetFiles(_servidor, "*.config", SearchOption.AllDirectories))
+                foreach (string newPath in Directory.GetFiles(Configuracoes.Servidor, "*.config", SearchOption.AllDirectories))
                 {
-                    _arquivos.Add(new FileInfo(newPath));
+                    Arquivos.Add(new FileInfo(newPath));
                 }
             }
             catch (Exception e)
@@ -175,23 +249,23 @@ namespace Posto.Win.UpdateLocal
             {
                 UpdateProgress("Verificando novos arquivos no servidor.");
 
-                _arquivosNovos = new List<FileInfo>();
+                ArquivosNovos = new List<FileInfo>();
 
-                foreach (var arquivo in _arquivos)
+                foreach (var arquivo in Arquivos)
                 {
                     if (arquivo.Exists)
                     {
-                        var local = new FileInfo(arquivo.FullName.Replace(_servidor, _local));
+                        var local = new FileInfo(arquivo.FullName.Replace(Configuracoes.Servidor, Configuracoes.Local));
                         var servidor = arquivo;
 
                         if (local.LastWriteTimeUtc != servidor.LastWriteTimeUtc || local.Length != servidor.Length)
                         {
-                            _arquivosNovos.Add(arquivo);
+                            ArquivosNovos.Add(arquivo);
                         }
                     }
                     else
                     {
-                        _arquivosNovos.Add(arquivo);
+                        ArquivosNovos.Add(arquivo);
                     }
                 }
             }
@@ -214,12 +288,11 @@ namespace Posto.Win.UpdateLocal
             {
                 UpdateProgress("Atualizando o Posto, aguarde...");
 
-                foreach (var arquivo in _arquivosNovos)
+                foreach (var arquivo in ArquivosNovos)
                 {
-                    var local = arquivo.FullName.Replace(_servidor, _local);
+                    var local = arquivo.FullName.Replace(Configuracoes.Servidor, Configuracoes.Local);
                     var diretorio = Path.GetDirectoryName(local);
-
-
+                    
                     if (!Directory.Exists(diretorio))
                     {
                         Directory.CreateDirectory(diretorio);
@@ -237,8 +310,7 @@ namespace Posto.Win.UpdateLocal
                 throw new Exception(string.Format("Não foi possível atualizar os arquivos: \n{0}", e.Message));
             }
         }
-
-
+        
         /// <summary>
         /// Atualiza o status doque está sendo feito
         /// </summary>

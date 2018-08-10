@@ -9,24 +9,28 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TerminalUpdate.Estrutura;
+using TerminalUpdate.Extensoes;
 
 namespace TerminalUpdate
 {
     class Atualizador
     {
-        private string _local;
-        private string _servidor;
+
         private string _argumento;
         private List<FileInfo> _arquivos;
         private List<FileInfo> _arquivosNovos;
+        private Configuracoes _configuracoes;
 
         public Atualizador(string argumento)
         {
-            Console.Write("Carregando configurações do sistema.\n");
+            Console.WriteLine("Carregando configurações do sistema.");
             try
             {
-                Local = ConfigurationManager.AppSettings["Local"];
-                Server = ConfigurationManager.AppSettings["Servidor"];
+                Configuracoes = ConfiguracoesXml.CarregarConfiguracao().ToModel();
+                if (Configuracoes.Local == null) { Configuracoes.Local = @"C:\Metodos\"; }
+                if (Configuracoes.Servidor == null) { Configuracoes.Servidor = @"C:\Metodos\"; }
+                Configuracoes.ToModel().GravarConfiguracao();
                 Argumento = argumento;
                 Arquivos = new List<FileInfo>();
                 ArquivosNovos = new List<FileInfo>();
@@ -37,7 +41,7 @@ namespace TerminalUpdate
                 {
                     e = e.InnerException;
                 }
-                Console.Write(string.Format("Não foi possível iniciar a atualização porque: \n{0}", e.Message));
+                Console.WriteLine(string.Format("Não foi possível iniciar a atualização porque: \n{0}", e.Message));
             }
             finally
             {
@@ -51,15 +55,10 @@ namespace TerminalUpdate
             get { return _argumento; }
             set { if (_argumento != value) { _argumento = value; } }
         }
-        private string Local
+        private Configuracoes Configuracoes
         {
-            get { return _local; }
-            set { if (_local != value) { _local = value; } }
-        }
-        private string Server
-        {
-            get { return _servidor; }
-            set { if (_servidor != value) { _servidor = value; } }
+            get { return _configuracoes; }
+            set { if (_configuracoes != value) { _configuracoes = value; } }
         }
         private List<FileInfo> Arquivos
         {
@@ -74,10 +73,32 @@ namespace TerminalUpdate
         
         public void Start()
         {
+            FinalizaAplicativo();
             CarregaArquivosServidor();
             VerificaVersaoDosArquivos();
             AtualizaArquivos();
             Executar();
+        }
+
+        public void FinalizaAplicativo()
+        {
+            try
+            {
+                Process[]
+                processes = Process.GetProcessesByName("Posto");
+                foreach (Process process in processes)
+                {
+                    process.Kill();
+                }
+            }
+            catch(Exception e)
+            {
+                while (e.InnerException != null)
+                {
+                    e = e.InnerException;
+                }
+                Console.WriteLine(string.Format("Não foi possível encerrar Posto.exe porque: \n{0}", e.Message));
+            }
         }
 
         public void CarregaArquivosServidor()
@@ -85,7 +106,7 @@ namespace TerminalUpdate
             try
             {
                 //-- Adiciona todos os arquivos na lista na pasta templater
-                foreach (string newPath in Directory.GetFiles(Server + @"\App", "*.*", SearchOption.AllDirectories))
+                foreach (string newPath in Directory.GetFiles(Configuracoes.Servidor + @"\App", "*.*", SearchOption.AllDirectories))
                 {
                     Arquivos.Add(new FileInfo(newPath));
                 }
@@ -103,13 +124,13 @@ namespace TerminalUpdate
         {
             try
             {
-                Console.WriteLine("Verificando novos arquivos no servidor.\n");                
+                Console.WriteLine("Verificando novos arquivos no servidor.");                
 
                 foreach (var arquivo in Arquivos)
                 {
                     if (arquivo.Exists)
                     {
-                        var local = new FileInfo(arquivo.FullName.Replace(Server, Local));
+                        var local = new FileInfo(arquivo.FullName.Replace(Configuracoes.Servidor, Configuracoes.Local));
                         var servidor = arquivo;
 
                         if (local.LastWriteTimeUtc != servidor.LastWriteTimeUtc || local.Length != servidor.Length)
@@ -136,11 +157,11 @@ namespace TerminalUpdate
         {
             try
             {
-                Console.Write("Atualizando o Posto, aguarde...");
+                Console.WriteLine("Atualizando o Posto, aguarde...");
 
                 foreach (var arquivo in ArquivosNovos)
                 {
-                    var local = arquivo.FullName.Replace(Server, Local);
+                    var local = arquivo.FullName.Replace(Configuracoes.Servidor, Configuracoes.Local);
                     var diretorio = Path.GetDirectoryName(local);
 
 
@@ -169,7 +190,7 @@ namespace TerminalUpdate
             {
                 //Executa os .EXE corretos
                 processo.StartInfo.FileName = "Posto.exe";
-                processo.StartInfo.WorkingDirectory = Local + "App\\";
+                processo.StartInfo.WorkingDirectory = Configuracoes.Local + "App\\";
                 processo.StartInfo.Arguments = Argumento;
                 processo.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
                 processo.Start();

@@ -7,3 +7,12 @@ C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.
 C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.csproj.GenerateResource.Cache
 C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.exe
 C:\Workspace\Posto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.pdb
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.exe.config
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.exe
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.pdb
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.Posto.resources
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.Properties.Resources.resources
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.csproj.GenerateResource.Cache
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.csproj.CoreCompileInputs.cache
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.exe
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.pdb

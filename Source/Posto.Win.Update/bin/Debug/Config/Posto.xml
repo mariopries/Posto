@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Configuracao xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Servidor>localhost</Servidor>
   <Porta>5432</Porta>
-  <Banco>posto</Banco>
-  <Usuario>posto</Usuario>
-  <Senha>p172202o</Senha>
-  <LocalDiretorio>C:\metodos\Update</LocalDiretorio>
-  <LeitorBomba>true</LeitorBomba>
-  <PostoWeb>true</PostoWeb>
+  <LeitorBomba>false</LeitorBomba>
+  <PostoWeb>false</PostoWeb>
 </Configuracao>

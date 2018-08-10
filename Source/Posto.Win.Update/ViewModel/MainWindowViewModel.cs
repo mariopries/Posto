@@ -180,7 +180,7 @@ namespace Posto.Win.Update.ViewModel
 
             if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
             {
-                _atualizarAsync.Iniciar(/*config*/);
+                _atualizarAsync.Iniciar();
                 AbaAtualizar.IsVisibleButtonPausar = true;
                 AbaAtualizar.IsEnableButtonAtualizar = false;
                 AbaAtualizar.Status.BarraProgresso.IsEnable = true;
@@ -208,13 +208,13 @@ namespace Posto.Win.Update.ViewModel
         private void OnFechar()
         {
             OnPausar();
-            MessageBox.Show("A manutenção ficará pendente, ao abrir o programa, a atualização será automaticamente iniciada.", "Atualização cancelada", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //MessageBox.Show("A manutenção ficará pendente, ao abrir o programa, a atualização será automaticamente iniciada.", "Atualização cancelada", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
         private bool OnPodeFechar()
         {
             if (Indicadores.EmManutencao && !Indicadores.FimManutencao)
             {
-                return MessageBox.Show("Existe uma atualização em andamento, se sair o procedimento será cancelado. Tem certeza que deseja sair?", "Atualização em andamento", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes;
+                return MessageBox.Show("Existe uma atualização em andamento, se sair o procedimento será cancelado. Ao abrir o programa, a atualização será automaticamente iniciada. Tem certeza que deseja sair?", "Atualização em andamento", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes;
             }
             else
             {
