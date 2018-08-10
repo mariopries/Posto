@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
@@ -58,6 +59,7 @@ namespace Posto.Win.Update.Infraestrutura
         private int UltimaVersao;
         private string[] RetornoFtp;
         private List<Atualizacao> ListaSql;
+        private bool ErroAtualizacao = false;
 
         #endregion
 
@@ -75,6 +77,7 @@ namespace Posto.Win.Update.Infraestrutura
             TimerProximaAtualizacao = new System.Timers.Timer();
             TimerProximaAtualizacao.AutoReset = false;
             TimerProximaAtualizacao.Elapsed += Execute;
+            
         }
         #endregion
 
@@ -89,7 +92,7 @@ namespace Posto.Win.Update.Infraestrutura
         {
             get { return _atualizarModel; }
             set { if (_atualizarModel != value) { _atualizarModel = value; } }
-        }        
+        }
         public ConfiguracaoModel ConfiguracaoModel
         {
             get { return _configuracaoModel; }
@@ -107,7 +110,7 @@ namespace Posto.Win.Update.Infraestrutura
         }
 
         #endregion
-        
+
         #region Funções
 
         /// <summary>
@@ -141,7 +144,7 @@ namespace Posto.Win.Update.Infraestrutura
         /// <summary>
         /// Atualiza viewmodel com as informações do banco de dados
         /// </summary>
-        public void AtualizaViewModel()
+        public bool AtualizaViewModel()
         {
             try
             {
@@ -161,10 +164,12 @@ namespace Posto.Win.Update.Infraestrutura
                     }
                 }
                 context.Close();
+                return true;
             }
             catch (Exception e)
             {
                 log.Error(e.Message);
+                return false;
             }
         }
 
@@ -203,114 +208,163 @@ namespace Posto.Win.Update.Infraestrutura
         {
             await Task.Run(() =>
             {
-                SetaBarraStatus(System.Windows.Visibility.Visible, 0);
-
-                //-- Verifica se existe informação para atualizar
-                BuscaVersoes();
-
-                //-- Ativa manutenção no banco, GeneXus se encarregará de indicar manutenção
-                ManutencaoAtiva();
-
-                if (AtualizarModel.Versao < UltimaVersao)
+                try
                 {
-                    var context = new PostoContext(ConfiguracaoModel);
+                    SetaBarraStatus(System.Windows.Visibility.Visible, 0);
 
-                    try
+                    //-- Verifica se existe informação para atualizar
+                    MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Buscando versões do sistema...";
+                    if (BuscaVersoes())
                     {
-                        context.BeginTransaction();
-
-                        //-- Inicia a atualização
-                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 0;
-                        MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Iniciando atualização...";
-
-
-                        //-- Encerra o processo do leitor de bombas caso parâmetro seja true
-                        if (ConfiguracaoModel.LeitorBomba)
+                        //-- Ativa manutenção no banco, GeneXus se encarregará de indicar manutenção                        
+                        if (ManutencaoAtiva())
                         {
-                            Process[] processes = Process.GetProcessesByName("uLeitor");
-                            foreach (Process process in processes)
+                            if (AtualizarModel.Versao < UltimaVersao)
                             {
-                                process.Kill();
+                                //-- Inicia a atualização
+                                MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 0;
+                                MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Iniciando atualização...";
+
+                                var context = new PostoContext(ConfiguracaoModel);
+
+                                try
+                                {
+                                    context.BeginTransaction();
+
+                                    //-- Encerra o processo do leitor de bombas caso parâmetro seja true
+                                    if (ConfiguracaoModel.LeitorBomba)
+                                    {
+                                        Process[] processes = Process.GetProcessesByName("uLeitor");
+                                        foreach (Process process in processes)
+                                        {
+                                            process.Kill();
+                                        }
+                                    }
+
+                                    //-- Encerra o processo do posto web caso parâmetro seja true
+                                    if (ConfiguracaoModel.PostoWeb)
+                                    {
+                                        Process[] processes = Process.GetProcessesByName("uPostoWe");
+                                        foreach (Process process in processes)
+                                        {
+                                            process.Kill();
+                                        }
+                                    }
+
+                                    TimerProximaAtualizacao.Stop();
+
+                                    if (AtualizaViewModel())
+                                    {
+                                        //-- Roda os Rmenu de acordo com a versão
+                                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 10;
+                                        if (AtualizarSql(context))
+                                        {
+                                            //-- Baixa os arquivos do FTP e extrai na pasta Update
+                                            MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 50;
+                                            if (AtualizarExe())
+                                            {
+                                                //-- Atualiza o parversao no banco
+                                                MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 80;
+                                                if (AtualizarBanco(context))
+                                                {
+                                                    //-- Salva as atualizações
+                                                    if (ManutencaoDesativa())
+                                                    {
+                                                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 100;
+                                                    }
+                                                    else
+                                                    {
+                                                        throw new Exception("Problemas ao finalizar a manutenção.");
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    throw new Exception("Problemas ao atualizar o banco de dados.");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                throw new Exception("Problemas com o download dos arquivos.");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Problemas ao rodar o rmenu.");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Problemas ao atualizar informações do programa.");
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    log.Error(e.Message);
+                                    MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao atualizar.";
+                                    ReinicializaProgramas(true, context);
+                                }
+                                finally
+                                {
+                                    SetTime();
+                                    TimerProximaAtualizacao.Stop();
+                                    MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Atualizado com sucesso.";
+                                    ReinicializaProgramas(false, context);
+                                }
+                            }
+                            else
+                            {
+                                var context = new PostoContext(ConfiguracaoModel);
+
+                                //-- Atualiza no banco a data da ultima verificação de atualização
+                                if (AtualizarBanco(context))
+                                {
+                                    //-- Atualiza o viewmodel com a nova data
+                                    if (AtualizaViewModel())
+                                    {
+                                        //-- Indica fim de atualização
+                                        if (ManutencaoDesativa())
+                                        {
+                                            SetaBarraStatus(System.Windows.Visibility.Hidden, 25);
+                                            MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Sistema já atualizado com a última versão.";
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Problemas ao finalizar a manutenção.");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new Exception("Problemas ao atualizar os dados do programa.");
+                                    }
+                                }
+                                else
+                                {
+                                    throw new Exception("Problemas com a comunicação com o banco de dados.");
+                                }
                             }
                         }
-
-                        //-- Encerra o processo do posto web caso parâmetro seja true
-                        if (ConfiguracaoModel.PostoWeb)
+                        else
                         {
-                            Process[] processes = Process.GetProcessesByName("uPostoWe");
-                            foreach (Process process in processes)
-                            {
-                                process.Kill();
-                            }
+                            throw new Exception("Problemas com a comunicação com o banco de dados.");
                         }
-
-                        TimerProximaAtualizacao.Stop();
-                        AtualizaViewModel();
-
-                        //-- Roda os Rmenu de acordo com a versão
-                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 10;
-                        AtualizarSql(context);
-
-                        //-- Baixa os arquivos do FTP e extrai na pasta Update
-                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 50;
-                        AtualizarExe();
-
-                        //-- Atualiza o parversao no banco
-                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 80;
-                        AtualizarBanco(context);
-
-                        //-- Salva as atualizações
-                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 100;
-                        context.Commit();
                     }
-                    catch (Exception e)
+                    else
                     {
-                        context.RollBack();
-
-                        log.Error(e.Message);
-
-                        MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao atualizar.";
-
-                        //-- Reinicializa os programas
-                        ReinicializaProgramas(true, context);
-                    }
-                    finally
-                    {
-                        TimerProximaAtualizacao.Stop();
-
-                        MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Atualizado com sucesso.";
-
-                        SetTime();
-
-                        //-- Reinicializa os programas
-                        ReinicializaProgramas(false, context);
+                        throw new Exception("Problemas com a comunicação com o servidor ftp");
                     }
                 }
-                else
-                {   
-                    var context = new PostoContext(ConfiguracaoModel);   
-                                     
-                    //-- Atualiza no banco a data da ultima verificação de atualização
-                    AtualizarBanco(context);
-
-                    //-- Atualiza o viewmodel com a nova data
-                    AtualizaViewModel();
-
-                    SetaBarraStatus(System.Windows.Visibility.Hidden, 25);
-
-                    MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Sistema já atualizado com a última versão.";
+                catch (Exception e)
+                {
+                    log.Error(e.Message);
+                    MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao atualizar.";
                 }
-
-                //-- Indica fim de atualização
-                ManutencaoDesativa();
-                
             });
         }
 
         /// <summary>
         /// Atualização de arquivos
         /// </summary>
-        private void AtualizarExe()
+        private bool AtualizarExe()
         {
             try
             {
@@ -336,30 +390,33 @@ namespace Posto.Win.Update.Infraestrutura
                         MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Extraindo arquivo (" + filesCount + "/" + zipStream.Entries.Count.ToString() + ")";
                         MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra1 = ((double)filesCount / zipStream.Entries.Count) * 100;
                         file.ExtractToFile(completeFileName, true);
-                        filesCount++;                        
+                        filesCount++;
                     }
                 }
 
                 MainWindowViewModel.Indicadores.AtualizouExe = true;
+                return true;
             }
             catch (Exception e)
             {
                 log.Error(e.Message);
                 MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao atualizar programas.";
+                return false;
             }
         }
 
         /// <summary>
         /// Roda Rmenu todos de uma vez e retorna a ultima versão
         /// </summary>
-        private void AtualizarSql(PostoContext context)
+        private bool AtualizarSql(PostoContext context)
         {
             try
             {
-                BuscaVersoes();              
+                BuscaVersoes();
 
                 Rmenu = "";
 
+                MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Baixando o Rmenu...";
                 ListaSql.ForEach(row =>
                 {
                     Rmenu += Encoding.ASCII.GetString(Ftp.Download((PathSql + row.Arquivo), MainWindowViewModel));
@@ -373,37 +430,45 @@ namespace Posto.Win.Update.Infraestrutura
             }
             catch (Exception e)
             {
+                context.RollBack();
                 log.Error(e.Message);
                 MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao rodar o Rmenu.";
+                return false;
             }
-
-            if (UltimaVersao <= 0)
+            finally
             {
-                UltimaVersao = AtualizarModel.Versao.GetValueOrDefault();
+                context.Commit();
+                if (UltimaVersao <= 0)
+                {
+                    UltimaVersao = AtualizarModel.Versao.GetValueOrDefault();
+                }
             }
+            return true;
         }
 
         /// <summary>
         /// Atualiza data da atualização no banco de dados com a data atual
         /// </summary>
-        private void AtualizarBanco(PostoContext context)
+        private bool AtualizarBanco(PostoContext context)
         {
             try
             {
                 MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Atualizando versão do banco de dados...";
                 context.Query("UPDATE atualiz SET atuDatAtua = '" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") + "'").ExecuteNonQuery();
+                return true;
             }
             catch (Exception e)
             {
                 log.Error(e.Message);
                 MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao atualizar versão.";
+                return false;
             }
         }
 
         /// <summary>
         /// Ativa manutenção no banco de dados
         /// </summary>
-        private void ManutencaoAtiva()
+        private bool ManutencaoAtiva()
         {
             try
             {
@@ -413,11 +478,13 @@ namespace Posto.Win.Update.Infraestrutura
                 MainWindowViewModel.Indicadores.AtualizouBanco = false;
                 MainWindowViewModel.Indicadores.AtualizouExe = false;
                 MainWindowViewModel.Indicadores.DerrubaConexoes();
+                return true;
             }
             catch (Exception e)
             {
                 log.Error(e.Message);
                 MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao atualizar dados.";
+                return false;
             }
 
         }
@@ -425,17 +492,19 @@ namespace Posto.Win.Update.Infraestrutura
         /// <summary>
         /// Desativa manutenção no banco de dados
         /// </summary>
-        private void ManutencaoDesativa()
+        private bool ManutencaoDesativa()
         {
             try
             {
                 MainWindowViewModel.Indicadores.EmManutencao = false;
                 MainWindowViewModel.Indicadores.FimManutencao = true;
+                return true;
             }
             catch (Exception e)
             {
                 log.Error(e.Message);
                 MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao finalizar manutenção.";
+                return false;
             }
         }
 
@@ -444,60 +513,79 @@ namespace Posto.Win.Update.Infraestrutura
         /// </summary>
         private void ReinicializaProgramas(bool teveErro, PostoContext context)
         {
-            context.Close();
-            MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 0;
-            
-            //-- Se diretório existir, inicia processo
-            if (File.Exists(PathAtualizador))
+            try
             {
-                //-- Inicia processo do leitor de bombas caso parâmetro seja true
-                if (ConfiguracaoModel.LeitorBomba)
-                {
-                    Process.Start(PathAtualizador, "6");
-                }
+                context.Close();
+                MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 0;
+
                 //-- Se diretório existir, inicia processo
-                if (ConfiguracaoModel.PostoWeb)
+                if (File.Exists(PathAtualizador))
                 {
-                    Process.Start(PathAtualizador, "7");
+                    //-- Inicia processo do leitor de bombas caso parâmetro seja true
+                    if (ConfiguracaoModel.LeitorBomba)
+                    {
+                        Process.Start(PathAtualizador, "6");
+                    }
+                    //-- Se diretório existir, inicia processo
+                    if (ConfiguracaoModel.PostoWeb)
+                    {
+                        Process.Start(PathAtualizador, "7");
+                    }
                 }
             }
-            
+            catch (Exception e)
+            {
+                log.Error(e.Message);
+            }
+
             if (teveErro)
             {
                 MessageBox.Show("Houve um erro ao atualizar a versão do sistema. Por favor, entre em contato com o suporte.", "Erro na atualização", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             SetaBarraStatus(System.Windows.Visibility.Hidden, 25);
+
         }
 
         /// <summary>
         /// Busca as versões para atualização de acordo com a versão do cliente
         /// </summary>
-        private void BuscaVersoes()
+        private bool BuscaVersoes()
         {
-            ListaSql = new List<Atualizacao>();
-            RetornoFtp = Ftp.GetFileList(PathSql);
+            try
+            {
+                ListaSql = new List<Atualizacao>();
+                RetornoFtp = Ftp.GetFileList(PathSql);
 
-            //-- Faz a formatação da string e adiciona na lista de SQLs para rodar
-            ListaSql = RetornoFtp.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
-                        .Select((row) => new Atualizacao
-                        {
-                            Versao = Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")),
-                            Arquivo = row,
-                        })
-                        .Where(row => row.Versao > AtualizarModel.Versao)
-                        .OrderBy(row => row.Versao)
-                        .ToList();
+                //-- Faz a formatação da string e adiciona na lista de SQLs para rodar
+                ListaSql = RetornoFtp.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
+                            .Select((row) => new Atualizacao
+                            {
+                                Versao = Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")),
+                                Arquivo = row,
+                            })
+                            .Where(row => row.Versao > AtualizarModel.Versao)
+                            .OrderBy(row => row.Versao)
+                            .ToList();
 
-            //-- Primeira versão Rmenu disponível
-            PrimeiraVersao = ListaSql.OrderBy(x => x.Versao)
-                                     .Select(x => x.Versao)
-                                     .FirstOrDefault();
+                //-- Primeira versão Rmenu disponível
+                PrimeiraVersao = ListaSql.OrderBy(x => x.Versao)
+                                         .Select(x => x.Versao)
+                                         .FirstOrDefault();
 
-            //-- Última versão Rmnu disponível
-            UltimaVersao = ListaSql.OrderByDescending(x => x.Versao)
-                                   .Select(x => x.Versao)
-                                   .FirstOrDefault();
+                //-- Última versão Rmnu disponível
+                UltimaVersao = ListaSql.OrderByDescending(x => x.Versao)
+                                       .Select(x => x.Versao)
+                                       .FirstOrDefault();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message);
+                MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao buscar versões.";
+                return false;
+            }
         }
 
         /// <summary>

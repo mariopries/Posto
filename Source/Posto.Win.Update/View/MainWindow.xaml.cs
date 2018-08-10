@@ -2,6 +2,7 @@
 using Posto.Win.Update.Infraestrutura;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,27 +25,72 @@ namespace Posto.Win.Update.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        NotifyIcon nIcon = new NotifyIcon();
-        NotifyIcon icon = new NotifyIcon();
-
+        private bool PrimeiraVez = false;
         public MainWindow()
         {
-            InitializeComponent();
-            MyNotifyIcon.TrayMouseDoubleClick += MyNotifyIcon_TrayMouseDoubleClick;
-            //nIcon.Visible = true;
-            //nIcon.ShowBalloonTip(5000, "Hi", "This is a BallonTip from Windows Notification", ToolTipIcon.Info);
-            //nIcon.ShowBalloonTip(600, "AntiBotSystem", "Sistema antibot foi minimizado, mas continua em sendo executado.", ToolTipIcon.Info);
+
+            if (VerificaProgramaEmExecucao())
+            {
+                MessageBoxResult result = System.Windows.MessageBox.Show("O Programa já está em Execução!",
+                                          "Atenção Operador.",
+                                          MessageBoxButton.OK,
+                                          MessageBoxImage.Error);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    System.Windows.Application.Current.Shutdown();
+                }
+            }
+            else
+            {
+                InitializeComponent();
+                MyNotifyIcon.TrayMouseDoubleClick += MyNotifyIcon_TrayMouseDoubleClick;
+                MyNotifyIcon.ShowBalloonTip("Atualizador - WinSGM", "O atualizador foi iníciado.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+            }
+
+
+            //System.Threading.Mutex hSolution = null;
+            //// verifica se programa já está rodando
+            //try
+            //{
+            //    hSolution = System.Threading.Mutex.OpenExisting("Atualizador.exe");
+            //}
+            //catch (System.Threading.WaitHandleCannotBeOpenedException)
+            //{
+            //    // Não existe Instancia do programa aberto
+            //}
+
+            //if (hSolution == null)
+            //{
+            //    hSolution = new System.Threading.Mutex(true, "Atualizador.exe");
+            //    InitializeComponent();
+            //    MyNotifyIcon.TrayMouseDoubleClick += MyNotifyIcon_TrayMouseDoubleClick;
+            //    MyNotifyIcon.ShowBalloonTip("Atualizador - WinSGM", "O atualizador foi iníciado.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+            //}
+            //else
+            //{
+            //    MessageBoxResult result = System.Windows.MessageBox.Show("O Programa já está em Execução!",
+            //                              "Atenção Operador.",
+            //                              MessageBoxButton.OK,
+            //                              MessageBoxImage.Error);
+
+            //    if (result == MessageBoxResult.OK)
+            //    {
+            //        System.Windows.Application.Current.Shutdown();
+            //    }
+            //}
+        }
+        public static bool VerificaProgramaEmExecucao()
+        {
+            return Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1;
         }
 
-        private void MyNotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+    private void MyNotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
         {
             ShowInTaskbar = true;
             Show();
             WindowState = WindowState.Normal;
             Activate();
-            //nIcon.Visible = true;
-            //nIcon.ShowBalloonTip(5000, "Hi", "This is a BallonTip from Windows Notification", ToolTipIcon.Info);
-            //nIcon.ShowBalloonTip(600, "AntiBotSystem", "Sistema antibot foi minimizado, mas continua em sendo executado.", ToolTipIcon.Info);
         }
 
         private void Window_SourceInitialized(object sender, EventArgs e)
@@ -52,17 +98,19 @@ namespace Posto.Win.Update.View
             ShowInTaskbar = false;
             WindowState = WindowState.Minimized;
             Visibility = Visibility.Collapsed;
-            //nIcon.Visible = true;
-            //nIcon.ShowBalloonTip(5000, "Hi", "This is a BallonTip from Windows Notification", ToolTipIcon.Info);
-            //nIcon.ShowBalloonTip(600, "AntiBotSystem", "Sistema antibot foi minimizado, mas continua em sendo executado.", ToolTipIcon.Info);
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
         {
+
             if (WindowState == WindowState.Minimized)
             {
+                if (PrimeiraVez == true)
+                    MyNotifyIcon.ShowBalloonTip("Atualizador - WinSGM", "O atualizador foi minimizado mas está rodando em segundo plano.", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+                PrimeiraVez = true;
                 ShowInTaskbar = false;
                 Hide();
+
             }
         }
     }

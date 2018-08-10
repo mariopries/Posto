@@ -67,6 +67,7 @@ namespace Posto.Win.Update.ViewModel
             LoginCommand            = new DelegateCommand(OnLogin);
             BloquearCommand         = new DelegateCommand(OnBloquear);
             FecharCommand           = new DelegateCommand(OnFechar, OnPodeFechar);
+            MenuFecharCommand       = new DelegateCommand(OnMenuFechar);
             
             var conexao = await OnTestarConexaoAsync();
 
@@ -88,6 +89,11 @@ namespace Posto.Win.Update.ViewModel
 
         #region Objetos
 
+        private string FocusElement
+        {
+            get { return _focusElement; }
+            set { if (_focusElement != value) { _focusElement = value; RaisePropertyChanged(() => FocusElement); } }
+        }
         public AbaAtualizar AbaAtualizar
         {
             get { return _abaatualizar; }
@@ -139,6 +145,7 @@ namespace Posto.Win.Update.ViewModel
         public DelegateCommand BloquearCommand { get; set; }
         public DelegateCommand FecharCommand { get; set; }
         public DelegateCommand CancelaFecharCommand { get; set; }
+        public DelegateCommand MenuFecharCommand { get; set; }
 
         #endregion
 
@@ -221,21 +228,14 @@ namespace Posto.Win.Update.ViewModel
                 return true;
             }
         }
-        private void Fecha()
+        private void OnMenuFechar()
         {
-            System.Windows.Application.Current.Shutdown();
-        }
-        private void SetFocus(Focus? focus)
-        {
-            if (focus.HasValue)
+            if (OnPodeFechar())
             {
-                FocusElement = focus.Value.ToString();
+                OnFechar();
+                Fecha();
             }
-            else
-            {
-                FocusElement = string.Empty;
-            }
-        }
+        }        
 
         #endregion
 
@@ -292,17 +292,9 @@ namespace Posto.Win.Update.ViewModel
 
         #region Funções
 
-        private string FocusElement
+        private void Fecha()
         {
-            get
-            {
-                return _focusElement;
-            }
-            set
-            {
-                _focusElement = value;
-                RaisePropertyChanged(() => FocusElement);
-            }
+            System.Windows.Application.Current.Shutdown();
         }
         public bool IsValidarConfiguracao(ConfiguracaoModel configuracao)
         {
@@ -348,6 +340,17 @@ namespace Posto.Win.Update.ViewModel
                 return false;
             }
             return true;
+        }
+        private void SetFocus(Focus? focus)
+        {
+            if (focus.HasValue)
+            {
+                FocusElement = focus.Value.ToString();
+            }
+            else
+            {
+                FocusElement = string.Empty;
+            }
         }
 
         #endregion

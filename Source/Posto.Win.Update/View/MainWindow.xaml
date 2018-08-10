@@ -16,7 +16,7 @@
         WindowStartupLocation="CenterScreen" 
         Icon="/Resources/icon.ico"
         ResizeMode="CanMinimize" 
-        Title="Posto - Controle de atualização do servidor" 
+        Title="Atualizador - Controle de atualização do servidor" 
         WindowState="Normal"
         ShowInTaskbar="False"
         SourceInitialized="Window_SourceInitialized"
@@ -134,18 +134,63 @@
         <converter:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter"></converter:InvertBooleanToVisibilityConverter>
         <converter:InvertBooleanConverter x:Key="InvertBooleanConverter"></converter:InvertBooleanConverter>
     </Window.Resources>
+    <Window.Background>
+        <ImageBrush Stretch="None" ImageSource="/Atualizador;component/Resources/background.png"/>
+    </Window.Background>
 
     <Grid b:FocusBehavior.FocusElement="{Binding FocusElement}">
 
         <tb:TaskbarIcon
                 x:Name="MyNotifyIcon"
-                IconSource="/Resources/Fator.ico"
-                ToolTipText="Posto"
-                DoubleClickCommand="" />
-
-        <TabControl Visibility="{Binding DynamicContentControlIsActive, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                IconSource="/Resources/icon.ico"
+                ToolTipText="Atualizador - WinSGM">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <TextBlock Text="Sobre" />
+                    <Separator />
+                    <MenuItem Header="Forçar atualização"
+                              Command="{Binding IniciarCommand}"
+                              CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}">
+                        <MenuItem.Icon>
+                            <Image Width="14"
+                                   Height="14"
+                                   Source="/Atualizador;component/Resources/play.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Iniciar servidor"
+                              Command="{Binding IniciarCommand}"
+                              CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}">
+                        <MenuItem.Icon>
+                            <Image Width="14"
+                                   Height="14"
+                                   Source="/Atualizador;component/Resources/play.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>            
+                    <MenuItem Header="Pausar servidor"
+                              Command="{Binding PausarCommand}"
+                              CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsVisibleButtonPausar}">
+                        <MenuItem.Icon>
+                            <Image Width="14"
+                                   Height="14"
+                                   Source="/Atualizador;component/Resources/pause.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Fechar programa"
+                              Command="{Binding MenuFecharCommand}"
+                              CommandParameter="{Binding}">
+                        <MenuItem.Icon>
+                            <Image Width="14"
+                                   Height="14"
+                                   Source="/Atualizador;component/Resources/delete-sign.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+        <TabControl Visibility="{Binding DynamicContentControlIsActive, Converter={StaticResource InvertBooleanToVisibilityConverter}}" Background="{x:Null}">
             <TabItem Header="Atualização">
-                <Grid Background="White">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" MinHeight="145" />
                         <RowDefinition Height="Auto" MinHeight="80" />
@@ -166,7 +211,6 @@
                             <TextBlock Text="{Binding AbaAtualizar.AtualizarModel.UltimaData, StringFormat=dd/MM/yyyy}" Style="{StaticResource TextoNormal}" />
                             <TextBlock Text="{Binding AbaAtualizar.AtualizarModel.Versao}" Style="{StaticResource TextoNormal}" Margin="5,5,0,5" />
                         </StackPanel>
-                        <Image HorizontalAlignment="Left" Height="50" Margin="22,10,0,0" VerticalAlignment="Top" Width="50" Grid.Column="2" RenderTransformOrigin="0.7,0.72" Source="/Atualizacao;component/Resources/Fator.ico"/>
                         <Button Command="{Binding BloquearCommand}" Content="{StaticResource MiImageLock}" Style="{StaticResource TransparentStyle}" Margin="68,114,12,10" RenderTransformOrigin="0.583,-0.8" Grid.Column="2"/>
                     </Grid>
                     <Border BorderBrush="#FF646464" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,5,0,0" VerticalAlignment="Top" Width="515" Grid.Row="1"/>
@@ -194,7 +238,15 @@
 
 
             <TabItem Header="Configuração">
-                <Grid Background="White">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FFCDCDCD" Offset="1"/>
+                        <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -218,7 +270,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Servidor:" />
-                    <TextBox x:Name="InputServidor" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Configurar.Configuracoes.Servidor}" />
+                    <TextBox x:Name="InputServidor" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.Servidor}" />
 
                     <Label Content="Porta:" Grid.Column="3"  />
                     <xctk:MaskedTextBox 
@@ -227,23 +279,23 @@
                         PromptChar=" "                       
                         Mask="9999"
                         x:Name="InputPorta"
-                        Text="{Binding Configurar.Configuracoes.Porta}" />
+                        Text="{Binding AbaConfiguracoes.ConfiguracaoModel.Porta}" />
 
                     <Label Content="Banco de dados:" Grid.Column="5" Grid.ColumnSpan="3" />
-                    <TextBox x:Name="InputBanco" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding Configurar.Configuracoes.Banco}" />
+                    <TextBox x:Name="InputBanco" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.Banco}" />
 
                     <Label Content="Usuário:" Grid.Row="2" />
-                    <TextBox x:Name="InputUsuario" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding Configurar.Configuracoes.Usuario}" />
+                    <TextBox x:Name="InputUsuario" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.Usuario}" />
 
                     <Label Content="Senha:" Grid.Row="2" Grid.Column="5" />
-                    <TextBox x:Name="InputSenha" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding Configurar.Configuracoes.Senha}" />
+                    <TextBox x:Name="InputSenha" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.Senha}" />
 
                     <Label Content="Local dos Executáveis:" Grid.Row="4" Grid.ColumnSpan="7" />
-                    <TextBox x:Name="InputLocalDiretorio" Grid.Row="5" Grid.ColumnSpan="7" Text="{Binding Configurar.Configuracoes.LocalDiretorio}" />
+                    <TextBox x:Name="InputLocalDiretorio" Grid.Row="5" Grid.ColumnSpan="7" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.LocalDiretorio}" />
                     <Button Grid.Row="5" Grid.Column="8" Margin="3,0,0,0" Padding="5,0" Command="{Binding AbrirExplorerCommand}">...</Button>
 
-                    <CheckBox x:Name="Check_Leitor" Content="Encerrar Leitor de bombas durante atualização" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configurar.Configuracoes.LeitorBomba}" Grid.ColumnSpan="5" Width="289" Command="{Binding LeitorBomba}"/>
-                    <CheckBox x:Name="Check_Web" Content="Encerrar Posto web durante atualização" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding Configurar.Configuracoes.PostoWeb}" Grid.ColumnSpan="5" Width="289" Command="{Binding PostoWeb}"/>
+                    <CheckBox x:Name="Check_Leitor" Content="Encerrar Leitor de bombas durante atualização" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.LeitorBomba}" Grid.ColumnSpan="5" Width="289" Command="{Binding LeitorBomba}"/>
+                    <CheckBox x:Name="Check_Web" Content="Encerrar Posto web durante atualização" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.PostoWeb}" Grid.ColumnSpan="5" Width="289" Command="{Binding PostoWeb}"/>
 
                     <Border Grid.Row="7" Grid.ColumnSpan="8" Margin="0,59,0,10" Background="#FF646464" Height="2" />
 
@@ -253,9 +305,9 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                     </Grid>
-                    <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding Configurar.EnableButtonConfiguracao}" Content="Salvar" Grid.Column="6" Margin="0,76,10,-38" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"/>
-                    <Button Command="{Binding TestarConexaoCommand}" Margin="0,77,45,-37" IsEnabled="{Binding Configurar.EnableButtonConfiguracao}" Content="Testar Conexão" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="7"/>
-                    <Label FontWeight="Bold" Content="{Binding Configurar.MensagemLabel}" Margin="10,84,81,-29" Grid.ColumnSpan="6" Grid.Row="7" />
+                    <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding AbaConfiguracoes.EnableButtonConfiguracao}" Content="Salvar" Grid.Column="6" Margin="0,76,10,-38" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"/>
+                    <Button Command="{Binding TestarConexaoCommand}" Margin="0,77,45,-37" IsEnabled="{Binding AbaConfiguracoes.EnableButtonConfiguracao}" Content="Testar Conexão" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="7"/>
+                    <Label FontWeight="Bold" Content="{Binding AbaConfiguracoes.MensagemLabel}" Margin="10,84,81,-29" Grid.ColumnSpan="6" Grid.Row="7" />
 
 
                 </Grid>

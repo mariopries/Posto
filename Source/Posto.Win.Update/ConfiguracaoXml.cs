@@ -13,7 +13,7 @@ namespace Posto.Win.Update
     public class ConfiguracaoXml
     {
         private const string Folder = "Config";
-        private const string File = "Posto.xml";
+        private const string File = "AtuConfig.xml";
 
         public ConfiguracaoXml() 
         {

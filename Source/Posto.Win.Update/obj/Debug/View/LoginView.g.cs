@@ -59,7 +59,7 @@ namespace Posto.Win.Update.View {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Atualizacao;component/view/loginview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Atualizador;component/view/loginview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\View\LoginView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
