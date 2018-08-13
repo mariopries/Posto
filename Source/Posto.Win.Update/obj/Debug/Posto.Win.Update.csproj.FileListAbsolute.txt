@@ -57,4 +57,3 @@ C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Atualizador_MarkupCompile.l
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Atualizador.g.resources
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Atualizador.exe
 C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Atualizador.pdb
-C:\Workspace\Posto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csprojResolveAssemblyReference.cache

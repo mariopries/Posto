@@ -15,7 +15,7 @@ namespace Posto.Win.App
         static void Main(string[] args)
         {
             #if DEBUG
-            new Atualizador("1");
+                new Atualizador("1");
             #else
                 new Atualizador(args.FirstOrDefault().ToString());
             #endif

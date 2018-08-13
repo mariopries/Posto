@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,9 +33,6 @@ namespace Posto.Win.UpdateLocal
         public Inicializador()
         {
             Configuracoes = ConfiguracoesXml.CarregarConfiguracao().ToModel();
-            if (Configuracoes.Local == null) { Configuracoes.Local = @"C:\Metodos\"; }
-            if (Configuracoes.Servidor == null) { Configuracoes.Servidor = @"C:\Metodos\"; }
-            Configuracoes.ToModel().GravarConfiguracao();
             Arquivos = new List<FileInfo>();
             ArquivosNovos = new List<FileInfo>();
         }
@@ -75,21 +73,26 @@ namespace Posto.Win.UpdateLocal
             try
             {
                 //-- Backgound Worker da tela principal
-                BackgroundWorker = worker;
+                //BackgroundWorker = worker;
 
-                TestaVersaoPrograma(executavel);
+                //-- Verifica se existe configurações no xml
+                if (VerificaConfiguracao())
+                {
+                    //-- Testa a versão do aplicativo 
+                    TestaVersaoPrograma(executavel);
 
-                //-- Carrega as configurações
-                LoadConfiguracoes(executavel);
+                    //-- Carrega as arquivos a serem buscados
+                    LoadConfiguracoes(executavel);
 
-                //-- Verifica quais arquivos devem ser copiados do servidor
-                VerificaVersaoDosArquivos();
+                    //-- Verifica quais arquivos devem ser copiados do servidor
+                    VerificaVersaoDosArquivos();
 
-                //-- Faz a cópia somente dos arquivos modificados/novos
-                AtualizaArquivos();
+                    //-- Faz a cópia somente dos arquivos modificados/novos
+                    AtualizaArquivos();
 
-                //-- Executa o Posto
-                Executar(executavel);
+                    //-- Executa o Posto
+                    Executar(executavel);
+                }
             }
             catch (Exception e)
             {
@@ -100,7 +103,40 @@ namespace Posto.Win.UpdateLocal
                 throw new Exception(e.Message);
             }
         }
+        private bool VerificaConfiguracao()
+        {
+            try
+            {
+                if ((Configuracoes.Local == null || Configuracoes.Local == "") || (Configuracoes.Servidor == null || Configuracoes.Servidor == ""))
+                {
+                    if (Configuracoes.Local == null || Configuracoes.Local == "")
+                    {
+                        Configuracoes.Local = @"C:\metodos\";
+                    }
+                    if (Configuracoes.Servidor == null || Configuracoes.Servidor == "")
+                    {
+                        Configuracoes.Servidor = @"C:\metodos\Update\";
+                    }
 
+                    Configuracoes.ToModel().GravarConfiguracao();
+                    MessageBox.Show("Foi gerado um novo arquivo de configurações e carregado as configurações padrões.", "Configurações", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    Environment.Exit(0);
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {                
+                while (e.InnerException != null)
+                {
+                    e = e.InnerException;
+                }
+                throw new Exception(string.Format("Não foi possível iniciar verificar as configurações: \n{0}", e.Message));                
+            }
+        }
         /// <summary>
         /// Testa a versão do exe, se tiver diferença roda o programa de atualizar
         /// </summary>
@@ -110,7 +146,7 @@ namespace Posto.Win.UpdateLocal
             try
             {
                 UpdateProgress("Verificando a versão do programa.");
-
+                
                 Arquivos = new List<FileInfo>();
                 ArquivosNovos = new List<FileInfo>();
 
@@ -125,7 +161,8 @@ namespace Posto.Win.UpdateLocal
                     {
                         if (local.LastWriteTimeUtc != servidor.LastWriteTimeUtc || local.Length != servidor.Length)
                         {
-                            Process.Start(Configuracoes.Local + "uTerUpdate.exe", executavel.ToString());
+                            ExecutaAtualizador((int)executavel);
+                            Environment.Exit(0);
                         }
                     }
                 }
@@ -139,7 +176,33 @@ namespace Posto.Win.UpdateLocal
                 throw new Exception(string.Format("Não foi possível verificar a versão dos arquivos: \n{0}", e.Message));
             }
         }
+        private void ExecutaAtualizador(int executavel)
+        {
+            var processo = new Process();
 
+            try
+            {
+                processo.StartInfo.FileName = "uAppUpdate.exe";
+                processo.StartInfo.WorkingDirectory = Configuracoes.Local;
+                processo.StartInfo.Arguments = Convert.ToString(executavel);
+                processo.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
+                processo.Start();
+            }
+            catch (Exception e)
+            {
+                while (e.InnerException != null)
+                {
+                    e = e.InnerException;
+                }
+                throw new Exception(string.Format("Não foi possível iniciar atualização do Posto.exe: \n{0}", e.Message));
+            }
+            finally
+            {
+                processo.Close();
+                processo.Dispose();
+                processo = null;
+            }            
+        }
         /// <summary>
         /// Executa aplicativo de acordo com parâmetro
         /// </summary>
@@ -278,7 +341,7 @@ namespace Posto.Win.UpdateLocal
                 throw new Exception(string.Format("Não foi possível verificar a versão dos arquivos: \n{0}", e.Message));
             }
         }
-        
+
         /// <summary>
         /// Faz a cópia dos arquivos do servidor
         /// </summary>
@@ -292,7 +355,7 @@ namespace Posto.Win.UpdateLocal
                 {
                     var local = arquivo.FullName.Replace(Configuracoes.Servidor, Configuracoes.Local);
                     var diretorio = Path.GetDirectoryName(local);
-                    
+
                     if (!Directory.Exists(diretorio))
                     {
                         Directory.CreateDirectory(diretorio);
@@ -310,7 +373,7 @@ namespace Posto.Win.UpdateLocal
                 throw new Exception(string.Format("Não foi possível atualizar os arquivos: \n{0}", e.Message));
             }
         }
-        
+
         /// <summary>
         /// Atualiza o status doque está sendo feito
         /// </summary>
@@ -342,6 +405,5 @@ namespace Posto.Win.UpdateLocal
             }
             return value.ToString();
         }
-
     }
 }

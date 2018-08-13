@@ -11,8 +11,8 @@ namespace Posto.Win.UpdateLocal.Estrutura
     [XmlRoot("ConfiguracoesXml")]
     public class ConfiguracoesXml
     {
-        private const string Folder = "Config";
-        private const string File = "Config.xml";
+        private const string Folder = @"C:\metodos\cfg";
+        private const string File = "AppsConfig.xml";
 
         /// <summary>
         /// Diretório local da instalação do posto
@@ -37,8 +37,8 @@ namespace Posto.Win.UpdateLocal.Estrutura
                 //Criamos um com o nome folder
                 Directory.CreateDirectory(Folder);
             }
-
-            string path = string.Format("{0}/{1}/{2}", Environment.CurrentDirectory, Folder, File);
+            //string path = string.Format("{0}/{1}/{2}", Environment.CurrentDirectory, Folder, File);
+            string path = string.Format("{0}/{1}", Folder, File);
             StreamReader sR = null;
 
             try
@@ -70,7 +70,7 @@ namespace Posto.Win.UpdateLocal.Estrutura
         public void GravarConfiguracao()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(ConfiguracoesXml));
-            string path = string.Format("{0}/{1}/{2}", Environment.CurrentDirectory, Folder, File);
+            string path = string.Format("{0}/{1}", Folder, File);
             StreamWriter sW = new StreamWriter(path);
             serializer.Serialize(sW, this);
             sW.Close();

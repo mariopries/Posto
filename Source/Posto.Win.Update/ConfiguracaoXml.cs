@@ -12,12 +12,12 @@ namespace Posto.Win.Update
     [XmlRoot("Configuracao")]
     public class ConfiguracaoXml
     {
-        private const string Folder = "Config";
-        private const string File = "AtuConfig.xml";
+        private const string Folder = "cfg";
+        private const string File = "Atualizador.xml";
 
         public ConfiguracaoXml() 
         {
-            this.Porta = "5432";
+            Porta = "5432";
         }
 
         /// <summary>

@@ -14,7 +14,6 @@ namespace Posto.Win.UpdateLocal
         [STAThread]
         //static void Main()
         static void Main(string[] args)
-            
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

@@ -32,6 +32,13 @@ namespace Posto.Win.App.Structure
 
         #endregion
 
+        #region Variaveis
+
+        private bool _finalizouProcesso;
+        private DateTime Tempo;
+
+        #endregion
+
         #region Construtor
 
         public Atualizador(string argumento)
@@ -40,9 +47,6 @@ namespace Posto.Win.App.Structure
             try
             {
                 Configuracoes = ConfiguracoesXml.CarregarConfiguracao().ToModel();
-                if (Configuracoes.Local == null) { Configuracoes.Local = @"C:\Metodos\"; }
-                if (Configuracoes.Servidor == null) { Configuracoes.Servidor = @"C:\Metodos\"; }
-                Configuracoes.ToModel().GravarConfiguracao();
                 Argumento = argumento;
                 Arquivos = new List<FileInfo>();
                 ArquivosNovos = new List<FileInfo>();
@@ -67,7 +71,7 @@ namespace Posto.Win.App.Structure
         #endregion
 
         #region Objetos
-        
+
         private string Argumento
         {
             get { return _argumento; }
@@ -93,6 +97,11 @@ namespace Posto.Win.App.Structure
             get { return _processo; }
             set { if (_processo != value) { _processo = value; } }
         }
+        private bool FinalizouProcesso
+        {
+            get { return _finalizouProcesso; }
+            set { if (_finalizouProcesso != value) { _finalizouProcesso = value; } }
+        }
 
         #endregion
 
@@ -103,41 +112,145 @@ namespace Posto.Win.App.Structure
         /// </summary>
         public void Start()
         {
-            FinalizaAplicativo();
-            CarregaArquivosServidor();
-            VerificaVersaoDosArquivos();
-            AtualizaArquivos();
-            Executar();
+            try
+            {
+                if (VerificaConfiguracao())
+                {
+                    if (FinalizaAplicativo())
+                    {
+                        if (CarregaArquivosServidor())
+                        {
+                            if (VerificaVersaoDosArquivos())
+                            {
+                                if (AtualizaArquivos())
+                                {
+                                    if (Executar())
+                                    {
+                                        Processo.Close();
+                                        Processo.Dispose();
+                                        Processo = null;
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Não foi possível executar o Posto.exe.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        Environment.Exit(0);
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Não foi possível atualizar os arquivos.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    Environment.Exit(0);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Não foi possível verificar a versão dos arquivos.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Environment.Exit(0);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Não foi possível encontrar o caminho dos arquivos do servidor.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Environment.Exit(0);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Não foi possível encerrar Posto.exe.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Environment.Exit(0);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Não foi possível testar as configurações do programa.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Environment.Exit(0);
+                }
+            }
+
+            catch (Exception e)
+            {
+                Logs.Error(e.Message);
+            }
+        }
+        /// <summary>
+        /// Verifica se existe as configurações no arquivo xml, caso não exista, gera as configurações padrões e informa o usuário
+        /// </summary>
+        private bool VerificaConfiguracao()
+        {
+            try
+            {
+                if ((Configuracoes.Local == null || Configuracoes.Local == "") || (Configuracoes.Servidor == null || Configuracoes.Servidor == ""))
+                {
+                    if (Configuracoes.Local == null || Configuracoes.Local == "")
+                    {
+                        Configuracoes.Local = @"C:\metodos\";
+                    }
+                    if (Configuracoes.Servidor == null || Configuracoes.Servidor == "")
+                    {
+                        Configuracoes.Servidor = @"C:\metodos\Update\";
+                    }
+
+                    Configuracoes.ToModel().GravarConfiguracao();
+                    MessageBox.Show("Foi gerado um novo arquivo de configurações e carregado as configurações padrões.", "Configurações", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    Environment.Exit(0);
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Logs.Error(e.Message);
+                return false;
+            }
         }
         /// <summary>
         /// Finaliza o aplicativo se estiver em execução
         /// </summary>
-        public void FinalizaAplicativo()
+        public bool FinalizaAplicativo()
         {
+            var retorno = false;
             try
             {
-                Process[]
-                processes = Process.GetProcessesByName("Posto");
-                foreach (Process process in processes)
+                var processofim = true;
+
+                while (processofim)
                 {
-                    process.Kill();
+                    var existe = false;                    
+
+                    Process[]
+                    processes = Process.GetProcessesByName("Posto");
+
+                    if (DateTime.Now >= Tempo.AddSeconds(2))
+                    {
+                        Console.WriteLine("Esperando Posto.exe fechar");
+                        Tempo = DateTime.Now;
+                    }
+
+                    foreach (Process process in processes)
+                    {
+                        existe = true;
+                    }
+
+                    if (!existe)
+                    {
+                        processofim = false;
+                        retorno = true;                        
+                    }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                }
-                MessageBox.Show("Não foi possível encerrar Posto.exe", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Logs.Error(e.Message);
-                Environment.Exit(0);
             }
+            return retorno;
         }
         /// <summary>
         /// Busca arquivos no servidor a sere copiados
         /// </summary>
-        public void CarregaArquivosServidor()
+        public bool CarregaArquivosServidor()
         {
             try
             {
@@ -149,23 +262,19 @@ namespace Posto.Win.App.Structure
             }
             catch (Exception e)
             {
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                }
-                MessageBox.Show("Não foi possível carregar arquivos do servidor", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Logs.Error(e.Message);
-                Environment.Exit(0);
+                return false;
             }
+            return true;
         }
         /// <summary>
         /// Testa as versões de todos os arquivos da pasta App
         /// </summary>
-        private void VerificaVersaoDosArquivos()
+        private bool VerificaVersaoDosArquivos()
         {
             try
             {
-                Console.WriteLine("Verificando novos arquivos no servidor.");                
+                Console.WriteLine("Verificando novos arquivos no servidor.");
 
                 foreach (var arquivo in Arquivos)
                 {
@@ -187,19 +296,15 @@ namespace Posto.Win.App.Structure
             }
             catch (Exception e)
             {
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                }
-                MessageBox.Show("Não foi possível verificar a versão dos arquivos", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Logs.Error(e.Message);
-                Environment.Exit(0);
+                return false;
             }
+            return true;
         }
         /// <summary>
         /// Atualiza os arquivos do terminal
         /// </summary>
-        private void AtualizaArquivos()
+        private bool AtualizaArquivos()
         {
             try
             {
@@ -221,20 +326,16 @@ namespace Posto.Win.App.Structure
             }
             catch (Exception e)
             {
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                }
-                MessageBox.Show("Não foi possível atualizar os arquivos", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Logs.Error(e.Message);
-                Environment.Exit(0);
+                return false;
             }
+            return true;
         }
         /// <summary>
         /// Executa o aplicativo com o parâmetro recebido
         /// </summary>
-        private void Executar()
-        {       
+        private bool Executar()
+        {
             try
             {
                 Processo.StartInfo.FileName = "Posto.exe";
@@ -242,24 +343,16 @@ namespace Posto.Win.App.Structure
                 Processo.StartInfo.Arguments = Argumento;
                 Processo.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
                 Processo.Start();
+                Logs.Error("Finalizei o programa e rodei denovo.");
             }
             catch (Exception e)
             {
-                while (e.InnerException != null)
-                {
-                    e = e.InnerException;
-                }
-                MessageBox.Show("Não foi possível executar o Posto.exe", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Logs.Error(string.Format(": \n{0}", e.Message));
+                Logs.Error(e.Message);
+                return false;
             }
-            finally
-            {
-                Processo.Close();
-                Processo.Dispose();
-                Processo = null;
-            }
+            return true;
         }
-                
+
         #endregion
     }
 }

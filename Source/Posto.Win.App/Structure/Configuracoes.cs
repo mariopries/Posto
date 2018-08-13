@@ -11,8 +11,8 @@ namespace Posto.Win.App.Structure
     [XmlRoot("ConfiguracoesXml")]
     public class ConfiguracoesXml
     {
-        private const string Folder = "Config";
-        private const string File = "AppConfig.xml";
+        private const string Folder = "cfg";
+        private const string File = "AppsConfig.xml";
 
         /// <summary>
         /// Diretório local da instalação do posto
