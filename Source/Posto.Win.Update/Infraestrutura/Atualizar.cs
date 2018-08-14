@@ -360,7 +360,7 @@ namespace Posto.Win.Update.Infraestrutura
             try
             {
                 MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Baixando arquivos da atualizaçãos...";
-
+                
                 var arquivos = Ftp.Download(PathExe, MainWindowViewModel);
 
                 using (MemoryStream mem = new MemoryStream(arquivos))
@@ -370,17 +370,16 @@ namespace Posto.Win.Update.Infraestrutura
                     foreach (ZipArchiveEntry file in zipStream.Entries)
                     {
                         string completeFileName = Path.Combine(ConfiguracaoModel.LocalDiretorio, file.FullName);
+                        string directory = Path.GetDirectoryName(completeFileName);
 
-                        if (file.Name == "")
-                        {
-                            //-- Assuming Empty for Directory
-                            Directory.CreateDirectory(Path.GetDirectoryName(completeFileName));
-                            continue;
-                        }
+                        if (!Directory.Exists(directory))
+                            Directory.CreateDirectory(directory);
+                        if (file.Name != "")
+                            file.ExtractToFile(completeFileName, true);
 
                         MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Extraindo arquivo (" + filesCount + "/" + zipStream.Entries.Count.ToString() + ")";
                         MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra1 = ((double)filesCount / zipStream.Entries.Count) * 100;
-                        file.ExtractToFile(completeFileName, true);
+                        //file.ExtractToFile(completeFileName, true);
                         filesCount++;
                     }
                 }

@@ -7,6 +7,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -75,12 +76,17 @@ namespace Posto.Win.Update.Infraestrutura
             StreamReader reader = null;
 
             try
-            {
+            {                
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.Default);
+                HttpWebRequest.DefaultCachePolicy = policy;
+                HttpRequestCachePolicy noCachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+
                 FtpWebRequest reqFTP;
                 reqFTP = (FtpWebRequest)WebRequest.Create(new Uri("ftp://" + Url + "/" + path));
                 reqFTP.UseBinary = true;
                 reqFTP.Credentials = new NetworkCredential(Usuario, Senha);
                 reqFTP.Method = WebRequestMethods.Ftp.ListDirectory;
+                reqFTP.CachePolicy = noCachePolicy;
                 reqFTP.Proxy = null;
                 reqFTP.KeepAlive = false;
                 reqFTP.UsePassive = false;
@@ -116,10 +122,15 @@ namespace Posto.Win.Update.Infraestrutura
         {
             try
             {
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.Default);
+                HttpWebRequest.DefaultCachePolicy = policy;
+                HttpRequestCachePolicy noCachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + Url + "/" + path);
                 request.Proxy = null;
                 request.Credentials = new NetworkCredential(Usuario, Senha);
                 request.Method = WebRequestMethods.Ftp.GetFileSize;
+                request.CachePolicy = noCachePolicy;
 
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
                 FileSize = response.ContentLength;
@@ -142,9 +153,14 @@ namespace Posto.Win.Update.Infraestrutura
             {
                 GetFileSize(path);
 
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.Default);
+                HttpWebRequest.DefaultCachePolicy = policy;
+                HttpRequestCachePolicy noCachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + Url + "/" + path);
                 request.Credentials = new NetworkCredential(Usuario, Senha);
                 request.Method = WebRequestMethods.Ftp.DownloadFile;
+                request.CachePolicy = noCachePolicy;
 
                 using (MemoryStream ms = new MemoryStream())
                 {

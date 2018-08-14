@@ -146,32 +146,34 @@
                 ToolTipText="Atualizador - WinSGM">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
-                    <TextBlock Text="Sobre" />
+                    <!--<MenuItem Header="Sobre"
+                              Command="{Binding SobreContentCommand}"
+                              CommandParameter="{Binding}"/>-->
                     <Separator />
                     <MenuItem Header="Forçar atualização"
+                              Command="{Binding AtualizarCommand}"
+                              CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}">
+                        <MenuItem.Icon>
+                            <Image Width="18"
+                                   Height="18"
+                                   Source="/Atualizador;component/Resources/sync_black.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Iniciar sincronização"
                               Command="{Binding IniciarCommand}"
                               CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}">
                         <MenuItem.Icon>
-                            <Image Width="14"
-                                   Height="14"
+                            <Image Width="18"
+                                   Height="18"
                                    Source="/Atualizador;component/Resources/play.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Iniciar servidor"
-                              Command="{Binding IniciarCommand}"
-                              CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}">
-                        <MenuItem.Icon>
-                            <Image Width="14"
-                                   Height="14"
-                                   Source="/Atualizador;component/Resources/play.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>            
-                    <MenuItem Header="Pausar servidor"
+                    <MenuItem Header="Pausar sincronização"
                               Command="{Binding PausarCommand}"
                               CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsVisibleButtonPausar}">
                         <MenuItem.Icon>
-                            <Image Width="14"
-                                   Height="14"
+                            <Image Width="18"
+                                   Height="18"
                                    Source="/Atualizador;component/Resources/pause.png" />
                         </MenuItem.Icon>
                     </MenuItem>
@@ -179,8 +181,8 @@
                               Command="{Binding MenuFecharCommand}"
                               CommandParameter="{Binding}">
                         <MenuItem.Icon>
-                            <Image Width="14"
-                                   Height="14"
+                            <Image Width="18"
+                                   Height="18"
                                    Source="/Atualizador;component/Resources/delete-sign.png" />
                         </MenuItem.Icon>
                     </MenuItem>

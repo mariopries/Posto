@@ -39,6 +39,7 @@ namespace Posto.Win.Update.ViewModel
         private IndicadoresManutencao _indicadores;
         private Atualizar _atualizarAsync;
         private bool _dynamicContentControlIsActive;
+        private NotificationObject _sobreContent;
         private NotificationObject _dynamicContentControl;
         private string _focusElement;
 
@@ -68,6 +69,9 @@ namespace Posto.Win.Update.ViewModel
             BloquearCommand         = new DelegateCommand(OnBloquear);
             FecharCommand           = new DelegateCommand(OnFechar, OnPodeFechar);
             MenuFecharCommand       = new DelegateCommand(OnMenuFechar);
+            SobreContentCommand     = new DelegateCommand(OnSobre);
+            
+            
             
             var conexao = await OnTestarConexaoAsync();
 
@@ -82,6 +86,7 @@ namespace Posto.Win.Update.ViewModel
                     OnAtualizar();
                 }
             }
+            
 
             //this.DynamicContentControl = new LoginViewModel(this.LoginCommand);
         }
@@ -146,6 +151,8 @@ namespace Posto.Win.Update.ViewModel
         public DelegateCommand FecharCommand { get; set; }
         public DelegateCommand CancelaFecharCommand { get; set; }
         public DelegateCommand MenuFecharCommand { get; set; }
+        public DelegateCommand SobreContentCommand { get; set; }
+
 
         #endregion
 
@@ -211,6 +218,10 @@ namespace Posto.Win.Update.ViewModel
         {
             //this.DynamicContentControl = null;
             DynamicContentControl = new LoginViewModel(this.LoginCommand);
+        }
+        private void OnSobre()
+        {
+            SobreContent = new SobreViewModel();
         }
         private void OnFechar()
         {
@@ -386,6 +397,23 @@ namespace Posto.Win.Update.ViewModel
                     _dynamicContentControl = value;
                     RaisePropertyChanged(() => DynamicContentControl);
                     DynamicContentControlIsActive = DynamicContentControl != null;
+                }
+            }
+        }
+
+        public NotificationObject SobreContent
+        {
+            get
+            {
+                return _sobreContent;
+            }
+            set
+            {
+                if (_sobreContent != value)
+                {
+                    _sobreContent = value;
+                    RaisePropertyChanged(() => SobreContent);
+                    //DynamicContentControlIsActive = SobreContent != null;
                 }
             }
         }
