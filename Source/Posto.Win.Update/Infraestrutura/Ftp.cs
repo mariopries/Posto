@@ -27,7 +27,7 @@ namespace Posto.Win.Update.Infraestrutura
 
         private const string Usuario = "methodinformatica";
 
-        private const string Senha = "method172202";
+        private const string Senha = "Meth0d@172202";
 
         #endregion
 
