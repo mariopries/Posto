@@ -32,6 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaPrincipal));
             this.Principal = new System.Windows.Forms.TabControl();
             this.Atualizacao = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.Atualizar = new System.Windows.Forms.Button();
+            this.Iniciar = new System.Windows.Forms.Button();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.Configuracoes = new System.Windows.Forms.TabPage();
             this.statusLabel = new System.Windows.Forms.Label();
             this.AbrirExplorer = new System.Windows.Forms.Button();
@@ -52,9 +58,14 @@
             this._porta = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this._servidor = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.abaConfiguracoesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.configuracaoModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.statusLabel2 = new System.Windows.Forms.Label();
+            this.Proxima = new System.Windows.Forms.Label();
             this.Principal.SuspendLayout();
+            this.Atualizacao.SuspendLayout();
             this.Configuracoes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).BeginInit();
@@ -72,6 +83,16 @@
             // 
             // Atualizacao
             // 
+            this.Atualizacao.Controls.Add(this.Proxima);
+            this.Atualizacao.Controls.Add(this.statusLabel2);
+            this.Atualizacao.Controls.Add(this.label10);
+            this.Atualizacao.Controls.Add(this.label9);
+            this.Atualizacao.Controls.Add(this.label8);
+            this.Atualizacao.Controls.Add(this.label2);
+            this.Atualizacao.Controls.Add(this.Atualizar);
+            this.Atualizacao.Controls.Add(this.Iniciar);
+            this.Atualizacao.Controls.Add(this.progressBar2);
+            this.Atualizacao.Controls.Add(this.progressBar1);
             this.Atualizacao.Location = new System.Drawing.Point(4, 22);
             this.Atualizacao.Name = "Atualizacao";
             this.Atualizacao.Padding = new System.Windows.Forms.Padding(3);
@@ -79,6 +100,60 @@
             this.Atualizacao.TabIndex = 0;
             this.Atualizacao.Text = "Atualização";
             this.Atualizacao.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(67, 76);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(55, 14);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "Última:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(55, 49);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 14);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Proxima:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Atualizar
+            // 
+            this.Atualizar.Location = new System.Drawing.Point(333, 184);
+            this.Atualizar.Name = "Atualizar";
+            this.Atualizar.Size = new System.Drawing.Size(75, 34);
+            this.Atualizar.TabIndex = 3;
+            this.Atualizar.Text = "Atualizar";
+            this.Atualizar.UseVisualStyleBackColor = true;
+            // 
+            // Iniciar
+            // 
+            this.Iniciar.Location = new System.Drawing.Point(414, 184);
+            this.Iniciar.Name = "Iniciar";
+            this.Iniciar.Size = new System.Drawing.Size(75, 34);
+            this.Iniciar.TabIndex = 2;
+            this.Iniciar.Text = "Iniciar";
+            this.Iniciar.UseVisualStyleBackColor = true;
+            // 
+            // progressBar2
+            // 
+            this.progressBar2.Location = new System.Drawing.Point(6, 203);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(321, 15);
+            this.progressBar2.TabIndex = 1;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(6, 184);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(321, 15);
+            this.progressBar1.TabIndex = 0;
             // 
             // Configuracoes
             // 
@@ -114,11 +189,12 @@
             this.statusLabel.AutoSize = true;
             this.statusLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaConfiguracoesBindingSource, "MensagemLabel", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.statusLabel.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusLabel.Location = new System.Drawing.Point(9, 204);
+            this.statusLabel.Location = new System.Drawing.Point(16, 195);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(48, 13);
             this.statusLabel.TabIndex = 19;
             this.statusLabel.Text = "Status";
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AbrirExplorer
             // 
@@ -297,6 +373,25 @@
             this._servidor.Size = new System.Drawing.Size(138, 21);
             this._servidor.TabIndex = 1;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(26, 102);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(96, 14);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "Versão Atual:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label10
+            // 
+            this.label10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label10.Location = new System.Drawing.Point(6, 158);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(483, 2);
+            this.label10.TabIndex = 14;
+            // 
             // abaConfiguracoesBindingSource
             // 
             this.abaConfiguracoesBindingSource.DataSource = typeof(Atualizador.Structures.AbaConfiguracoes);
@@ -304,6 +399,29 @@
             // configuracaoModelBindingSource
             // 
             this.configuracaoModelBindingSource.DataSource = typeof(Atualizador.Models.ConfiguracaoModel);
+            // 
+            // statusLabel2
+            // 
+            this.statusLabel2.AutoSize = true;
+            this.statusLabel2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaConfiguracoesBindingSource, "MensagemLabel", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.statusLabel2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusLabel2.Location = new System.Drawing.Point(6, 165);
+            this.statusLabel2.Name = "statusLabel2";
+            this.statusLabel2.Size = new System.Drawing.Size(48, 13);
+            this.statusLabel2.TabIndex = 20;
+            this.statusLabel2.Text = "Status";
+            this.statusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // Proxima
+            // 
+            this.Proxima.AutoSize = true;
+            this.Proxima.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Proxima.Location = new System.Drawing.Point(128, 49);
+            this.Proxima.Name = "Proxima";
+            this.Proxima.Size = new System.Drawing.Size(35, 14);
+            this.Proxima.TabIndex = 21;
+            this.Proxima.Text = "Prox";
+            this.Proxima.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TelaPrincipal
             // 
@@ -320,6 +438,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Atualizador - Controle de atualizações do servidor ";
             this.Principal.ResumeLayout(false);
+            this.Atualizacao.ResumeLayout(false);
+            this.Atualizacao.PerformLayout();
             this.Configuracoes.ResumeLayout(false);
             this.Configuracoes.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).EndInit();
@@ -354,6 +474,16 @@
         private System.Windows.Forms.BindingSource configuracaoModelBindingSource;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.BindingSource abaConfiguracoesBindingSource;
+        private System.Windows.Forms.Button Atualizar;
+        private System.Windows.Forms.Button Iniciar;
+        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label statusLabel2;
+        private System.Windows.Forms.Label Proxima;
     }
 }
 
