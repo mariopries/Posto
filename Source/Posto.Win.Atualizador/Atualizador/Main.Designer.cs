@@ -56,15 +56,21 @@
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this._matGuiaConfig = new System.Windows.Forms.TabPage();
             this._matServidor = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this._matPorta = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.materialRadioButton1 = new MaterialSkin.Controls.MaterialRadioButton();
+            this.materialRadioButton2 = new MaterialSkin.Controls.MaterialRadioButton();
             this.abaConfiguracoesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.configuracaoModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
+            this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
             this.Configuracoes.SuspendLayout();
             this.Principal.SuspendLayout();
             this.materialTabControl1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this._matGuiaConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -336,70 +342,117 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.materialTabControl1.Controls.Add(this.tabPage2);
-            this.materialTabControl1.Controls.Add(this.tabPage3);
+            this.materialTabControl1.Controls.Add(this._matGuiaConfig);
             this.materialTabControl1.Depth = 0;
             this.materialTabControl1.Location = new System.Drawing.Point(12, 118);
             this.materialTabControl1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabControl1.Name = "materialTabControl1";
             this.materialTabControl1.SelectedIndex = 0;
-            this.materialTabControl1.Size = new System.Drawing.Size(349, 166);
+            this.materialTabControl1.Size = new System.Drawing.Size(582, 221);
             this.materialTabControl1.TabIndex = 2;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.materialFlatButton1);
+            this.tabPage2.Controls.Add(this.materialDivider1);
+            this.tabPage2.Controls.Add(this.materialRadioButton2);
+            this.tabPage2.Controls.Add(this.materialRadioButton1);
+            this.tabPage2.Controls.Add(this.materialRaisedButton1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(341, 140);
+            this.tabPage2.Size = new System.Drawing.Size(574, 195);
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "Atualização";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // _matGuiaConfig
             // 
-            this.tabPage3.Controls.Add(this._matPorta);
-            this.tabPage3.Controls.Add(this._matServidor);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(341, 140);
-            this.tabPage3.TabIndex = 1;
-            this.tabPage3.Text = "Configurações";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this._matGuiaConfig.Controls.Add(this._matPorta);
+            this._matGuiaConfig.Controls.Add(this._matServidor);
+            this._matGuiaConfig.Location = new System.Drawing.Point(4, 22);
+            this._matGuiaConfig.Name = "_matGuiaConfig";
+            this._matGuiaConfig.Padding = new System.Windows.Forms.Padding(3);
+            this._matGuiaConfig.Size = new System.Drawing.Size(574, 195);
+            this._matGuiaConfig.TabIndex = 1;
+            this._matGuiaConfig.Text = "Configurações";
+            this._matGuiaConfig.UseVisualStyleBackColor = true;
             // 
             // _matServidor
             // 
-            this._matServidor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this._matServidor.Depth = 0;
             this._matServidor.Hint = "Servidor";
-            this._matServidor.Location = new System.Drawing.Point(19, 22);
+            this._matServidor.Location = new System.Drawing.Point(20, 22);
             this._matServidor.MouseState = MaterialSkin.MouseState.HOVER;
             this._matServidor.Name = "_matServidor";
             this._matServidor.PasswordChar = '\0';
             this._matServidor.SelectedText = "";
             this._matServidor.SelectionLength = 0;
             this._matServidor.SelectionStart = 0;
-            this._matServidor.Size = new System.Drawing.Size(75, 23);
-            this._matServidor.TabIndex = 5;
+            this._matServidor.Size = new System.Drawing.Size(169, 23);
+            this._matServidor.TabIndex = 3;
             this._matServidor.UseSystemPasswordChar = false;
             // 
             // _matPorta
             // 
-            this._matPorta.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this._matPorta.Depth = 0;
             this._matPorta.Hint = "Porta";
-            this._matPorta.Location = new System.Drawing.Point(109, 22);
+            this._matPorta.Location = new System.Drawing.Point(201, 22);
             this._matPorta.MouseState = MaterialSkin.MouseState.HOVER;
             this._matPorta.Name = "_matPorta";
             this._matPorta.PasswordChar = '\0';
             this._matPorta.SelectedText = "";
             this._matPorta.SelectionLength = 0;
             this._matPorta.SelectionStart = 0;
-            this._matPorta.Size = new System.Drawing.Size(75, 23);
-            this._matPorta.TabIndex = 6;
+            this._matPorta.Size = new System.Drawing.Size(69, 23);
+            this._matPorta.TabIndex = 3;
             this._matPorta.UseSystemPasswordChar = false;
+            // 
+            // materialRaisedButton1
+            // 
+            this.materialRaisedButton1.Depth = 0;
+            this.materialRaisedButton1.Location = new System.Drawing.Point(493, 166);
+            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton1.Name = "materialRaisedButton1";
+            this.materialRaisedButton1.Primary = true;
+            this.materialRaisedButton1.Size = new System.Drawing.Size(75, 23);
+            this.materialRaisedButton1.TabIndex = 0;
+            this.materialRaisedButton1.Text = "materialRaisedButton1";
+            this.materialRaisedButton1.UseVisualStyleBackColor = true;
+            // 
+            // materialRadioButton1
+            // 
+            this.materialRadioButton1.AutoSize = true;
+            this.materialRadioButton1.Depth = 0;
+            this.materialRadioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.materialRadioButton1.Location = new System.Drawing.Point(387, 101);
+            this.materialRadioButton1.Margin = new System.Windows.Forms.Padding(0);
+            this.materialRadioButton1.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialRadioButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRadioButton1.Name = "materialRadioButton1";
+            this.materialRadioButton1.Ripple = true;
+            this.materialRadioButton1.Size = new System.Drawing.Size(163, 30);
+            this.materialRadioButton1.TabIndex = 1;
+            this.materialRadioButton1.TabStop = true;
+            this.materialRadioButton1.Text = "materialRadioButton1";
+            this.materialRadioButton1.UseVisualStyleBackColor = true;
+            // 
+            // materialRadioButton2
+            // 
+            this.materialRadioButton2.AutoSize = true;
+            this.materialRadioButton2.Depth = 0;
+            this.materialRadioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.materialRadioButton2.Location = new System.Drawing.Point(387, 66);
+            this.materialRadioButton2.Margin = new System.Windows.Forms.Padding(0);
+            this.materialRadioButton2.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialRadioButton2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRadioButton2.Name = "materialRadioButton2";
+            this.materialRadioButton2.Ripple = true;
+            this.materialRadioButton2.Size = new System.Drawing.Size(163, 30);
+            this.materialRadioButton2.TabIndex = 2;
+            this.materialRadioButton2.TabStop = true;
+            this.materialRadioButton2.Text = "materialRadioButton2";
+            this.materialRadioButton2.UseVisualStyleBackColor = true;
             // 
             // abaConfiguracoesBindingSource
             // 
@@ -408,6 +461,32 @@
             // configuracaoModelBindingSource
             // 
             this.configuracaoModelBindingSource.DataSource = typeof(Atualizador.Models.ConfiguracaoModel);
+            // 
+            // materialDivider1
+            // 
+            this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialDivider1.Depth = 0;
+            this.materialDivider1.Location = new System.Drawing.Point(162, 66);
+            this.materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialDivider1.Name = "materialDivider1";
+            this.materialDivider1.Size = new System.Drawing.Size(75, 23);
+            this.materialDivider1.TabIndex = 3;
+            this.materialDivider1.Text = "materialDivider1";
+            // 
+            // materialFlatButton1
+            // 
+            this.materialFlatButton1.AutoSize = true;
+            this.materialFlatButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.materialFlatButton1.Depth = 0;
+            this.materialFlatButton1.Location = new System.Drawing.Point(286, 152);
+            this.materialFlatButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.materialFlatButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialFlatButton1.Name = "materialFlatButton1";
+            this.materialFlatButton1.Primary = false;
+            this.materialFlatButton1.Size = new System.Drawing.Size(172, 36);
+            this.materialFlatButton1.TabIndex = 4;
+            this.materialFlatButton1.Text = "materialFlatButton1";
+            this.materialFlatButton1.UseVisualStyleBackColor = true;
             // 
             // TelaPrincipal
             // 
@@ -421,6 +500,7 @@
             this.Controls.Add(this.Principal);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(300, 150);
             this.Name = "TelaPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Atualizador - Controle de atualizações do servidor ";
@@ -428,7 +508,9 @@
             this.Configuracoes.PerformLayout();
             this.Principal.ResumeLayout(false);
             this.materialTabControl1.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this._matGuiaConfig.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -464,9 +546,14 @@
         private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
         private MaterialSkin.Controls.MaterialTabControl materialTabControl1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage _matGuiaConfig;
         private MaterialSkin.Controls.MaterialSingleLineTextField _matServidor;
         private MaterialSkin.Controls.MaterialSingleLineTextField _matPorta;
+        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
+        private MaterialSkin.Controls.MaterialRadioButton materialRadioButton1;
+        private MaterialSkin.Controls.MaterialRadioButton materialRadioButton2;
+        private MaterialSkin.Controls.MaterialFlatButton materialFlatButton1;
+        private MaterialSkin.Controls.MaterialDivider materialDivider1;
     }
 }
 
