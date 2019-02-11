@@ -58,6 +58,12 @@ namespace Atualizador
         public string LocalDiretorio { get; set; }
 
         /// <summary>
+        /// Ultima versao do arquivo
+        /// </summary>
+        [XmlElement("VersaoArquivo")]
+        public string VersaoArquivo { get; set; }
+
+        /// <summary>
         /// Leitor de bombas
         /// </summary>
         [XmlElement("LeitorBomba")]

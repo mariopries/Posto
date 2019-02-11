@@ -15,6 +15,7 @@ namespace Atualizador.Models
         private string _usuario;
         private string _senha;
         private string _localDiretorio;
+        private string _versaoArquivo;
         private bool _leitor;
         private bool _web;
 
@@ -69,6 +70,12 @@ namespace Atualizador.Models
         {
             get { return _localDiretorio; }
             set { SetField(ref _localDiretorio, value); }
+        }
+
+        public string VersaoArquivo
+        {
+            get { return _versaoArquivo; }
+            set { SetField(ref _versaoArquivo, value); }
         }
 
         public bool LeitorBomba

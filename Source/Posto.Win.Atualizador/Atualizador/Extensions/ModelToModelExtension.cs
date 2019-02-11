@@ -19,6 +19,7 @@ namespace Atualizador.Extensions
                 Usuario = model.Usuario,
                 Senha = model.Senha,
                 LocalDiretorio = model.LocalDiretorio,
+                VersaoArquivo = model.VersaoArquivo,
                 LeitorBomba = model.LeitorBomba,
                 PostoWeb = model.PostoWeb,
             };
@@ -34,6 +35,7 @@ namespace Atualizador.Extensions
                 Usuario = model.Usuario,
                 Senha = model.Senha,
                 LocalDiretorio = model.LocalDiretorio,
+                VersaoArquivo = model.VersaoArquivo,
                 LeitorBomba = model.LeitorBomba,
                 PostoWeb = model.PostoWeb,
             };
