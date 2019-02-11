@@ -1,4 +1,5 @@
-﻿using Posto.Win.Update.DataContext;
+﻿using Posto.Win.Update.Converters;
+using Posto.Win.Update.DataContext;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,7 @@ namespace Posto.Win.Update
     {
         private const string Folder = "cfg";
         private const string File = "Atualizador.xml";
+        private const string Key = "BG6NMtwakaZzehJhBg3cRTmCySPhUdFW";
 
         public ConfiguracaoXml() 
         {
@@ -51,10 +53,22 @@ namespace Posto.Win.Update
         public string Senha { get; set; }
 
         /// <summary>
-        /// Local do diretorio que serão extraidos os arquivos
+        /// Local do diretório que serão extraidos os arquivos
         /// </summary>
         [XmlElement("LocalDiretorio")]
         public string LocalDiretorio { get; set; }
+
+        /// <summary>
+        /// Diretório do postgres
+        /// </summary>
+        [XmlElement("LocalPostgres")]
+        public string LocalPostgres { get; set; }
+
+        /// <summary>
+        /// Ultima versao do arquivo
+        /// </summary>
+        [XmlElement("VersaoArquivo")]
+        public string VersaoArquivo { get; set; }
 
         /// <summary>
         /// Leitor de bombas
@@ -67,6 +81,24 @@ namespace Posto.Win.Update
         /// </summary>
         [XmlElement("PostoWeb")]
         public bool PostoWeb { get; set; }
+
+        /// <summary>
+        /// Backup
+        /// </summary>
+        [XmlElement("Backup")]
+        public bool Backup { get; set; }
+
+        /// <summary>
+        /// Vacuum
+        /// </summary>
+        [XmlElement("Vacuum")]
+        public bool Vacuum { get; set; }
+
+        /// <summary>
+        /// Reindex
+        /// </summary>
+        [XmlElement("Reindex")]
+        public bool Reindex { get; set; }
 
         /// <summary>
         /// Carrega as informações do xml
@@ -89,7 +121,7 @@ namespace Posto.Win.Update
                 sR = new StreamReader(path);
                 ConfiguracaoXml config = (ConfiguracaoXml)serializer.Deserialize(sR);
                 sR.Close();
-
+                config.Senha = Crypto.Decrypt(config.Senha, Key);
                 return config;
             }
             catch (Exception)
@@ -114,6 +146,10 @@ namespace Posto.Win.Update
             XmlSerializer serializer = new XmlSerializer(typeof(ConfiguracaoXml));
             string path = string.Format("{0}/{1}/{2}", Environment.CurrentDirectory, Folder, File);
             StreamWriter sW = new StreamWriter(path);
+            if (Senha != null)
+            {
+                Senha = Crypto.Encrypt(Senha, Key);
+            }
             serializer.Serialize(sW, this);
             sW.Close();
         }

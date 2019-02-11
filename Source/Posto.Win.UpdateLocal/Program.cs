@@ -19,10 +19,17 @@ namespace Posto.Win.UpdateLocal
             Application.SetCompatibleTextRenderingDefault(false);
 
             #if DEBUG
-            Application.Run(new Posto(Aplicativo.Retaguarda));
+                Application.Run(new Posto(Aplicativo.Retaguarda));
             #else
-            var aplicativo = (Aplicativo)Enum.Parse(typeof(Aplicativo), args.FirstOrDefault().ToString());
-            Application.Run(new Posto(aplicativo));
+                try
+                {
+                    var aplicativo = (Aplicativo)Enum.Parse(typeof(Aplicativo), args.FirstOrDefault().ToString());
+                    Application.Run(new Posto(aplicativo));
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             #endif
         }
     }

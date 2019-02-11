@@ -129,12 +129,12 @@ namespace Posto.Win.UpdateLocal
                 }
             }
             catch (Exception e)
-            {                
+            {
                 while (e.InnerException != null)
                 {
                     e = e.InnerException;
                 }
-                throw new Exception(string.Format("Não foi possível iniciar verificar as configurações: \n{0}", e.Message));                
+                throw new Exception(string.Format("Não foi possível iniciar verificar as configurações: \n{0}", e.Message));
             }
         }
         /// <summary>
@@ -146,13 +146,13 @@ namespace Posto.Win.UpdateLocal
             try
             {
                 UpdateProgress("Verificando a versão do programa.");
-                
+
                 Arquivos = new List<FileInfo>();
                 ArquivosNovos = new List<FileInfo>();
 
                 Arquivos.Add(new FileInfo(Configuracoes.Servidor + @"App\Posto.exe"));
 
-                foreach (var arquivo in Arquivos)
+                Arquivos.ForEach(arquivo =>
                 {
                     var local = new FileInfo(arquivo.FullName.Replace(Configuracoes.Servidor, Configuracoes.Local));
                     var servidor = arquivo;
@@ -165,7 +165,7 @@ namespace Posto.Win.UpdateLocal
                             Environment.Exit(0);
                         }
                     }
-                }
+                });
             }
             catch (Exception e)
             {
@@ -201,7 +201,7 @@ namespace Posto.Win.UpdateLocal
                 processo.Close();
                 processo.Dispose();
                 processo = null;
-            }            
+            }
         }
         /// <summary>
         /// Executa aplicativo de acordo com parâmetro
@@ -314,7 +314,7 @@ namespace Posto.Win.UpdateLocal
 
                 ArquivosNovos = new List<FileInfo>();
 
-                foreach (var arquivo in Arquivos)
+                Arquivos.ForEach(arquivo =>
                 {
                     if (arquivo.Exists)
                     {
@@ -330,7 +330,7 @@ namespace Posto.Win.UpdateLocal
                     {
                         ArquivosNovos.Add(arquivo);
                     }
-                }
+                });
             }
             catch (Exception e)
             {
@@ -351,7 +351,7 @@ namespace Posto.Win.UpdateLocal
             {
                 UpdateProgress("Atualizando o Posto, aguarde...");
 
-                foreach (var arquivo in ArquivosNovos)
+                ArquivosNovos.ForEach(arquivo =>
                 {
                     var local = arquivo.FullName.Replace(Configuracoes.Servidor, Configuracoes.Local);
                     var diretorio = Path.GetDirectoryName(local);
@@ -362,7 +362,7 @@ namespace Posto.Win.UpdateLocal
                     }
 
                     File.Copy(arquivo.FullName, local, true);
-                }
+                });
             }
             catch (Exception e)
             {

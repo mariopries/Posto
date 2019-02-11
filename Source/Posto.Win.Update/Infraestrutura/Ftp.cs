@@ -36,6 +36,7 @@ namespace Posto.Win.Update.Infraestrutura
         private string Local;
 
         private long FileSize;
+        private DateTime FileModified;
 
         #endregion
 
@@ -89,7 +90,7 @@ namespace Posto.Win.Update.Infraestrutura
                 reqFTP.CachePolicy = noCachePolicy;
                 reqFTP.Proxy = null;
                 reqFTP.KeepAlive = false;
-                reqFTP.UsePassive = false;
+                reqFTP.UsePassive = true;
                 response = reqFTP.GetResponse();
                 reader = new StreamReader(response.GetResponseStream());
                 string line = reader.ReadLine();
@@ -131,9 +132,8 @@ namespace Posto.Win.Update.Infraestrutura
                 request.Credentials = new NetworkCredential(Usuario, Senha);
                 request.Method = WebRequestMethods.Ftp.GetFileSize;
                 request.CachePolicy = noCachePolicy;
-
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
-                FileSize = response.ContentLength;
+                FileSize = response.ContentLength;                
             }
             catch (Exception e)
             {
@@ -141,6 +141,30 @@ namespace Posto.Win.Update.Infraestrutura
             }
 
             return FileSize;
+        }
+
+        public DateTime GetFileLasModified(string path)
+        {
+            try
+            {
+                HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.Default);
+                HttpWebRequest.DefaultCachePolicy = policy;
+                HttpRequestCachePolicy noCachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://" + Url + "/" + path);
+                request.Proxy = null;
+                request.Credentials = new NetworkCredential(Usuario, Senha);
+                request.Method = WebRequestMethods.Ftp.GetDateTimestamp;
+                request.CachePolicy = noCachePolicy;
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+                FileModified = response.LastModified;
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+            }
+
+            return FileModified;
         }
         public byte[] Download(string path, MainWindowViewModel mainwindowviewmodel)
         {
@@ -150,9 +174,9 @@ namespace Posto.Win.Update.Infraestrutura
             byte[] buffer = new byte[32 * 1024];
             int read;
             try
-            {
+            {                
                 GetFileSize(path);
-
+                
                 HttpRequestCachePolicy policy = new HttpRequestCachePolicy(HttpRequestCacheLevel.Default);
                 HttpWebRequest.DefaultCachePolicy = policy;
                 HttpRequestCachePolicy noCachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
@@ -184,6 +208,7 @@ namespace Posto.Win.Update.Infraestrutura
                         }
 
                     }
+
                     return ms.ToArray();
                 }
             }

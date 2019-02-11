@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Posto.Win.Update.Model
 {
@@ -14,9 +15,14 @@ namespace Posto.Win.Update.Model
         private string  _banco;
         private string  _usuario;
         private string  _senha;
-        private string  _localDiretorio;        
+        private string  _localDiretorio;
+        private string  _versaoArquivo;
+        private string  _localPostgres;
         private bool    _leitor;
         private bool    _web;
+        private bool    _backup;
+        private bool    _reindex;
+        private bool    _vacuum;
 
         public string Servidor 
         {
@@ -114,6 +120,38 @@ namespace Posto.Win.Update.Model
             }
         }
 
+        public string LocalPostgres
+        {
+            get
+            {
+                return this._localPostgres;
+            }
+            set
+            {
+                if (this._localPostgres != value)
+                {
+                    this._localPostgres = value;
+                    this.RaisePropertyChanged(() => this.LocalPostgres);
+                }
+            }
+        }
+
+        public string VersaoArquivo
+        {
+            get
+            {
+                return this._versaoArquivo;
+            }
+            set
+            {
+                if (this._versaoArquivo != value)
+                {
+                    this._versaoArquivo = value;
+                    this.RaisePropertyChanged(() => this.VersaoArquivo);
+                }
+            }
+        }
+
         public bool LeitorBomba
         {
             get
@@ -142,6 +180,52 @@ namespace Posto.Win.Update.Model
                 {
                     _web = value;
                     RaisePropertyChanged(() => PostoWeb);
+                }
+            }
+        }
+
+        public bool Backup
+        {
+            get
+            {
+                return _backup;
+            }
+            set
+            {
+                if (_backup != value)
+                {
+                    _backup = value;
+                    RaisePropertyChanged(() => Backup);
+                }
+            }
+        }
+        public bool Reindex
+        {
+            get
+            {
+                return _reindex;
+            }
+            set
+            {
+                if (_reindex != value)
+                {
+                    _reindex = value;
+                    RaisePropertyChanged(() => Reindex);
+                }
+            }
+        }
+        public bool Vacuum
+        {
+            get
+            {
+                return _vacuum;
+            }
+            set
+            {
+                if (_vacuum != value)
+                {
+                    _vacuum = value;
+                    RaisePropertyChanged(() => Vacuum);
                 }
             }
         }

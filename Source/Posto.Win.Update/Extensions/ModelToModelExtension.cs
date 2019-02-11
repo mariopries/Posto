@@ -19,8 +19,13 @@ namespace Posto.Win.Update.Extensions
                 Usuario = model.Usuario,
                 Senha = model.Senha,
                 LocalDiretorio = model.LocalDiretorio,
+                LocalPostgres = model.LocalPostgres,
+                VersaoArquivo = model.VersaoArquivo,
                 LeitorBomba = model.LeitorBomba,
                 PostoWeb = model.PostoWeb,
+                Backup = model.Backup,
+                Vacuum = model.Vacuum,
+                Reindex = model.Reindex
             };
         }
 
@@ -34,8 +39,13 @@ namespace Posto.Win.Update.Extensions
                 Usuario = model.Usuario,
                 Senha = model.Senha,
                 LocalDiretorio = model.LocalDiretorio,
+                LocalPostgres = model.LocalPostgres,
+                VersaoArquivo = model.VersaoArquivo,
                 LeitorBomba = model.LeitorBomba,
                 PostoWeb = model.PostoWeb,
+                Backup = model.Backup,
+                Vacuum = model.Vacuum,
+                Reindex = model.Reindex
             };
         }
 

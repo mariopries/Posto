@@ -1,5 +1,6 @@
 ﻿using Npgsql;
 using Posto.Win.Update.Infraestrutura;
+using Posto.Win.Update.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,6 +26,8 @@ namespace Posto.Win.Update.View
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string senha { get; set; }
+
         private bool PrimeiraVez = false;
         public MainWindow()
         {
@@ -85,7 +88,7 @@ namespace Posto.Win.Update.View
             return Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1;
         }
 
-    private void MyNotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        private void MyNotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
         {
             ShowInTaskbar = true;
             Show();

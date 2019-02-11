@@ -21,7 +21,7 @@
         ShowInTaskbar="False"
         SourceInitialized="Window_SourceInitialized"
         StateChanged="Window_StateChanged"
-        Height="282.333" Width="526.666">
+        Height="314.333" Width="523.999">
 
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -126,8 +126,23 @@
             </Setter>
         </Style>
 
-        <Canvas x:Key="MiImageLock" Width="12" Height="16" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-            <Path Width="12" Height="16" Stretch="Fill" Fill="Black" Data="M7.44999980926514,11.2559003829956L6.45993757247925,11.6660995483398 6.05000019073486,12.6559000015259 6.29403781890869,13.4448871612549 6.92080020904541,13.9509000778198 6.8394250869751,14.5210723876953 6.66039991378784,15.7754497528076 6.48137474060059,17.0298290252686 6.39999961853027,17.6000003814697 6.72812461853027,17.6000003814697 7.44999980926514,17.6000003814697 8.171875,17.6000003814697 8.5,17.6000003814697 8.41851615905762,17.0298290252686 8.23925018310547,15.7754497528076 8.05998420715332,14.5210723876953 7.97850036621094,13.9509000778198 8.60587501525879,13.4448871612549 8.84999942779541,12.6559000015259 8.43980026245117,11.6660995483398 7.44999980926514,11.2559003829956z M7.44999980926514,1.5L5.95127820968628,1.80250930786133 4.72752475738525,2.62752485275269 3.9025092124939,3.85127782821655 3.59999990463257,5.34999990463257 3.59999990463257,5.84218740463257 3.59999990463257,6.92500019073486 3.59999990463257,8.0078125 3.59999990463257,8.5 3.93085932731628,8.5 4.80312490463257,8.5 7.44999980926514,8.5 10.0968751907349,8.5 10.9691410064697,8.5 11.3000001907349,8.5 11.3000001907349,8.0078125 11.3000001907349,6.92500019073486 11.3000001907349,5.84218740463257 11.3000001907349,5.34999990463257 10.9973926544189,3.85127782821655 10.172212600708,2.62752485275269 8.94842624664307,1.80250930786133 7.44999980926514,1.5z M7.09999942779541,-0.600000023841858L7.44999980926514,-0.600000023841858 7.80000019073486,-0.600000023841858 9.97969055175781,-0.159896910190582 11.7597246170044,1.04027497768402 12.9598960876465,2.82030940055847 13.3999996185303,5 13.3999996185303,5.546875 13.3999996185303,6.75 13.3999996185303,7.953125 13.3999996185303,8.5 13.7281246185303,8.5 14.4499998092651,8.5 15.171875,8.5 15.5,8.5 15.5,8.98124980926514 15.5,10.25 15.5,12.0437498092651 15.5,14.0999994277954 15.5,16.15625 15.5,17.9499988555908 15.5,19.2187480926514 15.5,19.6999988555908 15.3191890716553,19.6999988555908 14.8082027435303,19.6999988555908 12.984375,19.6999988555908 10.4058589935303,19.6999988555908 7.44999980926514,19.6999988555908 4.494140625,19.6999988555908 1.91562497615814,19.6999988555908 0.0917968526482582,19.6999988555908 -0.419189482927322,19.6999988555908 -0.600000023841858,19.6999988555908 -0.600000023841858,19.2187480926514 -0.600000023841858,17.9499988555908 -0.600000023841858,16.15625 -0.600000023841858,14.0999994277954 -0.600000023841858,12.0437498092651 -0.600000023841858,10.25 -0.600000023841858,8.98124980926514 -0.600000023841858,8.5 -0.271875023841858,8.5 0.449999988079071,8.5 1.171875,8.5 1.5,8.5 1.5,7.953125 1.5,6.75 1.5,5.546875 1.5,5 1.94000470638275,2.82030940055847 3.14001250267029,1.04027497768402 4.92001390457153,-0.159896910190582 7.09999942779541,-0.600000023841858z"/>
+        <Canvas x:Key="MiImageLock" Width="16" Height="16" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+            <Path Width="14" Height="16" Stretch="Fill" Fill="Black" Data="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"/>
+        </Canvas>
+        <Canvas x:Key="MiImageUnLock" Width="16" Height="16" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+            <Path Width="14" Height="14.5" Stretch="Fill" Fill="Black" Data="M423.5 0C339.5.3 272 69.5 272 153.5V224H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48h-48v-71.1c0-39.6 31.7-72.5 71.3-72.9 40-.4 72.7 32.1 72.7 72v80c0 13.3 10.7 24 24 24h32c13.3 0 24-10.7 24-24v-80C576 68 507.5-.3 423.5 0z"/>
+        </Canvas>
+        <Canvas x:Key="MiImageSync" Width="9" Height="9" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+            <Path Width="9" Height="9" Stretch="Fill" Fill="Black" Data="M370.72 133.28C339.458 104.008 298.888 87.962 255.848 88c-77.458.068-144.328 53.178-162.791 126.85-1.344 5.363-6.122 9.15-11.651 9.15H24.103c-7.498 0-13.194-6.807-11.807-14.176C33.933 94.924 134.813 8 256 8c66.448 0 126.791 26.136 171.315 68.685L463.03 40.97C478.149 25.851 504 36.559 504 57.941V192c0 13.255-10.745 24-24 24H345.941c-21.382 0-32.09-25.851-16.971-40.971l41.75-41.749zM32 296h134.059c21.382 0 32.09 25.851 16.971 40.971l-41.75 41.75c31.262 29.273 71.835 45.319 114.876 45.28 77.418-.07 144.315-53.144 162.787-126.849 1.344-5.363 6.122-9.15 11.651-9.15h57.304c7.498 0 13.194 6.807 11.807 14.176C478.067 417.076 377.187 504 256 504c-66.448 0-126.791-26.136-171.315-68.685L48.97 471.03C33.851 486.149 8 475.441 8 454.059V320c0-13.255 10.745-24 24-24z"/>
+        </Canvas>
+        <Canvas x:Key="MiImagePlay" Width="9" Height="9" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+            <Path Width="9" Height="9" Stretch="Fill" Fill="Black" Data="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"/>
+        </Canvas>
+        <Canvas x:Key="MiImagePause" Width="9" Height="9" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+            <Path Width="9" Height="9" Stretch="Fill" Fill="Black" Data="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z"/>
+        </Canvas>
+        <Canvas x:Key="MiImageClose" Width="9" Height="9" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+            <Path Width="9" Height="9" Stretch="Fill" Fill="Black" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"/>
         </Canvas>
 
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converter:BooleanToVisibilityConverter>
@@ -154,36 +169,28 @@
                               Command="{Binding AtualizarCommand}"
                               CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}">
                         <MenuItem.Icon>
-                            <Image Width="18"
-                                   Height="18"
-                                   Source="/Atualizador;component/Resources/sync_black.png" />
+                            <Button Content="{StaticResource MiImageSync}" Style="{StaticResource TransparentStyle}"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Iniciar sincronização"
                               Command="{Binding IniciarCommand}"
                               CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}">
                         <MenuItem.Icon>
-                            <Image Width="18"
-                                   Height="18"
-                                   Source="/Atualizador;component/Resources/play.png" />
+                            <Button Content="{StaticResource MiImagePlay}" Style="{StaticResource TransparentStyle}"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Pausar sincronização"
                               Command="{Binding PausarCommand}"
                               CommandParameter="{Binding}" IsEnabled="{Binding AbaAtualizar.IsVisibleButtonPausar}">
                         <MenuItem.Icon>
-                            <Image Width="18"
-                                   Height="18"
-                                   Source="/Atualizador;component/Resources/pause.png" />
+                            <Button Content="{StaticResource MiImagePause}" Style="{StaticResource TransparentStyle}"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Fechar programa"
                               Command="{Binding MenuFecharCommand}"
                               CommandParameter="{Binding}">
                         <MenuItem.Icon>
-                            <Image Width="18"
-                                   Height="18"
-                                   Source="/Atualizador;component/Resources/delete-sign.png" />
+                            <Button Content="{StaticResource MiImageClose}" Style="{StaticResource TransparentStyle}"/>
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
@@ -203,35 +210,45 @@
                             <ColumnDefinition Width="316*" />
                             <ColumnDefinition Width="100*" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel VerticalAlignment="Center" Margin="0,31,0,36" Height="78">
-                            <TextBlock Text="Próxima:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
-                            <TextBlock Text="Última:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
-                            <TextBlock Text="Versão Atual:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" />
+                        <StackPanel VerticalAlignment="Center" Margin="19,40,297,27" Height="78" Grid.ColumnSpan="2">
+                            <TextBlock Text="Próxima:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" Foreground="#FF00B030" FontFamily="Segoe UI" />
+                            <TextBlock Text="Última:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" Foreground="#FF00B030" FontFamily="Segoe UI" />
+                            <TextBlock Text="Versão Atual:" HorizontalAlignment="Right" Style="{StaticResource TextoNegrito}" Foreground="#FF00B030" FontFamily="Segoe UI" FontWeight="Bold" />
                         </StackPanel>
-                        <StackPanel VerticalAlignment="Top" Grid.Column="1" Margin="0,31,0,0" Height="78">
+                        <StackPanel VerticalAlignment="Top" Grid.Column="1" Margin="19,40,81,0" Height="78" Grid.ColumnSpan="2">
                             <TextBlock Text="{Binding AbaAtualizar.AtualizarModel.GetDataProximaAtualizacao, Mode=OneWay, StringFormat=dd/MM/yyyy HH:mm}" Style="{StaticResource TextoNormal}" />
                             <TextBlock Text="{Binding AbaAtualizar.AtualizarModel.UltimaData, StringFormat=dd/MM/yyyy}" Style="{StaticResource TextoNormal}" />
                             <TextBlock Text="{Binding AbaAtualizar.AtualizarModel.Versao}" Style="{StaticResource TextoNormal}" Margin="5,5,0,5" />
                         </StackPanel>
-                        <Button Command="{Binding BloquearCommand}" Content="{StaticResource MiImageLock}" Style="{StaticResource TransparentStyle}" Margin="68,114,12,10" RenderTransformOrigin="0.583,-0.8" Grid.Column="2"/>
+                        <Button Cursor="Hand" Command="{Binding BloquearCommand}" Visibility="{Binding AbaAtualizar.BotaoBloquear}" Content="{StaticResource MiImageLock}" Style="{StaticResource TransparentStyle}" Margin="61,5,14,119" Grid.Column="2">
+                            <Button.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock>Bloquear Configurações</TextBlock>
+                                    </StackPanel>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
+                        <Button Cursor="Hand" Command="{Binding DesbloquearCommand}" Visibility="{Binding AbaAtualizar.BotaoDesbloquear}" Content="{StaticResource MiImageUnLock}" Style="{StaticResource TransparentStyle}" Margin="61,5,14,119" Grid.Column="2">
+                            <Button.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock>Desbloquear Configurações</TextBlock>
+                                    </StackPanel>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
                     </Grid>
-                    <Border BorderBrush="#FF646464" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,5,0,0" VerticalAlignment="Top" Width="515" Grid.Row="1"/>
-                    <Grid HorizontalAlignment="Left" Height="80" Grid.Row="1" VerticalAlignment="Top" Width="515">
-                        <StackPanel Margin="360,37,10,10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="145" Height="33">
+                    <Border BorderBrush="#FF646464" BorderThickness="1" HorizontalAlignment="Left" Height="2" Margin="0,18,-3,0" VerticalAlignment="Top" Width="515" Grid.Row="1"/>
+                    <Grid HorizontalAlignment="Left" Height="80" Grid.Row="1" VerticalAlignment="Top" Width="515" Margin="0,27,-3,0">
+                        <StackPanel Margin="360,40,10,7" HorizontalAlignment="Center" VerticalAlignment="Center" Width="145" Height="33">
                             <Button Command="{Binding AtualizarCommand}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}" HorizontalContentAlignment="Right" RenderTransformOrigin="0.456,0.25" Height="28" Content="Atualizar" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <Button Command="{Binding IniciarCommand}" Visibility="{Binding AbaAtualizar.IsVisibleButtonPausar, Converter={StaticResource InvertBooleanToVisibilityConverter}}" IsEnabled="{Binding AbaAtualizar.IsEnableButtonAtualizar}" VerticalContentAlignment="Center" Content="Iniciar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
                             <Button Command="{Binding PausarCommand}" Visibility="{Binding AbaAtualizar.IsVisibleButtonPausar, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalContentAlignment="Center" Content="Parar" HorizontalContentAlignment="Right" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="74,-28,0,0"/>
                         </StackPanel>
-                        <StackPanel HorizontalAlignment="Left" Height="57" Margin="0,17,0,0" VerticalAlignment="Top" Width="346">
+                        <StackPanel HorizontalAlignment="Left" Height="57" Margin="0,19,0,0" VerticalAlignment="Top" Width="346">
                             <Label FontWeight="Bold" Content="{Binding AbaAtualizar.Status.StatusLabel.LabelContent}" Height="17" Margin="{Binding AbaAtualizar.Status.StatusLabel.LabelMargin}" Padding="0"/>
-                            <ProgressBar x:Name="BarraProgresso" HorizontalAlignment="Left" Height="13" Width="326" VerticalContentAlignment="Center" VerticalAlignment="Center" Value="{Binding AbaAtualizar.Status.BarraProgresso.ProgressoBarra1}" Margin="10,0,0,0" Visibility="{Binding AbaAtualizar.Status.BarraProgresso.Visao}">
-                                <ProgressBar.BorderBrush>
-                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                        <GradientStop Color="#FFC38C8C"/>
-                                        <GradientStop Color="#FF8C8C8C"/>
-                                    </LinearGradientBrush>
-                                </ProgressBar.BorderBrush>
-                            </ProgressBar>
+                            <ProgressBar Height="13" Margin="10,0" Visibility="{Binding AbaAtualizar.Status.BarraProgresso.Visao}" Value="{Binding AbaAtualizar.Status.BarraProgresso.ProgressoBarra1}" IsIndeterminate="{Binding AbaAtualizar.Status.BarraProgresso.IsIndeterminateBarra1}" Foreground="{Binding AbaAtualizar.Status.BarraProgresso.ForegroundBarra1}"/>
                             <ProgressBar Height="13" Margin="10,4,10,0" Visibility="{Binding AbaAtualizar.Status.BarraProgresso.Visao}" Value="{Binding AbaAtualizar.Status.BarraProgresso.ProgressoBarra2}"/>
                         </StackPanel>
                     </Grid>
@@ -239,7 +256,7 @@
             </TabItem>
 
 
-            <TabItem Header="Configuração">
+            <TabItem Header="Configuração" Visibility="{Binding AbaConfiguracoes.Visibilidade}">
                 <TabItem.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
@@ -255,8 +272,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="18" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="18" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
@@ -290,26 +308,44 @@
                     <TextBox x:Name="InputUsuario" Grid.Row="3" Grid.ColumnSpan="4" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.Usuario}" />
 
                     <Label Content="Senha:" Grid.Row="2" Grid.Column="5" />
-                    <TextBox x:Name="InputSenha" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.Senha}" />
+                    <PasswordBox x:Name="PasswordBoxSenha"
+                                     Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="3"
+                                     HorizontalAlignment="Stretch"
+                                     b:FocusBehavior.IsFocused="{Binding InputSenhaIsFocused}"
+                                     b:PasswordBoxBehavior.BindPassword="True"
+                                     b:PasswordBoxBehavior.BoundPassword="{Binding InputSenha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     >
+                        <PasswordBox.InputBindings>
+                            <KeyBinding Key="Tab" Command="{Binding InputSenhaIsValidCommand}" />
+                            <KeyBinding Key="Enter" Command="{Binding InputSenhaIsValidCommand}" />
+                        </PasswordBox.InputBindings>
+                    </PasswordBox>
 
-                    <Label Content="Local dos Executáveis:" Grid.Row="4" Grid.ColumnSpan="7" />
+                    <Label Content="Diretório raiz do sistema:" Grid.Row="4" Grid.ColumnSpan="7" />
                     <TextBox x:Name="InputLocalDiretorio" Grid.Row="5" Grid.ColumnSpan="7" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.LocalDiretorio}" />
-                    <Button Grid.Row="5" Grid.Column="8" Margin="3,0,0,0" Padding="5,0" Command="{Binding AbrirExplorerCommand}">...</Button>
+                    <Button Grid.Row="5" Grid.Column="8" Margin="3,0,0,0" Padding="5,0" Command="{Binding LocalSistemaCommand}">...</Button>
 
-                    <CheckBox x:Name="Check_Leitor" Content="Encerrar Leitor de bombas durante atualização" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.LeitorBomba}" Grid.ColumnSpan="5" Width="289" Command="{Binding LeitorBomba}"/>
-                    <CheckBox x:Name="Check_Web" Content="Encerrar Posto web durante atualização" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="7" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.PostoWeb}" Grid.ColumnSpan="5" Width="289" Command="{Binding PostoWeb}"/>
+                    <Label Content="Diretório da bin do PostgreSQL:" Grid.Row="6" Grid.ColumnSpan="7" />
+                    <TextBox x:Name="InputLocalPg" Grid.Row="7" Grid.ColumnSpan="7" Text="{Binding AbaConfiguracoes.ConfiguracaoModel.LocalPostgres}" />
+                    <Button Grid.Row="7" Grid.Column="8" Margin="3,0,0,0" Padding="5,0" Command="{Binding LocalPostgresCommand}">...</Button>
 
-                    <Border Grid.Row="7" Grid.ColumnSpan="8" Margin="0,59,0,10" Background="#FF646464" Height="2" />
+                    <CheckBox x:Name="Check_Leitor" Content="Encerrar Leitor de bombas durante atualização" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="8" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.LeitorBomba}" Grid.ColumnSpan="5" Width="289"/>
+                    <CheckBox x:Name="Check_Web" Content="Encerrar Posto web durante atualização" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="8" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.PostoWeb}" Grid.ColumnSpan="5" Width="289"/>
+                    <CheckBox x:Name="Check_Backup" Content="Fazer Backup" HorizontalAlignment="Left" Margin="10,11,0,0" Grid.Row="8" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.Backup}" Grid.ColumnSpan="5" Width="289" Grid.Column="4"/>
+                    <CheckBox x:Name="Check_Vacuum" Content="Fazer Vaccum" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="8" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.Vacuum}" Grid.ColumnSpan="5" Width="289" Grid.Column="4"/>
+                    <CheckBox x:Name="Check_Reindex" Content="Fazer Reindex" HorizontalAlignment="Left" Margin="120,11,0,0" Grid.Row="8" VerticalAlignment="Top" IsChecked="{Binding AbaConfiguracoes.ConfiguracaoModel.Reindex}" Grid.ColumnSpan="5" Width="289" Grid.Column="4"/>
 
-                    <Grid Grid.Row="7" Grid.ColumnSpan="8" Margin="0,0,0,0">
+                    <Border Grid.Row="8" Grid.ColumnSpan="8" Margin="0,59,0,10" Background="#FF646464" Height="2" />
+
+                    <Grid Grid.Row="9" Grid.ColumnSpan="8" Margin="0,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                     </Grid>
-                    <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding AbaConfiguracoes.EnableButtonConfiguracao}" Content="Salvar" Grid.Column="6" Margin="0,76,10,-38" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"/>
-                    <Button Command="{Binding TestarConexaoCommand}" Margin="0,77,45,-37" IsEnabled="{Binding AbaConfiguracoes.EnableButtonConfiguracao}" Content="Testar Conexão" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="7"/>
-                    <Label FontWeight="Bold" Content="{Binding AbaConfiguracoes.MensagemLabel}" Margin="10,84,81,-29" Grid.ColumnSpan="6" Grid.Row="7" />
+                    <Button Command="{Binding SalvarCommand}" IsEnabled="{Binding AbaConfiguracoes.EnableButtonConfiguracao}" Content="Salvar" Grid.Column="6" Margin="0,76,10,-38" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="8"/>
+                    <Button Command="{Binding TestarConexaoCommand}" Margin="0,77,45,-37" IsEnabled="{Binding AbaConfiguracoes.EnableButtonConfiguracao}" Content="Testar Conexão" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="8"/>
+                    <Label FontWeight="Bold" Content="{Binding AbaConfiguracoes.MensagemLabel}" Margin="10,84,81,-29" Grid.ColumnSpan="6" Grid.Row="9" />
 
 
                 </Grid>

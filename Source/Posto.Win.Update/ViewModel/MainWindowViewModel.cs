@@ -42,6 +42,7 @@ namespace Posto.Win.Update.ViewModel
         private NotificationObject _sobreContent;
         private NotificationObject _dynamicContentControl;
         private string _focusElement;
+        private string fInputSenha;
 
         #endregion
 
@@ -58,37 +59,36 @@ namespace Posto.Win.Update.ViewModel
             AbaConfiguracoes        = new AbaConfiguracoes();
             Indicadores             = new IndicadoresManutencao(AbaConfiguracoes.ConfiguracaoModel);
             _atualizarAsync         = new Atualizar(this);
-            AbrirExplorerCommand    = new DelegateCommand(OnAbrirExplorer);
+            LocalSistemaCommand     = new DelegateCommand(OnLocalSistema);
+            LocalPostgresCommand    = new DelegateCommand(OnLocalPostgres);
             SalvarCommand           = new DelegateCommand(OnSalvar);
             TestarConexaoCommand    = new DelegateCommand(OnTestarConexao);
-            AtualizarCommand        = new DelegateCommand(OnAtualizar);
+            AtualizarCommand        = new DelegateCommand(OnAtualizarClick);
             AtualizarAfterCommand   = new DelegateCommand(OnAtualizarAfter);
             IniciarCommand          = new DelegateCommand(OnIniciar);
             PausarCommand           = new DelegateCommand(OnPausar);
             LoginCommand            = new DelegateCommand(OnLogin);
-            BloquearCommand         = new DelegateCommand(OnBloquear);
+            CancelarLoginCommand    = new DelegateCommand(OnCancelarLogin);
+            DesbloquearCommand      = new DelegateCommand(OnDesbloquear);
+            BloquearCommand         = new DelegateCommand(OnLogout);
             FecharCommand           = new DelegateCommand(OnFechar, OnPodeFechar);
             MenuFecharCommand       = new DelegateCommand(OnMenuFechar);
             SobreContentCommand     = new DelegateCommand(OnSobre);
-            
-            
+            InputSenha              = AbaConfiguracoes.ConfiguracaoModel.Senha;
             
             var conexao = await OnTestarConexaoAsync();
 
             if (conexao)
             {
-                if (!Indicadores.EmManutencao && Indicadores.FimManutencao)
+                if (!Indicadores.EmManutencao && (Indicadores.FimManutencao || !Indicadores.FimManutencao))
                 {
                     OnIniciar();
                 }
                 else
                 {
-                    OnAtualizar();
+                    OnAtualizar(false);
                 }
             }
-            
-
-            //this.DynamicContentControl = new LoginViewModel(this.LoginCommand);
         }
         #endregion
 
@@ -139,7 +139,8 @@ namespace Posto.Win.Update.ViewModel
 
         #region Commands
 
-        public DelegateCommand AbrirExplorerCommand { get; set; }
+        public DelegateCommand LocalSistemaCommand { get; set; }
+        public DelegateCommand LocalPostgresCommand { get; set; }
         public DelegateCommand SalvarCommand { get; set; }
         public DelegateCommand TestarConexaoCommand { get; set; }
         public DelegateCommand AtualizarCommand { get; set; }
@@ -147,18 +148,59 @@ namespace Posto.Win.Update.ViewModel
         public DelegateCommand IniciarCommand { get; set; }
         public DelegateCommand PausarCommand { get; set; }
         public DelegateCommand LoginCommand { get; set; }
+        public DelegateCommand CancelarLoginCommand { get; set; }
         public DelegateCommand BloquearCommand { get; set; }
+        public DelegateCommand DesbloquearCommand { get; set; }
         public DelegateCommand FecharCommand { get; set; }
         public DelegateCommand CancelaFecharCommand { get; set; }
         public DelegateCommand MenuFecharCommand { get; set; }
         public DelegateCommand SobreContentCommand { get; set; }
+        public DelegateCommand fInputSenhaIsValidCommand;
+        public DelegateCommand InputSenhaIsValidCommand
+        {
+            get
+            {
+                if (this.fInputSenhaIsValidCommand == null)
+                {
+                    this.fInputSenhaIsValidCommand = new DelegateCommand(this.InputSenhaIsValidExecuted);
+                }
 
+                return this.fInputSenhaIsValidCommand;
+            }
+        }
+
+        /// <summary>
+        /// Senha
+        /// </summary>
+        public string InputSenha
+        {
+            get
+            {
+                return this.fInputSenha;
+            }
+            set
+            {
+                if (this.fInputSenha != value)
+                {
+                    this.fInputSenha = value;
+                    this.RaisePropertyChanged(() => this.InputSenha);
+                }
+            }
+        }
+
+        private void InputSenhaIsValidExecuted()
+        {                        
+            if (!string.IsNullOrEmpty(this.InputSenha))
+            {
+                AbaConfiguracoes.ConfiguracaoModel.Senha = this.InputSenha;
+            }
+        }
 
         #endregion
 
         #region Helpers
 
-        private void OnAbrirExplorer()
+        private void OnLocalSistema()
         {
             using (var folderDialog = new FolderBrowserDialog())
             {
@@ -169,18 +211,81 @@ namespace Posto.Win.Update.ViewModel
                     AbaConfiguracoes.ConfiguracaoModel.LocalDiretorio = folderDialog.SelectedPath;
                 }
             }
-        }              
-        private void OnAtualizar()
+        }
+        private void OnLocalPostgres()
+        {
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                DialogResult result = folderDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
+                {
+                    AbaConfiguracoes.ConfiguracaoModel.LocalPostgres = folderDialog.SelectedPath;
+                }
+            }
+        }
+        private string OnAbrirExplorerAsync()
+        {
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                DialogResult result = folderDialog.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
+                {
+                    return folderDialog.SelectedPath;
+                }
+            }
+
+            return "";
+        }
+        private void OnAtualizarClick()
+        {
+            OnAtualizar(true);
+        }
+        private void OnAtualizar(bool perguntar)
         {
             if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
             {
                 AbaAtualizar.IsEnableButtonAtualizar = false;
                 AbaAtualizar.Status.BarraProgresso.IsEnable = true;
-                _atualizarAsync.Manual(AtualizarAfterCommand);
+
+                bool backup = false, reindex = false, vacuum = false;
+
+                if (perguntar)
+                {
+                    DialogResult dialogo = MessageBox.Show("Deseja gerar backup antes de rodar rmenu?", "Atualização", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                    if (dialogo == DialogResult.Yes)
+                    {
+                        backup = true;
+                    }
+
+                    dialogo = MessageBox.Show("Deseja executar comando de vacuum no banco de dados?", "Atualização", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                    if (dialogo == DialogResult.Yes)
+                    {
+                        vacuum = true;
+                    }
+
+                    dialogo = MessageBox.Show("Deseja executar comando de reindex no banco de dados?", "Atualização", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                    if (dialogo == DialogResult.Yes)
+                    {
+                        reindex = true;
+                    }
+                }
+                else
+                {
+                    backup = AbaConfiguracoes.ConfiguracaoModel.Backup;
+                    reindex = AbaConfiguracoes.ConfiguracaoModel.Reindex;
+                    vacuum = AbaConfiguracoes.ConfiguracaoModel.Vacuum;
+                }
+
+                _atualizarAsync.Manual(AtualizarAfterCommand, backup, reindex, vacuum);
             }
             else
             {
-                MessageBox.Show("Verifique a aba de configuração!", "Problemas ao inicializar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Verifique a aba de configuração! Necessário desbloquear", "Problemas ao inicializar", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void OnAtualizarAfter()
@@ -201,7 +306,7 @@ namespace Posto.Win.Update.ViewModel
             }
             else
             {
-                MessageBox.Show("Verifique a aba de configuração!", "Problemas ao inicializar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Verifique a aba de configuração! Necessário desbloquear", "Problemas ao inicializar", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void OnPausar()
@@ -213,11 +318,23 @@ namespace Posto.Win.Update.ViewModel
         private void OnLogin()
         {
             DynamicContentControl = null;
+            AbaConfiguracoes.Visibilidade = System.Windows.Visibility.Visible;
+            AbaAtualizar.BotaoBloquear = System.Windows.Visibility.Visible;
+            AbaAtualizar.BotaoDesbloquear = System.Windows.Visibility.Hidden;
         }
-        private void OnBloquear()
+        private void OnCancelarLogin()
         {
-            //this.DynamicContentControl = null;
-            DynamicContentControl = new LoginViewModel(this.LoginCommand);
+            DynamicContentControl = null;
+        }
+        private void OnLogout()
+        {
+            AbaConfiguracoes.Visibilidade = System.Windows.Visibility.Hidden;
+            AbaAtualizar.BotaoBloquear = System.Windows.Visibility.Hidden;
+            AbaAtualizar.BotaoDesbloquear = System.Windows.Visibility.Visible;
+        }
+        private void OnDesbloquear()
+        {
+            DynamicContentControl = new LoginViewModel(this.LoginCommand, this.CancelarLoginCommand);
         }
         private void OnSobre()
         {
@@ -256,6 +373,8 @@ namespace Posto.Win.Update.ViewModel
         {
             await Task.Run(() =>
             {
+                InputSenhaIsValidExecuted();
+
                 if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
                 {
                     AbaConfiguracoes.EnableButtonConfiguracao = false;
@@ -267,10 +386,12 @@ namespace Posto.Win.Update.ViewModel
                 }
             });
         }
+
         public async void OnTestarConexao()
         {
             await OnTestarConexaoAsync();
         }
+
         private async Task<bool> OnTestarConexaoAsync()
         {
             return await Task.Run(() =>
@@ -339,7 +460,7 @@ namespace Posto.Win.Update.ViewModel
 
             if (string.IsNullOrWhiteSpace(configuracao.Senha))
             {
-                AbaConfiguracoes.MensagemLabel = "Erro: Preencha o senha";
+                AbaConfiguracoes.MensagemLabel = "Erro: Preencha a senha";
                 SetFocus(Focus.InputSenha);
                 return false;
             }

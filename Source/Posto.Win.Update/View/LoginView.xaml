@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:b="clr-namespace:Posto.Win.Update.Behavior"
       mc:Ignorable="d"             
       Height="235" Width="400">
 
@@ -32,7 +33,7 @@
     </UserControl.Resources>
 
 
-    <Grid Background="White" Height="100" Width="150" FocusManager.FocusedElement="{Binding ElementName=InputLogin}">
+    <Grid Height="100" Width="150" FocusManager.FocusedElement="{Binding ElementName=InputLogin}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -41,14 +42,22 @@
         </Grid.RowDefinitions>
 
 
-        <TextBlock Text="Login"      Grid.Row="0" ></TextBlock>
-        <TextBox x:Name="InputLogin" Grid.Row="1" Margin="0,5,0,0" Text="{Binding InputLogin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <TextBox.InputBindings>
+        <TextBlock Text="Login"      Grid.Row="0" Foreground="#FF00B030" HorizontalAlignment="Center" FontWeight="Bold" />
+        <PasswordBox x:Name="InputLogin"
+                                     Grid.Row="1"  Margin="0,5,0,0"
+                                     HorizontalAlignment="Stretch"
+                                     b:FocusBehavior.IsFocused="{Binding InputSenhaIsFocused}"
+                                     b:PasswordBoxBehavior.BindPassword="True"
+                                     b:PasswordBoxBehavior.BoundPassword="{Binding InputLogin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     >
+            <PasswordBox.InputBindings>
+                <KeyBinding Key="Tab" Command="{Binding LogarCommand}" />
                 <KeyBinding Key="Enter" Command="{Binding LogarCommand}" />
-            </TextBox.InputBindings>
-        </TextBox>
+            </PasswordBox.InputBindings>
+        </PasswordBox>
 
-        <Button Command="{Binding LogarCommand}"    Height="30" Margin="0,5,2,0" Grid.Row="2" Grid.Column="0">Logar</Button>
+        <Button Command="{Binding LogarCommand}"    Height="30" Margin="0,8,76,6" Grid.Row="2" Grid.Column="0">Logar</Button>
+        <Button Command="{Binding CancelarCommand}"    Height="30" Margin="79,7,0,6" Grid.Row="2" Grid.Column="0">Cancelar</Button>
 
         <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
             <Label FontWeight="Bold" Content="{Binding MensagemStatus, Mode=TwoWay}" />

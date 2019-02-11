@@ -15,3 +15,12 @@ F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.U
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.csproj.CoreCompileInputs.cache
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.exe
 F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.pdb
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.exe.config
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.exe
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\bin\Debug\Posto.pdb
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.Posto.resources
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.Properties.Resources.resources
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.csproj.GenerateResource.cache
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.Win.UpdateLocal.csproj.CoreCompileInputs.cache
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.exe
+C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.UpdateLocal\obj\Debug\Posto.pdb

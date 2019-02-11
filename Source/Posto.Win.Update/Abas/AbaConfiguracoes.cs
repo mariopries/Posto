@@ -7,6 +7,7 @@ using Microsoft.Practices.Prism.ViewModel;
 using Posto.Win.Update.Model;
 using Posto.Win.Update.Extensions;
 using Posto.Win.Update.DataContext;
+using System.Windows;
 
 namespace Posto.Win.Update.Abas
 {
@@ -15,6 +16,7 @@ namespace Posto.Win.Update.Abas
         #region Propriedades
 
         private ConfiguracaoModel _configuracoes;
+        private Visibility _visibilidade;
         private bool _enableButtonConfiguracao;        
         private string _mensagemlabel;
 
@@ -26,6 +28,7 @@ namespace Posto.Win.Update.Abas
         {
             ConfiguracaoModel = ConfiguracaoXml.CarregarConfiguracao().ToModel();
             EnableButtonConfiguracao = true;
+            Visibilidade = Visibility.Hidden;
         }
 
         #endregion
@@ -44,6 +47,22 @@ namespace Posto.Win.Update.Abas
                 {
                     _configuracoes = value;
                     RaisePropertyChanged(() => ConfiguracaoModel);
+                }
+            }
+        }
+
+        public Visibility Visibilidade
+        {
+            get
+            {
+                return _visibilidade;
+            }
+            set
+            {
+                if (_visibilidade != value)
+                {
+                    _visibilidade = value;
+                    RaisePropertyChanged(() => Visibilidade);
                 }
             }
         }

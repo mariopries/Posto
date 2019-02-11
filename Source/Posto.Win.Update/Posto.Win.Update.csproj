@@ -95,6 +95,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behavior\PasswordBoxBehavior.cs" />
+    <Compile Include="Converters\Crypto.cs" />
     <Compile Include="ViewModel\SobreViewModel.cs" />
     <Compile Include="View\SobreView.xaml.cs">
       <DependentUpon>SobreView.xaml</DependentUpon>
@@ -179,17 +181,7 @@
     <Resource Include="Resources\Fator.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\pause.png" />
-    <Resource Include="Resources\play.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\delete-sign.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\background.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\sync_black.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />

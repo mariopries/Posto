@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Posto.Win.Update.Infraestrutura
 {
@@ -71,6 +72,8 @@ namespace Posto.Win.Update.Infraestrutura
                 Visao = System.Windows.Visibility.Hidden;
                 ProgressoBarra1 = 0;
                 ProgressoBarra2 = 0;
+                IsIndeterminateBarra1 = false;
+                //ForegroundBarra1 = new SolidColorBrush(Color.FromRgb(6, 176, 37));
             }
 
             #region Propriedades
@@ -79,6 +82,8 @@ namespace Posto.Win.Update.Infraestrutura
             private System.Windows.Visibility _visao;
             private double _progressbarra1;
             private double _progressbarra2;
+            private bool _isIndeterminateBarra1;
+            private SolidColorBrush _foregroundBarra1;
 
             #endregion
 
@@ -97,6 +102,21 @@ namespace Posto.Win.Update.Infraestrutura
                     }
                 }
             }
+            public SolidColorBrush ForegroundBarra1
+            {
+                get
+                {
+                    return _foregroundBarra1;
+                }
+                set
+                {
+                    if (_foregroundBarra1 != value)
+                    {
+                        _foregroundBarra1 = value;
+                        RaisePropertyChanged(() => ForegroundBarra1);
+                    }
+                }
+            }
             public System.Windows.Visibility Visao
             {
                 get
@@ -109,6 +129,21 @@ namespace Posto.Win.Update.Infraestrutura
                     {
                         _visao = value;
                         RaisePropertyChanged(() => Visao);
+                    }
+                }
+            }
+            public bool IsIndeterminateBarra1
+            {
+                get
+                {
+                    return _isIndeterminateBarra1;
+                }
+                set
+                {
+                    if (_isIndeterminateBarra1 != value)
+                    {
+                        _isIndeterminateBarra1 = value;
+                        RaisePropertyChanged(() => IsIndeterminateBarra1);
                     }
                 }
             }

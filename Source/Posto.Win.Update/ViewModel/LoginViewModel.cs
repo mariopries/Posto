@@ -10,16 +10,70 @@ namespace Posto.Win.Update.ViewModel
 {
     public class LoginViewModel : NotificationObject
     {
-        private DelegateCommand _command;
+        #region Propriedades
+
+        private DelegateCommand _command, _command2;
+        private DelegateCommand fInputSenhaIsValidCommand;
         private string _inputLogin;
         private string _mensagemStatus;
 
-        public LoginViewModel(DelegateCommand command) 
+        #endregion
+
+        public LoginViewModel(DelegateCommand command1, DelegateCommand command2) 
         {
-            this._command = command;
+            this.Comando1 = command1;
+            this.Comando2 = command2;
 
             this.LogarCommand = new DelegateCommand(OnLogar);
+            this.CancelarCommand = new DelegateCommand(OnCancelar);
         }
+
+        #region Objetos
+
+        public DelegateCommand Comando1
+        {
+            get
+            {
+                return _command;
+            }
+            set
+            {
+                if(_command != value)
+                {
+                    _command = value;
+                    RaisePropertyChanged(() => Comando1);
+                }
+            }
+        }
+        public DelegateCommand Comando2
+        {
+            get
+            {
+                return _command2;
+            }
+            set
+            {
+                if (_command2 != value)
+                {
+                    _command2 = value;
+                    RaisePropertyChanged(() => Comando2);
+                }
+            }
+        }
+        public DelegateCommand InputSenhaIsValidCommand
+        {
+            get
+            {
+                if (this.fInputSenhaIsValidCommand == null)
+                {
+                    this.fInputSenhaIsValidCommand = new DelegateCommand(this.InputSenhaIsValidExecuted);
+                }
+
+                return this.fInputSenhaIsValidCommand;
+            }
+        }
+
+        #endregion
 
         #region Input
 
@@ -60,13 +114,26 @@ namespace Posto.Win.Update.ViewModel
         #region Commands
 
         public DelegateCommand LogarCommand { get; set; }
-
+        public DelegateCommand CancelarCommand { get; set; }
+        
         #endregion
 
         #region Helpers
 
+        private void InputSenhaIsValidExecuted()
+        {
+            if (!string.IsNullOrEmpty(this.InputLogin))
+            {
+                this.InputLogin = this.InputLogin;
+            }
+        }
+        private void OnCancelar()
+        {
+            this.Comando2.Execute();
+        }
         private void OnLogar()
         {
+            InputSenhaIsValidExecuted();
             string senhaEsperada = null;
 
             var data = DateTime.Now;
@@ -74,13 +141,12 @@ namespace Posto.Win.Update.ViewModel
 
             if (senhaEsperada == this.InputLogin)
             {
-                this._command.Execute();
+                this.Comando1.Execute();
             }
             else
             {
                 this.MensagemStatus = "Login inválido!";
-            }
- 
+            } 
         }
         #endregion
     }
