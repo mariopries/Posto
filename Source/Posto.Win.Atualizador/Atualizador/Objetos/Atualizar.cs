@@ -757,10 +757,10 @@ namespace Atualizador.Objetos
         /// <summary>
         /// Define o status da barra de progresso
         /// </summary>
-        private void SetaBarraStatus(bool status, int posicaoY)
+        private void SetaBarraStatus(bool status, int posicao)
         {
             TelaPrincipal.AbaAtualizacao.IsVisibleBarras = status;
-            TelaPrincipal.AbaAtualizacao.LabelLocation = new System.Drawing.Point(20, posicaoY);//.LabelMargin = new System.Windows.Thickness(10, posicao, 10, 0);
+            TelaPrincipal.AbaAtualizacao.LabelPadding = new Padding(0, posicao, 0, 0);
         }
 
         #endregion

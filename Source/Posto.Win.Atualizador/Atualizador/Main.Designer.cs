@@ -33,6 +33,7 @@
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.matLabelMensageAtualizar = new MaterialSkin.Controls.MaterialLabel();
             this.matLabVerAtu = new MaterialSkin.Controls.MaterialLabel();
             this.matLabelUlt = new MaterialSkin.Controls.MaterialLabel();
             this.matLabelProx = new MaterialSkin.Controls.MaterialLabel();
@@ -40,7 +41,6 @@
             this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
             this.matBarraProgresso2 = new MaterialSkin.Controls.MaterialProgressBar();
-            this.barraBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.matBarraProgresso1 = new MaterialSkin.Controls.MaterialProgressBar();
             this.matBtnAtualizar = new MaterialSkin.Controls.MaterialFlatButton();
             this.matBtnIniciar = new MaterialSkin.Controls.MaterialFlatButton();
@@ -65,15 +65,15 @@
             this.matBanco = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.matPorta = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.matServer = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this.matLabelMensageAtualizar = new MaterialSkin.Controls.MaterialLabel();
+            this.barraBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.abaAtualizacaoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.atualizarModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.materialTabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.barraBindingSource)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barraBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.abaAtualizacaoBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.atualizarModelBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -127,6 +127,21 @@
             this.tabPage2.Size = new System.Drawing.Size(806, 333);
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "Atualização";
+            // 
+            // matLabelMensageAtualizar
+            // 
+            this.matLabelMensageAtualizar.AutoSize = true;
+            this.matLabelMensageAtualizar.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaAtualizacaoBindingSource, "LabelContent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matLabelMensageAtualizar.DataBindings.Add(new System.Windows.Forms.Binding("Padding", this.abaAtualizacaoBindingSource, "LabelPadding", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matLabelMensageAtualizar.Depth = 0;
+            this.matLabelMensageAtualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.matLabelMensageAtualizar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.matLabelMensageAtualizar.Location = new System.Drawing.Point(20, 274);
+            this.matLabelMensageAtualizar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matLabelMensageAtualizar.Name = "matLabelMensageAtualizar";
+            this.matLabelMensageAtualizar.Size = new System.Drawing.Size(12, 18);
+            this.matLabelMensageAtualizar.TabIndex = 14;
+            this.matLabelMensageAtualizar.Text = " ";
             // 
             // matLabVerAtu
             // 
@@ -247,6 +262,7 @@
             this.matBtnAtualizar.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.matBtnAtualizar.AutoSize = true;
             this.matBtnAtualizar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.matBtnAtualizar.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.abaAtualizacaoBindingSource, "IsEnableButtonAtualizar", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.matBtnAtualizar.Depth = 0;
             this.matBtnAtualizar.Icon = null;
             this.matBtnAtualizar.Location = new System.Drawing.Point(617, 288);
@@ -265,6 +281,7 @@
             this.matBtnIniciar.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.matBtnIniciar.AutoSize = true;
             this.matBtnIniciar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.matBtnIniciar.DataBindings.Add(new System.Windows.Forms.Binding("Visible", this.abaAtualizacaoBindingSource, "IsVisibleButtonPausar", true));
             this.matBtnIniciar.Depth = 0;
             this.matBtnIniciar.Icon = null;
             this.matBtnIniciar.Location = new System.Drawing.Point(719, 288);
@@ -632,21 +649,6 @@
             this.matServer.TabStop = false;
             this.matServer.UseSystemPasswordChar = false;
             // 
-            // matLabelMensageAtualizar
-            // 
-            this.matLabelMensageAtualizar.AutoSize = true;
-            this.matLabelMensageAtualizar.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaAtualizacaoBindingSource, "LabelContent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.matLabelMensageAtualizar.DataBindings.Add(new System.Windows.Forms.Binding("Location", this.abaAtualizacaoBindingSource, "LabelLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.matLabelMensageAtualizar.Depth = 0;
-            this.matLabelMensageAtualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.matLabelMensageAtualizar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.matLabelMensageAtualizar.Location = new System.Drawing.Point(20, 274);
-            this.matLabelMensageAtualizar.MouseState = MaterialSkin.MouseState.HOVER;
-            this.matLabelMensageAtualizar.Name = "matLabelMensageAtualizar";
-            this.matLabelMensageAtualizar.Size = new System.Drawing.Size(12, 18);
-            this.matLabelMensageAtualizar.TabIndex = 14;
-            this.matLabelMensageAtualizar.Text = " ";
-            // 
             // abaAtualizacaoBindingSource
             // 
             this.abaAtualizacaoBindingSource.DataSource = typeof(Atualizador.Structures.AbaAtualizacao);
@@ -673,11 +675,11 @@
             this.materialTabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.barraBindingSource)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barraBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.abaAtualizacaoBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.atualizarModelBindingSource)).EndInit();
             this.ResumeLayout(false);

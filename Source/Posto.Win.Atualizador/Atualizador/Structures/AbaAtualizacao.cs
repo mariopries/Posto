@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Forms;
 
 namespace Atualizador.Structures
 {
@@ -24,7 +26,7 @@ namespace Atualizador.Structures
         private int _progressbarraValue2;
         private bool _isIndeterminateBarra1;
         private string _labelcontent;
-        private Point _labelLocation;
+        private Padding _labelPadding;
 
         #endregion
 
@@ -46,8 +48,8 @@ namespace Atualizador.Structures
             IsIndeterminateBarra1 = false;
 
             //--Label
-            LabelContent = "Testandos";
-            LabelLocation = new Point(20, 296); //new Point(20, 264);
+            LabelContent = "";
+            LabelPadding = new Padding(0, 25, 0, 0);
         }
 
         #endregion
@@ -115,10 +117,10 @@ namespace Atualizador.Structures
             get { return _labelcontent; }
             set { SetField(ref _labelcontent, value); }
         }
-        public Point LabelLocation
+        public Padding LabelPadding
         {
-            get { return _labelLocation; }
-            set { SetField(ref _labelLocation, value); }
+            get { return _labelPadding; }
+            set { SetField(ref _labelPadding, value); }
         }
 
         #endregion
