@@ -44,22 +44,6 @@ namespace Atualizador
             AbaConfiguracoes = new AbaConfiguracoes();
             configuracaoModelBindingSource.DataSource = AbaConfiguracoes.ConfiguracaoModel;
             abaConfiguracoesBindingSource.DataSource = AbaConfiguracoes;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
         #region Objetos
@@ -80,7 +64,7 @@ namespace Atualizador
 
         #region Funções Async
 
-        private async void Salvar_Click(object sender, EventArgs e)
+        private async void MatBtnSalvarConfig_Click(object sender, EventArgs e)
         {
             AbaConfiguracoes.MensagemLabel = "Salvando configuração...";
             AbaConfiguracoes.EnableButtonConfiguracao = false;
@@ -90,7 +74,7 @@ namespace Atualizador
                 if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
                 {
                     AbaConfiguracoes.ConfiguracaoModel.ToModel().GravarConfiguracao();
-                    DialogResult result = MessageBox.Show("Configuração salvas com sucesso!", "Salvar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Configuração salvas com sucesso!", "Salvar", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             });
 
@@ -98,7 +82,7 @@ namespace Atualizador
             AbaConfiguracoes.EnableButtonConfiguracao = true;
         }
 
-        public async void TestarConexao_Click(object sender, EventArgs e)
+        private async void MatBtnTestarConexao_Click(object sender, EventArgs e)
         {
             AbaConfiguracoes.EnableButtonConfiguracao = false;
             AbaConfiguracoes.MensagemLabel = "Testando conexão...";
@@ -108,12 +92,12 @@ namespace Atualizador
             if (retorno)
             {
                 AbaConfiguracoes.MensagemLabel = "";
-                DialogResult result = MessageBox.Show("Conectado com sucesso!", "Teste de conexão", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Conectado com sucesso!", "Teste de conexão", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             AbaConfiguracoes.EnableButtonConfiguracao = true;
-
         }
+
         private async Task<bool> TestarConexaoAsync()
         {
             return await Task.Run(() =>
@@ -127,7 +111,8 @@ namespace Atualizador
                 }
                 catch (Exception e)
                 {
-                    AbaConfiguracoes.MensagemLabel = e.Message;
+                    AbaConfiguracoes.MensagemLabel = "";
+                    MessageBox.Show(e.Message, "Teste de conexão", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 return retorno;
@@ -135,7 +120,7 @@ namespace Atualizador
         }
 
         #endregion
-        
+
         #region Funções
 
         private bool IsValidarConfiguracao(ConfiguracaoModel configuracao)
@@ -145,7 +130,7 @@ namespace Atualizador
                 DialogResult result = MessageBox.Show("Preencha o servidor", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (result == DialogResult.OK)
                 {
-                    this._servidor.Select();
+                    this.matServer.Select();
                 }
                 return false;
             }
@@ -155,7 +140,7 @@ namespace Atualizador
                 DialogResult result = MessageBox.Show("Preencha o porta", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (result == DialogResult.OK)
                 {
-                    this._porta.Select();
+                    this.matPorta.Select();
                 }
                 return false;
             }
@@ -165,7 +150,7 @@ namespace Atualizador
                 DialogResult result = MessageBox.Show("Preencha o banco de dados", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (result == DialogResult.OK)
                 {
-                    this._banco.Select();
+                    this.matBanco.Select();
                 }
                 return false;
             }
@@ -175,7 +160,7 @@ namespace Atualizador
                 DialogResult result = MessageBox.Show("Preencha o usuário", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (result == DialogResult.OK)
                 {
-                    this._usuario.Select();
+                    this.matUsuario.Select();
                 }
                 return false;
             }
@@ -185,19 +170,32 @@ namespace Atualizador
                 DialogResult result = MessageBox.Show("Preencha o senha", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (result == DialogResult.OK)
                 {
-                    this._senha.Select();
+                    this.matSenha.Select();
                 }
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(configuracao.LocalDiretorio))
+            if (string.IsNullOrWhiteSpace(configuracao.DiretorioSistema))
             {
                 DialogResult result = MessageBox.Show("Selecione o diretório de instalação", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (result == DialogResult.OK)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
-                        AbrirExplorer.PerformClick();
+                        matBtnSistemDir.PerformClick();
+                    });
+                }
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(configuracao.DiretorioPostgreSql))
+            {
+                DialogResult result = MessageBox.Show("Selecione o diretório de PostgresSql", "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (result == DialogResult.OK)
+                {
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        matBtnPostgreSqlDir.PerformClick();
                     });
                 }
                 return false;
@@ -205,24 +203,39 @@ namespace Atualizador
             return true;
         }
 
+        #endregion
 
-        private void AbrirExplorer_Click(object sender, EventArgs e)
+        private void MatBtnSistemDir_Click(object sender, EventArgs e)
         {
             using (var folderDialog = new CommonOpenFileDialog())
             {
                 folderDialog.IsFolderPicker = true;
-                folderDialog.Title = "Selecionar local de instalação";
+                folderDialog.Title = "Selecione o local do sistema";
 
                 CommonFileDialogResult result = folderDialog.ShowDialog();
 
                 if (result.ToString() == "Ok")
                 {
-                    AbaConfiguracoes.ConfiguracaoModel.LocalDiretorio = folderDialog.FileName;
+                    AbaConfiguracoes.ConfiguracaoModel.DiretorioSistema = folderDialog.FileName;
                 }
             }
         }
 
-        #endregion
+        private void MatBtnPostgreSqlDir_Click(object sender, EventArgs e)
+        {
+            using (var folderDialog = new CommonOpenFileDialog())
+            {
+                folderDialog.IsFolderPicker = true;
+                folderDialog.Title = "Selecione a pasta bin do PostgreSQL";
+
+                CommonFileDialogResult result = folderDialog.ShowDialog();
+
+                if (result.ToString() == "Ok")
+                {
+                    AbaConfiguracoes.ConfiguracaoModel.DiretorioPostgreSql = folderDialog.FileName;
+                }
+            }
+        }
 
     }
 }

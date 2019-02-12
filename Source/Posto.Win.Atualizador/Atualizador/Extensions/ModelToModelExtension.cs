@@ -18,10 +18,14 @@ namespace Atualizador.Extensions
                 Banco = model.Banco,
                 Usuario = model.Usuario,
                 Senha = model.Senha,
-                LocalDiretorio = model.LocalDiretorio,
+                DiretorioSistema = model.DiretorioSistema,
+                DiretorioPostgreSql = model.DiretorioPostgreSql,
                 VersaoArquivo = model.VersaoArquivo,
                 LeitorBomba = model.LeitorBomba,
                 PostoWeb = model.PostoWeb,
+                Backup = model.Backup,
+                Vacuum = model.Vacuum,
+                Reindex = model.Reindex,
             };
         }
 
@@ -34,10 +38,14 @@ namespace Atualizador.Extensions
                 Banco = model.Banco,
                 Usuario = model.Usuario,
                 Senha = model.Senha,
-                LocalDiretorio = model.LocalDiretorio,
+                DiretorioSistema = model.DiretorioSistema,
+                DiretorioPostgreSql = model.DiretorioPostgreSql,
                 VersaoArquivo = model.VersaoArquivo,
                 LeitorBomba = model.LeitorBomba,
                 PostoWeb = model.PostoWeb,
+                Backup = model.Backup,
+                Vacuum = model.Vacuum,
+                Reindex = model.Reindex,
             };
         }
     }

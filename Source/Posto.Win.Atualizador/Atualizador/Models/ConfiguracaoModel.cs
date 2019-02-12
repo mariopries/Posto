@@ -14,10 +14,14 @@ namespace Atualizador.Models
         private string _banco;
         private string _usuario;
         private string _senha;
-        private string _localDiretorio;
+        private string _dirSistema;
+        private string _dirPostgreSql;
         private string _versaoArquivo;
         private bool _leitor;
         private bool _web;
+        private bool _backup;
+        private bool _vacuum;
+        private bool _reindex;
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName)
@@ -66,10 +70,17 @@ namespace Atualizador.Models
             set { SetField(ref _senha, value); }
         }
 
-        public string LocalDiretorio
+        public string DiretorioSistema
         {
-            get { return _localDiretorio; }
-            set { SetField(ref _localDiretorio, value); }
+            get { return _dirSistema; }
+            set { SetField(ref _dirSistema, value); }
+        }
+
+
+        public string DiretorioPostgreSql
+        {
+            get { return _dirPostgreSql; }
+            set { SetField(ref _dirPostgreSql, value); }
         }
 
         public string VersaoArquivo
@@ -88,6 +99,24 @@ namespace Atualizador.Models
         {
             get { return _web; }
             set { SetField(ref _web, value); }
+        }
+
+        public bool Backup
+        {
+            get { return _backup; }
+            set { SetField(ref _backup, value); }
+        }
+
+        public bool Vacuum
+        {
+            get { return _vacuum; }
+            set { SetField(ref _vacuum, value); }
+        }
+
+        public bool Reindex
+        {
+            get { return _reindex; }
+            set { SetField(ref _reindex, value); }
         }
 
         public string GetConnection

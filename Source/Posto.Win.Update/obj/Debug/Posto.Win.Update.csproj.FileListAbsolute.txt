@@ -95,3 +95,5 @@ C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.Update\obj\Debug\
 C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.Update\obj\Debug\Atualizador.exe
 C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.Update\obj\Debug\Atualizador.pdb
 C:\Workspace\AtualizadorSistemas\Posto-master\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csprojAssemblyReference.cache
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csprojAssemblyReference.cache
+F:\Trabalhos\AtualizadorPosto\Source\Posto.Win.Update\obj\Debug\Posto.Win.Update.csproj.CopyComplete

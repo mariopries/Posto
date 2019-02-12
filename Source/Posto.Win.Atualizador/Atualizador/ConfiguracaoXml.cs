@@ -52,10 +52,16 @@ namespace Atualizador
         public string Senha { get; set; }
 
         /// <summary>
-        /// Local do diretorio que serão extraidos os arquivos
+        /// Diretorio do sistema da method
         /// </summary>
-        [XmlElement("LocalDiretorio")]
-        public string LocalDiretorio { get; set; }
+        [XmlElement("DiretorioSistema")]
+        public string DiretorioSistema { get; set; }
+
+        /// <summary>
+        /// Diretorio da pasta bin do PostgreSql
+        /// </summary>
+        [XmlElement("DiretorioPostgreSql")]
+        public string DiretorioPostgreSql { get; set; }
 
         /// <summary>
         /// Ultima versao do arquivo
@@ -74,6 +80,24 @@ namespace Atualizador
         /// </summary>
         [XmlElement("PostoWeb")]
         public bool PostoWeb { get; set; }
+
+        /// <summary>
+        /// Backup
+        /// </summary>
+        [XmlElement("Backup")]
+        public bool Backup { get; set; }
+
+        /// <summary>
+        /// Backup
+        /// </summary>
+        [XmlElement("Vacuum")]
+        public bool Vacuum { get; set; }
+
+        /// <summary>
+        /// Backup
+        /// </summary>
+        [XmlElement("Reindex")]
+        public bool Reindex { get; set; }
 
         /// <summary>
         /// Carrega as informações do xml

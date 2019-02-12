@@ -30,298 +30,52 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TelaPrincipal));
-            this.Configuracoes = new System.Windows.Forms.TabPage();
-            this.statusLabel = new System.Windows.Forms.Label();
-            this.AbrirExplorer = new System.Windows.Forms.Button();
-            this.TestarConexao = new System.Windows.Forms.Button();
-            this.Salvar = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this._localDiretorio = new System.Windows.Forms.TextBox();
-            this._senha = new System.Windows.Forms.TextBox();
-            this._banco = new System.Windows.Forms.TextBox();
-            this._usuario = new System.Windows.Forms.TextBox();
-            this._porta = new System.Windows.Forms.TextBox();
-            this._servidor = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this._leitorBomba = new System.Windows.Forms.CheckBox();
-            this._postoWeb = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.labelPorta = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.Atualizacao = new System.Windows.Forms.TabPage();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.Principal = new System.Windows.Forms.TabControl();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this._matGuiaConfig = new System.Windows.Forms.TabPage();
-            this._matServidor = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this._matPorta = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
-            this.materialRadioButton1 = new MaterialSkin.Controls.MaterialRadioButton();
-            this.materialRadioButton2 = new MaterialSkin.Controls.MaterialRadioButton();
-            this.abaConfiguracoesBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.configuracaoModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.matLabVerAtu = new MaterialSkin.Controls.MaterialLabel();
+            this.matLabelUlt = new MaterialSkin.Controls.MaterialLabel();
+            this.matLabelProx = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel3 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel2 = new MaterialSkin.Controls.MaterialLabel();
+            this.materialLabel1 = new MaterialSkin.Controls.MaterialLabel();
+            this.matBarraProgresso2 = new MaterialSkin.Controls.MaterialProgressBar();
+            this.barraBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.matBarraProgresso1 = new MaterialSkin.Controls.MaterialProgressBar();
+            this.matBtnAtualizar = new MaterialSkin.Controls.MaterialFlatButton();
+            this.matBtnIniciar = new MaterialSkin.Controls.MaterialFlatButton();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
-            this.materialFlatButton1 = new MaterialSkin.Controls.MaterialFlatButton();
-            this.Configuracoes.SuspendLayout();
-            this.Principal.SuspendLayout();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.matReindex = new MaterialSkin.Controls.MaterialCheckBox();
+            this.configuracaoModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.matVacuum = new MaterialSkin.Controls.MaterialCheckBox();
+            this.matBackup = new MaterialSkin.Controls.MaterialCheckBox();
+            this.matLabelMesage = new MaterialSkin.Controls.MaterialLabel();
+            this.abaConfiguracoesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.matBtnTestarConexao = new MaterialSkin.Controls.MaterialFlatButton();
+            this.matBtnSalvarConfig = new MaterialSkin.Controls.MaterialFlatButton();
+            this.materialCheckBox1 = new MaterialSkin.Controls.MaterialCheckBox();
+            this.matPostoWeb = new MaterialSkin.Controls.MaterialCheckBox();
+            this.matBtnPostgreSqlDir = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.matDirPostgreSql = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.matBtnSistemDir = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.matSistemaDir = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.matSenha = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.matUsuario = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.matBanco = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.matPorta = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.matServer = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.atualizarModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.abaAtualizacaoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.materialTabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this._matGuiaConfig.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barraBindingSource)).BeginInit();
+            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.atualizarModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.abaAtualizacaoBindingSource)).BeginInit();
             this.SuspendLayout();
-            // 
-            // Configuracoes
-            // 
-            this.Configuracoes.Controls.Add(this.statusLabel);
-            this.Configuracoes.Controls.Add(this.AbrirExplorer);
-            this.Configuracoes.Controls.Add(this.TestarConexao);
-            this.Configuracoes.Controls.Add(this.Salvar);
-            this.Configuracoes.Controls.Add(this.label7);
-            this.Configuracoes.Controls.Add(this._localDiretorio);
-            this.Configuracoes.Controls.Add(this._senha);
-            this.Configuracoes.Controls.Add(this._banco);
-            this.Configuracoes.Controls.Add(this._usuario);
-            this.Configuracoes.Controls.Add(this._porta);
-            this.Configuracoes.Controls.Add(this._servidor);
-            this.Configuracoes.Controls.Add(this.label6);
-            this.Configuracoes.Controls.Add(this._leitorBomba);
-            this.Configuracoes.Controls.Add(this._postoWeb);
-            this.Configuracoes.Controls.Add(this.label5);
-            this.Configuracoes.Controls.Add(this.label4);
-            this.Configuracoes.Controls.Add(this.label3);
-            this.Configuracoes.Controls.Add(this.labelPorta);
-            this.Configuracoes.Controls.Add(this.label1);
-            this.Configuracoes.Location = new System.Drawing.Point(4, 22);
-            this.Configuracoes.Name = "Configuracoes";
-            this.Configuracoes.Padding = new System.Windows.Forms.Padding(3);
-            this.Configuracoes.Size = new System.Drawing.Size(219, 155);
-            this.Configuracoes.TabIndex = 1;
-            this.Configuracoes.Text = "Configurações";
-            this.Configuracoes.UseVisualStyleBackColor = true;
-            // 
-            // statusLabel
-            // 
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaConfiguracoesBindingSource, "MensagemLabel", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.statusLabel.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusLabel.Location = new System.Drawing.Point(9, 204);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(48, 13);
-            this.statusLabel.TabIndex = 19;
-            this.statusLabel.Text = "Status";
-            // 
-            // AbrirExplorer
-            // 
-            this.AbrirExplorer.Location = new System.Drawing.Point(463, 104);
-            this.AbrirExplorer.Name = "AbrirExplorer";
-            this.AbrirExplorer.Size = new System.Drawing.Size(26, 21);
-            this.AbrirExplorer.TabIndex = 18;
-            this.AbrirExplorer.Text = "...";
-            this.AbrirExplorer.UseVisualStyleBackColor = true;
-            this.AbrirExplorer.Click += new System.EventHandler(this.AbrirExplorer_Click);
-            // 
-            // TestarConexao
-            // 
-            this.TestarConexao.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.abaConfiguracoesBindingSource, "EnableButtonConfiguracao", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.TestarConexao.Location = new System.Drawing.Point(301, 184);
-            this.TestarConexao.Name = "TestarConexao";
-            this.TestarConexao.Size = new System.Drawing.Size(106, 34);
-            this.TestarConexao.TabIndex = 17;
-            this.TestarConexao.Text = "Testar conexão";
-            this.TestarConexao.UseVisualStyleBackColor = true;
-            this.TestarConexao.Click += new System.EventHandler(this.TestarConexao_Click);
-            // 
-            // Salvar
-            // 
-            this.Salvar.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.abaConfiguracoesBindingSource, "EnableButtonConfiguracao", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.Salvar.Location = new System.Drawing.Point(413, 184);
-            this.Salvar.Name = "Salvar";
-            this.Salvar.Size = new System.Drawing.Size(75, 34);
-            this.Salvar.TabIndex = 16;
-            this.Salvar.Text = "Salvar";
-            this.Salvar.UseVisualStyleBackColor = true;
-            this.Salvar.Click += new System.EventHandler(this.Salvar_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(6, 88);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(132, 13);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "Local dos executáveis";
-            // 
-            // _localDiretorio
-            // 
-            this._localDiretorio.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "LocalDiretorio", true));
-            this._localDiretorio.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._localDiretorio.Location = new System.Drawing.Point(6, 104);
-            this._localDiretorio.Name = "_localDiretorio";
-            this._localDiretorio.Size = new System.Drawing.Size(451, 21);
-            this._localDiretorio.TabIndex = 14;
-            // 
-            // _senha
-            // 
-            this._senha.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Senha", true));
-            this._senha.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._senha.Location = new System.Drawing.Point(301, 64);
-            this._senha.Name = "_senha";
-            this._senha.PasswordChar = '*';
-            this._senha.Size = new System.Drawing.Size(188, 21);
-            this._senha.TabIndex = 9;
-            // 
-            // _banco
-            // 
-            this._banco.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Banco", true));
-            this._banco.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._banco.Location = new System.Drawing.Point(302, 24);
-            this._banco.Name = "_banco";
-            this._banco.Size = new System.Drawing.Size(187, 21);
-            this._banco.TabIndex = 7;
-            // 
-            // _usuario
-            // 
-            this._usuario.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Usuario", true));
-            this._usuario.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._usuario.Location = new System.Drawing.Point(6, 64);
-            this._usuario.Name = "_usuario";
-            this._usuario.Size = new System.Drawing.Size(280, 21);
-            this._usuario.TabIndex = 5;
-            // 
-            // _porta
-            // 
-            this._porta.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Porta", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
-            this._porta.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._porta.Location = new System.Drawing.Point(150, 24);
-            this._porta.Name = "_porta";
-            this._porta.Size = new System.Drawing.Size(136, 21);
-            this._porta.TabIndex = 3;
-            // 
-            // _servidor
-            // 
-            this._servidor.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Servidor", true));
-            this._servidor.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._servidor.Location = new System.Drawing.Point(6, 24);
-            this._servidor.Name = "_servidor";
-            this._servidor.Size = new System.Drawing.Size(138, 21);
-            this._servidor.TabIndex = 1;
-            // 
-            // label6
-            // 
-            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label6.Location = new System.Drawing.Point(6, 175);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(483, 2);
-            this.label6.TabIndex = 13;
-            // 
-            // _leitorBomba
-            // 
-            this._leitorBomba.AutoSize = true;
-            this._leitorBomba.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.configuracaoModelBindingSource, "LeitorBomba", true));
-            this._leitorBomba.Location = new System.Drawing.Point(19, 131);
-            this._leitorBomba.Name = "_leitorBomba";
-            this._leitorBomba.Size = new System.Drawing.Size(246, 17);
-            this._leitorBomba.TabIndex = 11;
-            this._leitorBomba.Text = "Encerrar Leitor de bombas durante atualização";
-            this._leitorBomba.UseVisualStyleBackColor = true;
-            // 
-            // _postoWeb
-            // 
-            this._postoWeb.AutoSize = true;
-            this._postoWeb.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.configuracaoModelBindingSource, "PostoWeb", true));
-            this._postoWeb.Location = new System.Drawing.Point(19, 154);
-            this._postoWeb.Name = "_postoWeb";
-            this._postoWeb.Size = new System.Drawing.Size(233, 17);
-            this._postoWeb.TabIndex = 12;
-            this._postoWeb.Text = "Encerrar o Posto web durante a atualização\r\n";
-            this._postoWeb.UseVisualStyleBackColor = true;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(298, 48);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 13);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Senha";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(298, 8);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Banco de dados";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 48);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Usuário";
-            // 
-            // labelPorta
-            // 
-            this.labelPorta.AutoSize = true;
-            this.labelPorta.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPorta.Location = new System.Drawing.Point(147, 8);
-            this.labelPorta.Name = "labelPorta";
-            this.labelPorta.Size = new System.Drawing.Size(37, 13);
-            this.labelPorta.TabIndex = 4;
-            this.labelPorta.Text = "Porta";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Servidor";
-            // 
-            // Atualizacao
-            // 
-            this.Atualizacao.Location = new System.Drawing.Point(4, 22);
-            this.Atualizacao.Name = "Atualizacao";
-            this.Atualizacao.Padding = new System.Windows.Forms.Padding(3);
-            this.Atualizacao.Size = new System.Drawing.Size(219, 155);
-            this.Atualizacao.TabIndex = 0;
-            this.Atualizacao.Text = "Atualização";
-            this.Atualizacao.UseVisualStyleBackColor = true;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(219, 155);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // Principal
-            // 
-            this.Principal.Controls.Add(this.tabPage1);
-            this.Principal.Controls.Add(this.Atualizacao);
-            this.Principal.Controls.Add(this.Configuracoes);
-            this.Principal.Location = new System.Drawing.Point(367, 162);
-            this.Principal.Name = "Principal";
-            this.Principal.SelectedIndex = 0;
-            this.Principal.Size = new System.Drawing.Size(227, 181);
-            this.Principal.TabIndex = 0;
             // 
             // materialTabSelector1
             // 
@@ -332,7 +86,7 @@
             this.materialTabSelector1.Location = new System.Drawing.Point(-2, 64);
             this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabSelector1.Name = "materialTabSelector1";
-            this.materialTabSelector1.Size = new System.Drawing.Size(609, 48);
+            this.materialTabSelector1.Size = new System.Drawing.Size(841, 48);
             this.materialTabSelector1.TabIndex = 1;
             this.materialTabSelector1.Text = "materialTabSelector1";
             // 
@@ -342,151 +96,531 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.materialTabControl1.Controls.Add(this.tabPage2);
-            this.materialTabControl1.Controls.Add(this._matGuiaConfig);
+            this.materialTabControl1.Controls.Add(this.tabPage3);
             this.materialTabControl1.Depth = 0;
             this.materialTabControl1.Location = new System.Drawing.Point(12, 118);
             this.materialTabControl1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabControl1.Name = "materialTabControl1";
             this.materialTabControl1.SelectedIndex = 0;
-            this.materialTabControl1.Size = new System.Drawing.Size(582, 221);
+            this.materialTabControl1.Size = new System.Drawing.Size(814, 359);
             this.materialTabControl1.TabIndex = 2;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.materialFlatButton1);
+            this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.matLabVerAtu);
+            this.tabPage2.Controls.Add(this.matLabelUlt);
+            this.tabPage2.Controls.Add(this.matLabelProx);
+            this.tabPage2.Controls.Add(this.materialLabel3);
+            this.tabPage2.Controls.Add(this.materialLabel2);
+            this.tabPage2.Controls.Add(this.materialLabel1);
+            this.tabPage2.Controls.Add(this.matBarraProgresso2);
+            this.tabPage2.Controls.Add(this.matBarraProgresso1);
+            this.tabPage2.Controls.Add(this.matBtnAtualizar);
+            this.tabPage2.Controls.Add(this.matBtnIniciar);
             this.tabPage2.Controls.Add(this.materialDivider1);
-            this.tabPage2.Controls.Add(this.materialRadioButton2);
-            this.tabPage2.Controls.Add(this.materialRadioButton1);
-            this.tabPage2.Controls.Add(this.materialRaisedButton1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(574, 195);
+            this.tabPage2.Size = new System.Drawing.Size(806, 333);
             this.tabPage2.TabIndex = 0;
             this.tabPage2.Text = "Atualização";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // _matGuiaConfig
+            // matLabVerAtu
             // 
-            this._matGuiaConfig.Controls.Add(this._matPorta);
-            this._matGuiaConfig.Controls.Add(this._matServidor);
-            this._matGuiaConfig.Location = new System.Drawing.Point(4, 22);
-            this._matGuiaConfig.Name = "_matGuiaConfig";
-            this._matGuiaConfig.Padding = new System.Windows.Forms.Padding(3);
-            this._matGuiaConfig.Size = new System.Drawing.Size(574, 195);
-            this._matGuiaConfig.TabIndex = 1;
-            this._matGuiaConfig.Text = "Configurações";
-            this._matGuiaConfig.UseVisualStyleBackColor = true;
+            this.matLabVerAtu.AutoSize = true;
+            this.matLabVerAtu.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.atualizarModelBindingSource, "Versao", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matLabVerAtu.Depth = 0;
+            this.matLabVerAtu.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.matLabVerAtu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.matLabVerAtu.Location = new System.Drawing.Point(232, 139);
+            this.matLabVerAtu.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matLabVerAtu.Name = "matLabVerAtu";
+            this.matLabVerAtu.Size = new System.Drawing.Size(12, 18);
+            this.matLabVerAtu.TabIndex = 13;
+            this.matLabVerAtu.Text = " ";
             // 
-            // _matServidor
+            // matLabelUlt
             // 
-            this._matServidor.Depth = 0;
-            this._matServidor.Hint = "Servidor";
-            this._matServidor.Location = new System.Drawing.Point(20, 22);
-            this._matServidor.MouseState = MaterialSkin.MouseState.HOVER;
-            this._matServidor.Name = "_matServidor";
-            this._matServidor.PasswordChar = '\0';
-            this._matServidor.SelectedText = "";
-            this._matServidor.SelectionLength = 0;
-            this._matServidor.SelectionStart = 0;
-            this._matServidor.Size = new System.Drawing.Size(169, 23);
-            this._matServidor.TabIndex = 3;
-            this._matServidor.UseSystemPasswordChar = false;
+            this.matLabelUlt.AutoSize = true;
+            this.matLabelUlt.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.atualizarModelBindingSource, "UltimaData", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matLabelUlt.Depth = 0;
+            this.matLabelUlt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.matLabelUlt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.matLabelUlt.Location = new System.Drawing.Point(232, 105);
+            this.matLabelUlt.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matLabelUlt.Name = "matLabelUlt";
+            this.matLabelUlt.Size = new System.Drawing.Size(12, 18);
+            this.matLabelUlt.TabIndex = 12;
+            this.matLabelUlt.Text = " ";
             // 
-            // _matPorta
+            // matLabelProx
             // 
-            this._matPorta.Depth = 0;
-            this._matPorta.Hint = "Porta";
-            this._matPorta.Location = new System.Drawing.Point(201, 22);
-            this._matPorta.MouseState = MaterialSkin.MouseState.HOVER;
-            this._matPorta.Name = "_matPorta";
-            this._matPorta.PasswordChar = '\0';
-            this._matPorta.SelectedText = "";
-            this._matPorta.SelectionLength = 0;
-            this._matPorta.SelectionStart = 0;
-            this._matPorta.Size = new System.Drawing.Size(69, 23);
-            this._matPorta.TabIndex = 3;
-            this._matPorta.UseSystemPasswordChar = false;
+            this.matLabelProx.AutoSize = true;
+            this.matLabelProx.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.atualizarModelBindingSource, "GetDataProximaAtualizacao", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matLabelProx.Depth = 0;
+            this.matLabelProx.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.matLabelProx.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.matLabelProx.Location = new System.Drawing.Point(232, 72);
+            this.matLabelProx.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matLabelProx.Name = "matLabelProx";
+            this.matLabelProx.Size = new System.Drawing.Size(12, 18);
+            this.matLabelProx.TabIndex = 11;
+            this.matLabelProx.Text = " ";
             // 
-            // materialRaisedButton1
+            // materialLabel3
             // 
-            this.materialRaisedButton1.Depth = 0;
-            this.materialRaisedButton1.Location = new System.Drawing.Point(493, 166);
-            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButton1.Name = "materialRaisedButton1";
-            this.materialRaisedButton1.Primary = true;
-            this.materialRaisedButton1.Size = new System.Drawing.Size(75, 23);
-            this.materialRaisedButton1.TabIndex = 0;
-            this.materialRaisedButton1.Text = "materialRaisedButton1";
-            this.materialRaisedButton1.UseVisualStyleBackColor = true;
+            this.materialLabel3.AutoSize = true;
+            this.materialLabel3.Depth = 0;
+            this.materialLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.materialLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel3.Location = new System.Drawing.Point(126, 139);
+            this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel3.Name = "materialLabel3";
+            this.materialLabel3.Size = new System.Drawing.Size(95, 18);
+            this.materialLabel3.TabIndex = 10;
+            this.materialLabel3.Text = "Versão Atual:";
             // 
-            // materialRadioButton1
+            // materialLabel2
             // 
-            this.materialRadioButton1.AutoSize = true;
-            this.materialRadioButton1.Depth = 0;
-            this.materialRadioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.materialRadioButton1.Location = new System.Drawing.Point(387, 101);
-            this.materialRadioButton1.Margin = new System.Windows.Forms.Padding(0);
-            this.materialRadioButton1.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.materialRadioButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRadioButton1.Name = "materialRadioButton1";
-            this.materialRadioButton1.Ripple = true;
-            this.materialRadioButton1.Size = new System.Drawing.Size(163, 30);
-            this.materialRadioButton1.TabIndex = 1;
-            this.materialRadioButton1.TabStop = true;
-            this.materialRadioButton1.Text = "materialRadioButton1";
-            this.materialRadioButton1.UseVisualStyleBackColor = true;
+            this.materialLabel2.AutoSize = true;
+            this.materialLabel2.Depth = 0;
+            this.materialLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.materialLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel2.Location = new System.Drawing.Point(169, 105);
+            this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel2.Name = "materialLabel2";
+            this.materialLabel2.Size = new System.Drawing.Size(54, 18);
+            this.materialLabel2.TabIndex = 9;
+            this.materialLabel2.Text = "Última:";
             // 
-            // materialRadioButton2
+            // materialLabel1
             // 
-            this.materialRadioButton2.AutoSize = true;
-            this.materialRadioButton2.Depth = 0;
-            this.materialRadioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.materialRadioButton2.Location = new System.Drawing.Point(387, 66);
-            this.materialRadioButton2.Margin = new System.Windows.Forms.Padding(0);
-            this.materialRadioButton2.MouseLocation = new System.Drawing.Point(-1, -1);
-            this.materialRadioButton2.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRadioButton2.Name = "materialRadioButton2";
-            this.materialRadioButton2.Ripple = true;
-            this.materialRadioButton2.Size = new System.Drawing.Size(163, 30);
-            this.materialRadioButton2.TabIndex = 2;
-            this.materialRadioButton2.TabStop = true;
-            this.materialRadioButton2.Text = "materialRadioButton2";
-            this.materialRadioButton2.UseVisualStyleBackColor = true;
+            this.materialLabel1.AutoSize = true;
+            this.materialLabel1.Depth = 0;
+            this.materialLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.materialLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabel1.Location = new System.Drawing.Point(158, 72);
+            this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabel1.Name = "materialLabel1";
+            this.materialLabel1.Size = new System.Drawing.Size(67, 18);
+            this.materialLabel1.TabIndex = 8;
+            this.materialLabel1.Text = "Próxima:";
             // 
-            // abaConfiguracoesBindingSource
+            // matBarraProgresso2
             // 
-            this.abaConfiguracoesBindingSource.DataSource = typeof(Atualizador.Structures.AbaConfiguracoes);
+            this.matBarraProgresso2.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.barraBindingSource, "ProgressoBarra2", true));
+            this.matBarraProgresso2.Depth = 0;
+            this.matBarraProgresso2.Location = new System.Drawing.Point(23, 315);
+            this.matBarraProgresso2.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBarraProgresso2.Name = "matBarraProgresso2";
+            this.matBarraProgresso2.Size = new System.Drawing.Size(541, 5);
+            this.matBarraProgresso2.TabIndex = 7;
             // 
-            // configuracaoModelBindingSource
+            // matBarraProgresso1
             // 
-            this.configuracaoModelBindingSource.DataSource = typeof(Atualizador.Models.ConfiguracaoModel);
+            this.matBarraProgresso1.Depth = 0;
+            this.matBarraProgresso1.Location = new System.Drawing.Point(23, 295);
+            this.matBarraProgresso1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBarraProgresso1.Name = "matBarraProgresso1";
+            this.matBarraProgresso1.Size = new System.Drawing.Size(541, 5);
+            this.matBarraProgresso1.TabIndex = 6;
+            // 
+            // matBtnAtualizar
+            // 
+            this.matBtnAtualizar.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.matBtnAtualizar.AutoSize = true;
+            this.matBtnAtualizar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.matBtnAtualizar.Depth = 0;
+            this.matBtnAtualizar.Icon = null;
+            this.matBtnAtualizar.Location = new System.Drawing.Point(617, 288);
+            this.matBtnAtualizar.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.matBtnAtualizar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBtnAtualizar.Name = "matBtnAtualizar";
+            this.matBtnAtualizar.Primary = true;
+            this.matBtnAtualizar.Size = new System.Drawing.Size(94, 36);
+            this.matBtnAtualizar.TabIndex = 5;
+            this.matBtnAtualizar.Text = "Atualizar";
+            this.matBtnAtualizar.UseVisualStyleBackColor = true;
+            // 
+            // matBtnIniciar
+            // 
+            this.matBtnIniciar.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.matBtnIniciar.AutoSize = true;
+            this.matBtnIniciar.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.matBtnIniciar.Depth = 0;
+            this.matBtnIniciar.Icon = null;
+            this.matBtnIniciar.Location = new System.Drawing.Point(719, 288);
+            this.matBtnIniciar.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.matBtnIniciar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBtnIniciar.Name = "matBtnIniciar";
+            this.matBtnIniciar.Primary = true;
+            this.matBtnIniciar.Size = new System.Drawing.Size(69, 36);
+            this.matBtnIniciar.TabIndex = 4;
+            this.matBtnIniciar.Text = "Iniciar";
+            this.matBtnIniciar.UseVisualStyleBackColor = true;
             // 
             // materialDivider1
             // 
+            this.materialDivider1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.materialDivider1.Depth = 0;
-            this.materialDivider1.Location = new System.Drawing.Point(162, 66);
+            this.materialDivider1.Location = new System.Drawing.Point(102, 49);
             this.materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialDivider1.Name = "materialDivider1";
-            this.materialDivider1.Size = new System.Drawing.Size(75, 23);
+            this.materialDivider1.Size = new System.Drawing.Size(600, 166);
             this.materialDivider1.TabIndex = 3;
             this.materialDivider1.Text = "materialDivider1";
             // 
-            // materialFlatButton1
+            // tabPage3
             // 
-            this.materialFlatButton1.AutoSize = true;
-            this.materialFlatButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.materialFlatButton1.Depth = 0;
-            this.materialFlatButton1.Location = new System.Drawing.Point(286, 152);
-            this.materialFlatButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.materialFlatButton1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialFlatButton1.Name = "materialFlatButton1";
-            this.materialFlatButton1.Primary = false;
-            this.materialFlatButton1.Size = new System.Drawing.Size(172, 36);
-            this.materialFlatButton1.TabIndex = 4;
-            this.materialFlatButton1.Text = "materialFlatButton1";
-            this.materialFlatButton1.UseVisualStyleBackColor = true;
+            this.tabPage3.BackColor = System.Drawing.Color.White;
+            this.tabPage3.Controls.Add(this.matReindex);
+            this.tabPage3.Controls.Add(this.matVacuum);
+            this.tabPage3.Controls.Add(this.matBackup);
+            this.tabPage3.Controls.Add(this.matLabelMesage);
+            this.tabPage3.Controls.Add(this.matBtnTestarConexao);
+            this.tabPage3.Controls.Add(this.matBtnSalvarConfig);
+            this.tabPage3.Controls.Add(this.materialCheckBox1);
+            this.tabPage3.Controls.Add(this.matPostoWeb);
+            this.tabPage3.Controls.Add(this.matBtnPostgreSqlDir);
+            this.tabPage3.Controls.Add(this.matDirPostgreSql);
+            this.tabPage3.Controls.Add(this.matBtnSistemDir);
+            this.tabPage3.Controls.Add(this.matSistemaDir);
+            this.tabPage3.Controls.Add(this.matSenha);
+            this.tabPage3.Controls.Add(this.matUsuario);
+            this.tabPage3.Controls.Add(this.matBanco);
+            this.tabPage3.Controls.Add(this.matPorta);
+            this.tabPage3.Controls.Add(this.matServer);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(806, 333);
+            this.tabPage3.TabIndex = 1;
+            this.tabPage3.Text = "Configurações";
+            // 
+            // matReindex
+            // 
+            this.matReindex.AutoSize = true;
+            this.matReindex.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.configuracaoModelBindingSource, "Reindex", true));
+            this.matReindex.Depth = 0;
+            this.matReindex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.matReindex.Location = new System.Drawing.Point(547, 177);
+            this.matReindex.Margin = new System.Windows.Forms.Padding(0);
+            this.matReindex.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.matReindex.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matReindex.Name = "matReindex";
+            this.matReindex.Ripple = true;
+            this.matReindex.Size = new System.Drawing.Size(117, 30);
+            this.matReindex.TabIndex = 19;
+            this.matReindex.Text = "Fazer Reindex";
+            this.matReindex.UseVisualStyleBackColor = true;
+            // 
+            // matVacuum
+            // 
+            this.matVacuum.AutoSize = true;
+            this.matVacuum.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.configuracaoModelBindingSource, "Vacuum", true));
+            this.matVacuum.Depth = 0;
+            this.matVacuum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.matVacuum.Location = new System.Drawing.Point(375, 207);
+            this.matVacuum.Margin = new System.Windows.Forms.Padding(0);
+            this.matVacuum.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.matVacuum.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matVacuum.Name = "matVacuum";
+            this.matVacuum.Ripple = true;
+            this.matVacuum.Size = new System.Drawing.Size(118, 30);
+            this.matVacuum.TabIndex = 18;
+            this.matVacuum.Text = "Fazer Vacuum";
+            this.matVacuum.UseVisualStyleBackColor = true;
+            // 
+            // matBackup
+            // 
+            this.matBackup.AutoSize = true;
+            this.matBackup.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.configuracaoModelBindingSource, "Backup", true));
+            this.matBackup.Depth = 0;
+            this.matBackup.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.matBackup.Location = new System.Drawing.Point(375, 177);
+            this.matBackup.Margin = new System.Windows.Forms.Padding(0);
+            this.matBackup.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.matBackup.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBackup.Name = "matBackup";
+            this.matBackup.Ripple = true;
+            this.matBackup.Size = new System.Drawing.Size(113, 30);
+            this.matBackup.TabIndex = 17;
+            this.matBackup.Text = "Fazer Backup";
+            this.matBackup.UseVisualStyleBackColor = true;
+            // 
+            // matLabelMesage
+            // 
+            this.matLabelMesage.AutoSize = true;
+            this.matLabelMesage.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaConfiguracoesBindingSource, "MensagemLabel", true));
+            this.matLabelMesage.Depth = 0;
+            this.matLabelMesage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.matLabelMesage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.matLabelMesage.Location = new System.Drawing.Point(15, 296);
+            this.matLabelMesage.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matLabelMesage.Name = "matLabelMesage";
+            this.matLabelMesage.Size = new System.Drawing.Size(0, 18);
+            this.matLabelMesage.TabIndex = 16;
+            // 
+            // matBtnTestarConexao
+            // 
+            this.matBtnTestarConexao.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.matBtnTestarConexao.AutoSize = true;
+            this.matBtnTestarConexao.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.matBtnTestarConexao.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.abaConfiguracoesBindingSource, "EnableButtonConfiguracao", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matBtnTestarConexao.Depth = 0;
+            this.matBtnTestarConexao.Icon = null;
+            this.matBtnTestarConexao.Location = new System.Drawing.Point(567, 288);
+            this.matBtnTestarConexao.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.matBtnTestarConexao.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBtnTestarConexao.Name = "matBtnTestarConexao";
+            this.matBtnTestarConexao.Primary = false;
+            this.matBtnTestarConexao.Size = new System.Drawing.Size(138, 36);
+            this.matBtnTestarConexao.TabIndex = 15;
+            this.matBtnTestarConexao.Text = "Testar Conexão";
+            this.matBtnTestarConexao.UseVisualStyleBackColor = true;
+            this.matBtnTestarConexao.Click += new System.EventHandler(this.MatBtnTestarConexao_Click);
+            // 
+            // matBtnSalvarConfig
+            // 
+            this.matBtnSalvarConfig.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.matBtnSalvarConfig.AutoSize = true;
+            this.matBtnSalvarConfig.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.matBtnSalvarConfig.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.abaConfiguracoesBindingSource, "EnableButtonConfiguracao", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matBtnSalvarConfig.Depth = 0;
+            this.matBtnSalvarConfig.Icon = null;
+            this.matBtnSalvarConfig.Location = new System.Drawing.Point(713, 288);
+            this.matBtnSalvarConfig.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.matBtnSalvarConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBtnSalvarConfig.Name = "matBtnSalvarConfig";
+            this.matBtnSalvarConfig.Primary = true;
+            this.matBtnSalvarConfig.Size = new System.Drawing.Size(72, 36);
+            this.matBtnSalvarConfig.TabIndex = 14;
+            this.matBtnSalvarConfig.Text = "Salvar";
+            this.matBtnSalvarConfig.UseVisualStyleBackColor = true;
+            this.matBtnSalvarConfig.Click += new System.EventHandler(this.MatBtnSalvarConfig_Click);
+            // 
+            // materialCheckBox1
+            // 
+            this.materialCheckBox1.AutoSize = true;
+            this.materialCheckBox1.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.configuracaoModelBindingSource, "PostoWeb", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.materialCheckBox1.Depth = 0;
+            this.materialCheckBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.materialCheckBox1.Location = new System.Drawing.Point(19, 207);
+            this.materialCheckBox1.Margin = new System.Windows.Forms.Padding(0);
+            this.materialCheckBox1.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialCheckBox1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCheckBox1.Name = "materialCheckBox1";
+            this.materialCheckBox1.Ripple = true;
+            this.materialCheckBox1.Size = new System.Drawing.Size(286, 30);
+            this.materialCheckBox1.TabIndex = 13;
+            this.materialCheckBox1.Text = "Encerrar Posto web durante a atualização";
+            this.materialCheckBox1.UseVisualStyleBackColor = true;
+            // 
+            // matPostoWeb
+            // 
+            this.matPostoWeb.AutoSize = true;
+            this.matPostoWeb.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.configuracaoModelBindingSource, "LeitorBomba", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matPostoWeb.Depth = 0;
+            this.matPostoWeb.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.matPostoWeb.Location = new System.Drawing.Point(19, 177);
+            this.matPostoWeb.Margin = new System.Windows.Forms.Padding(0);
+            this.matPostoWeb.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.matPostoWeb.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matPostoWeb.Name = "matPostoWeb";
+            this.matPostoWeb.Ripple = true;
+            this.matPostoWeb.Size = new System.Drawing.Size(317, 30);
+            this.matPostoWeb.TabIndex = 12;
+            this.matPostoWeb.Text = "Encerrar Leitor de bombas durante atualização";
+            this.matPostoWeb.UseVisualStyleBackColor = true;
+            // 
+            // matBtnPostgreSqlDir
+            // 
+            this.matBtnPostgreSqlDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.matBtnPostgreSqlDir.AutoSize = true;
+            this.matBtnPostgreSqlDir.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.matBtnPostgreSqlDir.Depth = 0;
+            this.matBtnPostgreSqlDir.Icon = null;
+            this.matBtnPostgreSqlDir.Location = new System.Drawing.Point(753, 136);
+            this.matBtnPostgreSqlDir.MaximumSize = new System.Drawing.Size(32, 32);
+            this.matBtnPostgreSqlDir.MinimumSize = new System.Drawing.Size(32, 32);
+            this.matBtnPostgreSqlDir.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBtnPostgreSqlDir.Name = "matBtnPostgreSqlDir";
+            this.matBtnPostgreSqlDir.Primary = true;
+            this.matBtnPostgreSqlDir.Size = new System.Drawing.Size(32, 32);
+            this.matBtnPostgreSqlDir.TabIndex = 11;
+            this.matBtnPostgreSqlDir.Text = "...";
+            this.matBtnPostgreSqlDir.UseVisualStyleBackColor = true;
+            this.matBtnPostgreSqlDir.Click += new System.EventHandler(this.MatBtnPostgreSqlDir_Click);
+            // 
+            // matDirPostgreSql
+            // 
+            this.matDirPostgreSql.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.matDirPostgreSql.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "DiretorioPostgreSql", true));
+            this.matDirPostgreSql.Depth = 0;
+            this.matDirPostgreSql.Hint = "Diretório da pasta bin do PosgreSQL";
+            this.matDirPostgreSql.Location = new System.Drawing.Point(19, 145);
+            this.matDirPostgreSql.MaxLength = 32767;
+            this.matDirPostgreSql.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matDirPostgreSql.Name = "matDirPostgreSql";
+            this.matDirPostgreSql.PasswordChar = '\0';
+            this.matDirPostgreSql.SelectedText = "";
+            this.matDirPostgreSql.SelectionLength = 0;
+            this.matDirPostgreSql.SelectionStart = 0;
+            this.matDirPostgreSql.Size = new System.Drawing.Size(726, 23);
+            this.matDirPostgreSql.TabIndex = 10;
+            this.matDirPostgreSql.TabStop = false;
+            this.matDirPostgreSql.UseSystemPasswordChar = false;
+            // 
+            // matBtnSistemDir
+            // 
+            this.matBtnSistemDir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.matBtnSistemDir.AutoSize = true;
+            this.matBtnSistemDir.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.matBtnSistemDir.Depth = 0;
+            this.matBtnSistemDir.Icon = null;
+            this.matBtnSistemDir.Location = new System.Drawing.Point(753, 93);
+            this.matBtnSistemDir.MaximumSize = new System.Drawing.Size(32, 32);
+            this.matBtnSistemDir.MinimumSize = new System.Drawing.Size(32, 32);
+            this.matBtnSistemDir.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBtnSistemDir.Name = "matBtnSistemDir";
+            this.matBtnSistemDir.Primary = true;
+            this.matBtnSistemDir.Size = new System.Drawing.Size(32, 32);
+            this.matBtnSistemDir.TabIndex = 9;
+            this.matBtnSistemDir.Text = "...";
+            this.matBtnSistemDir.UseVisualStyleBackColor = true;
+            this.matBtnSistemDir.Click += new System.EventHandler(this.MatBtnSistemDir_Click);
+            // 
+            // matSistemaDir
+            // 
+            this.matSistemaDir.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.matSistemaDir.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "DiretorioSistema", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matSistemaDir.Depth = 0;
+            this.matSistemaDir.Hint = "Diretório do sistema";
+            this.matSistemaDir.Location = new System.Drawing.Point(19, 102);
+            this.matSistemaDir.MaxLength = 32767;
+            this.matSistemaDir.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matSistemaDir.Name = "matSistemaDir";
+            this.matSistemaDir.PasswordChar = '\0';
+            this.matSistemaDir.SelectedText = "";
+            this.matSistemaDir.SelectionLength = 0;
+            this.matSistemaDir.SelectionStart = 0;
+            this.matSistemaDir.Size = new System.Drawing.Size(726, 23);
+            this.matSistemaDir.TabIndex = 8;
+            this.matSistemaDir.TabStop = false;
+            this.matSistemaDir.UseSystemPasswordChar = false;
+            // 
+            // matSenha
+            // 
+            this.matSenha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.matSenha.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Senha", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matSenha.Depth = 0;
+            this.matSenha.Hint = "Senha";
+            this.matSenha.Location = new System.Drawing.Point(496, 59);
+            this.matSenha.MaxLength = 32767;
+            this.matSenha.MinimumSize = new System.Drawing.Size(216, 0);
+            this.matSenha.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matSenha.Name = "matSenha";
+            this.matSenha.PasswordChar = '*';
+            this.matSenha.SelectedText = "";
+            this.matSenha.SelectionLength = 0;
+            this.matSenha.SelectionStart = 0;
+            this.matSenha.Size = new System.Drawing.Size(289, 23);
+            this.matSenha.TabIndex = 7;
+            this.matSenha.TabStop = false;
+            this.matSenha.UseSystemPasswordChar = false;
+            // 
+            // matUsuario
+            // 
+            this.matUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.matUsuario.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Usuario", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matUsuario.Depth = 0;
+            this.matUsuario.Hint = "Usuário";
+            this.matUsuario.Location = new System.Drawing.Point(19, 57);
+            this.matUsuario.MaxLength = 32767;
+            this.matUsuario.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matUsuario.Name = "matUsuario";
+            this.matUsuario.PasswordChar = '\0';
+            this.matUsuario.SelectedText = "";
+            this.matUsuario.SelectionLength = 0;
+            this.matUsuario.SelectionStart = 0;
+            this.matUsuario.Size = new System.Drawing.Size(463, 23);
+            this.matUsuario.TabIndex = 6;
+            this.matUsuario.TabStop = false;
+            this.matUsuario.UseSystemPasswordChar = false;
+            // 
+            // matBanco
+            // 
+            this.matBanco.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.matBanco.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Banco", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matBanco.Depth = 0;
+            this.matBanco.Hint = "Banco";
+            this.matBanco.Location = new System.Drawing.Point(496, 22);
+            this.matBanco.MaxLength = 32767;
+            this.matBanco.MinimumSize = new System.Drawing.Size(216, 0);
+            this.matBanco.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matBanco.Name = "matBanco";
+            this.matBanco.PasswordChar = '\0';
+            this.matBanco.SelectedText = "";
+            this.matBanco.SelectionLength = 0;
+            this.matBanco.SelectionStart = 0;
+            this.matBanco.Size = new System.Drawing.Size(289, 23);
+            this.matBanco.TabIndex = 5;
+            this.matBanco.TabStop = false;
+            this.matBanco.UseSystemPasswordChar = false;
+            // 
+            // matPorta
+            // 
+            this.matPorta.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.matPorta.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Porta", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged, null, "0"));
+            this.matPorta.Depth = 0;
+            this.matPorta.Hint = "Porta";
+            this.matPorta.Location = new System.Drawing.Point(255, 22);
+            this.matPorta.MaxLength = 32767;
+            this.matPorta.MinimumSize = new System.Drawing.Size(185, 0);
+            this.matPorta.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matPorta.Name = "matPorta";
+            this.matPorta.PasswordChar = '\0';
+            this.matPorta.SelectedText = "";
+            this.matPorta.SelectionLength = 0;
+            this.matPorta.SelectionStart = 0;
+            this.matPorta.Size = new System.Drawing.Size(227, 23);
+            this.matPorta.TabIndex = 4;
+            this.matPorta.TabStop = false;
+            this.matPorta.UseSystemPasswordChar = false;
+            // 
+            // matServer
+            // 
+            this.matServer.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.configuracaoModelBindingSource, "Servidor", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matServer.Depth = 0;
+            this.matServer.Hint = "Servidor";
+            this.matServer.Location = new System.Drawing.Point(19, 22);
+            this.matServer.MaxLength = 32767;
+            this.matServer.MinimumSize = new System.Drawing.Size(185, 0);
+            this.matServer.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matServer.Name = "matServer";
+            this.matServer.PasswordChar = '\0';
+            this.matServer.SelectedText = "";
+            this.matServer.SelectionLength = 0;
+            this.matServer.SelectionStart = 0;
+            this.matServer.Size = new System.Drawing.Size(227, 23);
+            this.matServer.TabIndex = 3;
+            this.matServer.TabStop = false;
+            this.matServer.UseSystemPasswordChar = false;
+            // 
+            // atualizarModelBindingSource
+            // 
+            this.atualizarModelBindingSource.DataSource = typeof(Atualizador.Models.AtualizarModel);
+            // 
+            // abaAtualizacaoBindingSource
+            // 
+            this.abaAtualizacaoBindingSource.DataSource = typeof(Atualizador.Structures.AbaAtualizacao);
             // 
             // TelaPrincipal
             // 
@@ -494,25 +628,25 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Atualizador.Properties.Resources.background;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(606, 355);
+            this.ClientSize = new System.Drawing.Size(838, 489);
             this.Controls.Add(this.materialTabControl1);
             this.Controls.Add(this.materialTabSelector1);
-            this.Controls.Add(this.Principal);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(300, 150);
+            this.MinimumSize = new System.Drawing.Size(838, 489);
             this.Name = "TelaPrincipal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Atualizador - Controle de atualizações do servidor ";
-            this.Configuracoes.ResumeLayout(false);
-            this.Configuracoes.PerformLayout();
-            this.Principal.ResumeLayout(false);
             this.materialTabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this._matGuiaConfig.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.barraBindingSource)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.atualizarModelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.abaAtualizacaoBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -520,40 +654,41 @@
         #endregion
         private System.Windows.Forms.BindingSource configuracaoModelBindingSource;
         private System.Windows.Forms.BindingSource abaConfiguracoesBindingSource;
-        private System.Windows.Forms.TabPage Configuracoes;
-        private System.Windows.Forms.Label statusLabel;
-        private System.Windows.Forms.Button AbrirExplorer;
-        private System.Windows.Forms.Button TestarConexao;
-        private System.Windows.Forms.Button Salvar;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox _localDiretorio;
-        private System.Windows.Forms.TextBox _senha;
-        private System.Windows.Forms.TextBox _banco;
-        private System.Windows.Forms.TextBox _usuario;
-        private System.Windows.Forms.TextBox _porta;
-        private System.Windows.Forms.TextBox _servidor;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox _leitorBomba;
-        private System.Windows.Forms.CheckBox _postoWeb;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label labelPorta;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabPage Atualizacao;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabControl Principal;
         private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
         private MaterialSkin.Controls.MaterialTabControl materialTabControl1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.TabPage _matGuiaConfig;
-        private MaterialSkin.Controls.MaterialSingleLineTextField _matServidor;
-        private MaterialSkin.Controls.MaterialSingleLineTextField _matPorta;
-        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
-        private MaterialSkin.Controls.MaterialRadioButton materialRadioButton1;
-        private MaterialSkin.Controls.MaterialRadioButton materialRadioButton2;
-        private MaterialSkin.Controls.MaterialFlatButton materialFlatButton1;
+        private MaterialSkin.Controls.MaterialFlatButton matBtnIniciar;
         private MaterialSkin.Controls.MaterialDivider materialDivider1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private MaterialSkin.Controls.MaterialSingleLineTextField matServer;
+        private MaterialSkin.Controls.MaterialSingleLineTextField matPorta;
+        private MaterialSkin.Controls.MaterialSingleLineTextField matUsuario;
+        private MaterialSkin.Controls.MaterialSingleLineTextField matBanco;
+        private MaterialSkin.Controls.MaterialRaisedButton matBtnSistemDir;
+        private MaterialSkin.Controls.MaterialSingleLineTextField matSistemaDir;
+        private MaterialSkin.Controls.MaterialSingleLineTextField matSenha;
+        private MaterialSkin.Controls.MaterialSingleLineTextField matDirPostgreSql;
+        private MaterialSkin.Controls.MaterialRaisedButton matBtnPostgreSqlDir;
+        private MaterialSkin.Controls.MaterialCheckBox materialCheckBox1;
+        private MaterialSkin.Controls.MaterialCheckBox matPostoWeb;
+        private MaterialSkin.Controls.MaterialFlatButton matBtnTestarConexao;
+        private MaterialSkin.Controls.MaterialFlatButton matBtnSalvarConfig;
+        private MaterialSkin.Controls.MaterialLabel matLabelMesage;
+        private MaterialSkin.Controls.MaterialCheckBox matVacuum;
+        private MaterialSkin.Controls.MaterialCheckBox matBackup;
+        private MaterialSkin.Controls.MaterialCheckBox matReindex;
+        private MaterialSkin.Controls.MaterialFlatButton matBtnAtualizar;
+        private MaterialSkin.Controls.MaterialProgressBar matBarraProgresso2;
+        private MaterialSkin.Controls.MaterialProgressBar matBarraProgresso1;
+        private MaterialSkin.Controls.MaterialLabel materialLabel3;
+        private MaterialSkin.Controls.MaterialLabel materialLabel2;
+        private MaterialSkin.Controls.MaterialLabel materialLabel1;
+        private System.Windows.Forms.BindingSource barraBindingSource;
+        private MaterialSkin.Controls.MaterialLabel matLabVerAtu;
+        private MaterialSkin.Controls.MaterialLabel matLabelUlt;
+        private MaterialSkin.Controls.MaterialLabel matLabelProx;
+        private System.Windows.Forms.BindingSource atualizarModelBindingSource;
+        private System.Windows.Forms.BindingSource abaAtualizacaoBindingSource;
     }
 }
 

@@ -3,4 +3,7 @@
   <Porta>5432</Porta>
   <LeitorBomba>false</LeitorBomba>
   <PostoWeb>false</PostoWeb>
+  <Backup>false</Backup>
+  <Vacuum>false</Vacuum>
+  <Reindex>false</Reindex>
 </Configuracao>
