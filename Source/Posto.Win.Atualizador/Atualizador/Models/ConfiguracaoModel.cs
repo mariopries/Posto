@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Atualizador.Models
 {
-    class ConfiguracaoModel : INotifyPropertyChanged
+    public class ConfiguracaoModel : INotifyPropertyChanged
     {
         private string _servidor;
         private int _porta;
@@ -76,7 +76,6 @@ namespace Atualizador.Models
             set { SetField(ref _dirSistema, value); }
         }
 
-
         public string DiretorioPostgreSql
         {
             get { return _dirPostgreSql; }
@@ -130,7 +129,6 @@ namespace Atualizador.Models
                                     Senha,
                                     Banco);
             }
-        }
-        
+        }        
     }
 }

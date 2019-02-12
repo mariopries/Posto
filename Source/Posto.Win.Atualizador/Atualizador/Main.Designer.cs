@@ -50,7 +50,7 @@
             this.configuracaoModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.matVacuum = new MaterialSkin.Controls.MaterialCheckBox();
             this.matBackup = new MaterialSkin.Controls.MaterialCheckBox();
-            this.matLabelMesage = new MaterialSkin.Controls.MaterialLabel();
+            this.matLabelMesageConfig = new MaterialSkin.Controls.MaterialLabel();
             this.abaConfiguracoesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.matBtnTestarConexao = new MaterialSkin.Controls.MaterialFlatButton();
             this.matBtnSalvarConfig = new MaterialSkin.Controls.MaterialFlatButton();
@@ -65,16 +65,17 @@
             this.matBanco = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.matPorta = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.matServer = new MaterialSkin.Controls.MaterialSingleLineTextField();
-            this.atualizarModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.matLabelMensageAtualizar = new MaterialSkin.Controls.MaterialLabel();
             this.abaAtualizacaoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.atualizarModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.materialTabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.barraBindingSource)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.atualizarModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.abaAtualizacaoBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.atualizarModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // materialTabSelector1
@@ -108,6 +109,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.matLabelMensageAtualizar);
             this.tabPage2.Controls.Add(this.matLabVerAtu);
             this.tabPage2.Controls.Add(this.matLabelUlt);
             this.tabPage2.Controls.Add(this.matLabelProx);
@@ -129,11 +131,12 @@
             // matLabVerAtu
             // 
             this.matLabVerAtu.AutoSize = true;
+            this.matLabVerAtu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.matLabVerAtu.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.atualizarModelBindingSource, "Versao", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.matLabVerAtu.Depth = 0;
             this.matLabVerAtu.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.matLabVerAtu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.matLabVerAtu.Location = new System.Drawing.Point(232, 139);
+            this.matLabVerAtu.Location = new System.Drawing.Point(241, 157);
             this.matLabVerAtu.MouseState = MaterialSkin.MouseState.HOVER;
             this.matLabVerAtu.Name = "matLabVerAtu";
             this.matLabVerAtu.Size = new System.Drawing.Size(12, 18);
@@ -143,11 +146,12 @@
             // matLabelUlt
             // 
             this.matLabelUlt.AutoSize = true;
+            this.matLabelUlt.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.matLabelUlt.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.atualizarModelBindingSource, "UltimaData", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.matLabelUlt.Depth = 0;
             this.matLabelUlt.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.matLabelUlt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.matLabelUlt.Location = new System.Drawing.Point(232, 105);
+            this.matLabelUlt.Location = new System.Drawing.Point(241, 123);
             this.matLabelUlt.MouseState = MaterialSkin.MouseState.HOVER;
             this.matLabelUlt.Name = "matLabelUlt";
             this.matLabelUlt.Size = new System.Drawing.Size(12, 18);
@@ -157,11 +161,12 @@
             // matLabelProx
             // 
             this.matLabelProx.AutoSize = true;
+            this.matLabelProx.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.matLabelProx.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.atualizarModelBindingSource, "GetDataProximaAtualizacao", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.matLabelProx.Depth = 0;
             this.matLabelProx.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.matLabelProx.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.matLabelProx.Location = new System.Drawing.Point(232, 72);
+            this.matLabelProx.Location = new System.Drawing.Point(241, 90);
             this.matLabelProx.MouseState = MaterialSkin.MouseState.HOVER;
             this.matLabelProx.Name = "matLabelProx";
             this.matLabelProx.Size = new System.Drawing.Size(12, 18);
@@ -171,10 +176,11 @@
             // materialLabel3
             // 
             this.materialLabel3.AutoSize = true;
+            this.materialLabel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.materialLabel3.Depth = 0;
             this.materialLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.materialLabel3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel3.Location = new System.Drawing.Point(126, 139);
+            this.materialLabel3.Location = new System.Drawing.Point(135, 157);
             this.materialLabel3.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel3.Name = "materialLabel3";
             this.materialLabel3.Size = new System.Drawing.Size(95, 18);
@@ -184,10 +190,11 @@
             // materialLabel2
             // 
             this.materialLabel2.AutoSize = true;
+            this.materialLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.materialLabel2.Depth = 0;
             this.materialLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.materialLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel2.Location = new System.Drawing.Point(169, 105);
+            this.materialLabel2.Location = new System.Drawing.Point(178, 123);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
             this.materialLabel2.Size = new System.Drawing.Size(54, 18);
@@ -197,10 +204,11 @@
             // materialLabel1
             // 
             this.materialLabel1.AutoSize = true;
+            this.materialLabel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.materialLabel1.Depth = 0;
             this.materialLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
             this.materialLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabel1.Location = new System.Drawing.Point(158, 72);
+            this.materialLabel1.Location = new System.Drawing.Point(167, 90);
             this.materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel1.Name = "materialLabel1";
             this.materialLabel1.Size = new System.Drawing.Size(67, 18);
@@ -209,7 +217,10 @@
             // 
             // matBarraProgresso2
             // 
-            this.matBarraProgresso2.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.barraBindingSource, "ProgressoBarra2", true));
+            this.matBarraProgresso2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.matBarraProgresso2.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.abaAtualizacaoBindingSource, "IsEnabledBarras", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matBarraProgresso2.DataBindings.Add(new System.Windows.Forms.Binding("Visible", this.abaAtualizacaoBindingSource, "IsVisibleBarras", true));
             this.matBarraProgresso2.Depth = 0;
             this.matBarraProgresso2.Location = new System.Drawing.Point(23, 315);
             this.matBarraProgresso2.MouseState = MaterialSkin.MouseState.HOVER;
@@ -219,6 +230,11 @@
             // 
             // matBarraProgresso1
             // 
+            this.matBarraProgresso1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.matBarraProgresso1.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.abaAtualizacaoBindingSource, "ProgressoBarra1", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matBarraProgresso1.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.abaAtualizacaoBindingSource, "IsEnabledBarras", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matBarraProgresso1.DataBindings.Add(new System.Windows.Forms.Binding("Visible", this.abaAtualizacaoBindingSource, "IsVisibleBarras", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.matBarraProgresso1.Depth = 0;
             this.matBarraProgresso1.Location = new System.Drawing.Point(23, 295);
             this.matBarraProgresso1.MouseState = MaterialSkin.MouseState.HOVER;
@@ -242,6 +258,7 @@
             this.matBtnAtualizar.TabIndex = 5;
             this.matBtnAtualizar.Text = "Atualizar";
             this.matBtnAtualizar.UseVisualStyleBackColor = true;
+            this.matBtnAtualizar.Click += new System.EventHandler(this.MatBtnAtualizar_Click);
             // 
             // matBtnIniciar
             // 
@@ -279,7 +296,7 @@
             this.tabPage3.Controls.Add(this.matReindex);
             this.tabPage3.Controls.Add(this.matVacuum);
             this.tabPage3.Controls.Add(this.matBackup);
-            this.tabPage3.Controls.Add(this.matLabelMesage);
+            this.tabPage3.Controls.Add(this.matLabelMesageConfig);
             this.tabPage3.Controls.Add(this.matBtnTestarConexao);
             this.tabPage3.Controls.Add(this.matBtnSalvarConfig);
             this.tabPage3.Controls.Add(this.materialCheckBox1);
@@ -351,18 +368,19 @@
             this.matBackup.Text = "Fazer Backup";
             this.matBackup.UseVisualStyleBackColor = true;
             // 
-            // matLabelMesage
+            // matLabelMesageConfig
             // 
-            this.matLabelMesage.AutoSize = true;
-            this.matLabelMesage.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaConfiguracoesBindingSource, "MensagemLabel", true));
-            this.matLabelMesage.Depth = 0;
-            this.matLabelMesage.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.matLabelMesage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.matLabelMesage.Location = new System.Drawing.Point(15, 296);
-            this.matLabelMesage.MouseState = MaterialSkin.MouseState.HOVER;
-            this.matLabelMesage.Name = "matLabelMesage";
-            this.matLabelMesage.Size = new System.Drawing.Size(0, 18);
-            this.matLabelMesage.TabIndex = 16;
+            this.matLabelMesageConfig.AutoSize = true;
+            this.matLabelMesageConfig.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaConfiguracoesBindingSource, "MensagemLabel", true));
+            this.matLabelMesageConfig.Depth = 0;
+            this.matLabelMesageConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.matLabelMesageConfig.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.matLabelMesageConfig.Location = new System.Drawing.Point(15, 296);
+            this.matLabelMesageConfig.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matLabelMesageConfig.Name = "matLabelMesageConfig";
+            this.matLabelMesageConfig.Size = new System.Drawing.Size(12, 18);
+            this.matLabelMesageConfig.TabIndex = 16;
+            this.matLabelMesageConfig.Text = " ";
             // 
             // matBtnTestarConexao
             // 
@@ -614,13 +632,28 @@
             this.matServer.TabStop = false;
             this.matServer.UseSystemPasswordChar = false;
             // 
-            // atualizarModelBindingSource
+            // matLabelMensageAtualizar
             // 
-            this.atualizarModelBindingSource.DataSource = typeof(Atualizador.Models.AtualizarModel);
+            this.matLabelMensageAtualizar.AutoSize = true;
+            this.matLabelMensageAtualizar.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.abaAtualizacaoBindingSource, "LabelContent", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matLabelMensageAtualizar.DataBindings.Add(new System.Windows.Forms.Binding("Location", this.abaAtualizacaoBindingSource, "LabelLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.matLabelMensageAtualizar.Depth = 0;
+            this.matLabelMensageAtualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.matLabelMensageAtualizar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.matLabelMensageAtualizar.Location = new System.Drawing.Point(20, 274);
+            this.matLabelMensageAtualizar.MouseState = MaterialSkin.MouseState.HOVER;
+            this.matLabelMensageAtualizar.Name = "matLabelMensageAtualizar";
+            this.matLabelMensageAtualizar.Size = new System.Drawing.Size(12, 18);
+            this.matLabelMensageAtualizar.TabIndex = 14;
+            this.matLabelMensageAtualizar.Text = " ";
             // 
             // abaAtualizacaoBindingSource
             // 
             this.abaAtualizacaoBindingSource.DataSource = typeof(Atualizador.Structures.AbaAtualizacao);
+            // 
+            // atualizarModelBindingSource
+            // 
+            this.atualizarModelBindingSource.DataSource = typeof(Atualizador.Models.AtualizarModel);
             // 
             // TelaPrincipal
             // 
@@ -645,8 +678,8 @@
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.configuracaoModelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.abaConfiguracoesBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.atualizarModelBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.abaAtualizacaoBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.atualizarModelBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -673,7 +706,7 @@
         private MaterialSkin.Controls.MaterialCheckBox matPostoWeb;
         private MaterialSkin.Controls.MaterialFlatButton matBtnTestarConexao;
         private MaterialSkin.Controls.MaterialFlatButton matBtnSalvarConfig;
-        private MaterialSkin.Controls.MaterialLabel matLabelMesage;
+        private MaterialSkin.Controls.MaterialLabel matLabelMesageConfig;
         private MaterialSkin.Controls.MaterialCheckBox matVacuum;
         private MaterialSkin.Controls.MaterialCheckBox matBackup;
         private MaterialSkin.Controls.MaterialCheckBox matReindex;
@@ -689,6 +722,7 @@
         private MaterialSkin.Controls.MaterialLabel matLabelProx;
         private System.Windows.Forms.BindingSource atualizarModelBindingSource;
         private System.Windows.Forms.BindingSource abaAtualizacaoBindingSource;
+        private MaterialSkin.Controls.MaterialLabel matLabelMensageAtualizar;
     }
 }
 

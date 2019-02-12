@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Atualizador.Models
 {
-    class AtualizarModel : INotifyPropertyChanged
+    public class AtualizarModel : INotifyPropertyChanged
     {
         #region Propriedades
 

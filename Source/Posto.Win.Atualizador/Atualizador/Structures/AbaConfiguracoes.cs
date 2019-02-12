@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Atualizador.Structures
 {
-    class AbaConfiguracoes : INotifyPropertyChanged
+    public class AbaConfiguracoes : INotifyPropertyChanged
     {
         #region Propriedades
 
@@ -79,6 +79,5 @@ namespace Atualizador.Structures
         }
 
         #endregion
-
     }
 }

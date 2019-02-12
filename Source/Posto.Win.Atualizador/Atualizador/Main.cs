@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MaterialSkin;
 using MaterialSkin.Controls;
+using Atualizador.Objetos;
 
 namespace Atualizador
 {
@@ -21,10 +22,10 @@ namespace Atualizador
     {
         #region Propriedades
 
-        //private AbaAtualizar _abaatualizar;
+        private AbaAtualizacao _abaatualizar;
         private AbaConfiguracoes _abaconfiguracoes;
-        //private IndicadoresManutencao _indicadores;
-        //private Atualizar _atualizarAsync;
+        private IndicadoresManutencao _indicadores;
+        private Atualizar _atualizarAsync;
         //private bool _dynamicContentControlIsActive;
         //private NotificationObject _sobreContent;
         //private NotificationObject _dynamicContentControl;
@@ -40,15 +41,24 @@ namespace Atualizador
             materialSkinManager.AddFormToManage(this);
             materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
             materialSkinManager.ColorScheme = new ColorScheme(Primary.Green600, Primary.Green700, Primary.Green200, Accent.Red100, TextShade.WHITE);
-            
+
+            AbaAtualizacao = new AbaAtualizacao();
             AbaConfiguracoes = new AbaConfiguracoes();
+            AtualizarAsync = new Atualizar(this);
+            Indicadores = new IndicadoresManutencao(AbaConfiguracoes.ConfiguracaoModel);
+
+            atualizarModelBindingSource.DataSource = AbaAtualizacao.AtualizarModel;
+            abaAtualizacaoBindingSource.DataSource = AbaAtualizacao;
+
             configuracaoModelBindingSource.DataSource = AbaConfiguracoes.ConfiguracaoModel;
             abaConfiguracoesBindingSource.DataSource = AbaConfiguracoes;
+
+            Start();
         }
 
         #region Objetos
 
-        private AbaConfiguracoes AbaConfiguracoes
+        public AbaConfiguracoes AbaConfiguracoes
         {
             get { return _abaconfiguracoes; }
             set
@@ -59,10 +69,63 @@ namespace Atualizador
                 }
             }
         }
+        public AbaAtualizacao AbaAtualizacao
+        {
+            get { return _abaatualizar; }
+            set
+            {
+                if (_abaatualizar != value)
+                {
+                    _abaatualizar = value;
+                }
+            }
+        }
+        public Atualizar AtualizarAsync
+        {
+            get { return _atualizarAsync; }
+            set
+            {
+                if (_atualizarAsync != value)
+                {
+                    _atualizarAsync = value;
+                }
+            }
+        }
+        public IndicadoresManutencao Indicadores
+        {
+            get
+            {
+                return _indicadores;
+            }
+            set
+            {
+                if (_indicadores != value)
+                {
+                    _indicadores = value;
+                }
+            }
+        }
 
         #endregion
 
         #region Funções Async
+
+        private async void Start()
+        {
+            var conexao = await TestarConexaoAsync();
+
+            if (conexao)
+            {
+                if (!Indicadores.EmManutencao && (Indicadores.FimManutencao || !Indicadores.FimManutencao))
+                {
+                    Iniciar();
+                }
+                else
+                {
+                    Atualizar(false);
+                }
+            }
+        }
 
         private async void MatBtnSalvarConfig_Click(object sender, EventArgs e)
         {
@@ -122,6 +185,81 @@ namespace Atualizador
         #endregion
 
         #region Funções
+
+        private void Iniciar()
+        {
+            var config = ConfiguracaoXml.CarregarConfiguracao().ToModel();
+
+            if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
+            {
+                AtualizarAsync.Iniciar();
+                AbaAtualizacao.IsVisibleButtonPausar = true;
+                AbaAtualizacao.IsEnableButtonAtualizar = false;
+                AbaAtualizacao.IsEnabledBarras = true;
+            }
+            else
+            {
+                MessageBox.Show("Verifique a aba de configuração! Necessário desbloquear", "Problemas ao inicializar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void MatBtnAtualizar_Click(object sender, EventArgs e)
+        {
+            Atualizar(true);
+        }
+
+        private void Atualizar(bool perguntar)
+        {
+            if (IsValidarConfiguracao(AbaConfiguracoes.ConfiguracaoModel))
+            {
+                AbaAtualizacao.IsEnableButtonAtualizar = false;
+                AbaAtualizacao.IsEnabledBarras = true;
+
+                bool backup = false, reindex = false, vacuum = false;
+
+                if (perguntar)
+                {
+                    DialogResult dialogo = MessageBox.Show("Deseja gerar backup antes de rodar rmenu?", "Atualização", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                    if (dialogo == DialogResult.Yes)
+                    {
+                        backup = true;
+                    }
+
+                    dialogo = MessageBox.Show("Deseja executar comando de vacuum no banco de dados?", "Atualização", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                    if (dialogo == DialogResult.Yes)
+                    {
+                        vacuum = true;
+                    }
+
+                    dialogo = MessageBox.Show("Deseja executar comando de reindex no banco de dados?", "Atualização", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+                    if (dialogo == DialogResult.Yes)
+                    {
+                        reindex = true;
+                    }
+                }
+                else
+                {
+                    backup = AbaConfiguracoes.ConfiguracaoModel.Backup;
+                    reindex = AbaConfiguracoes.ConfiguracaoModel.Reindex;
+                    vacuum = AbaConfiguracoes.ConfiguracaoModel.Vacuum;
+                }
+
+                AtualizarAsync.Manual(backup, reindex, vacuum);
+            }
+            else
+            {
+                MessageBox.Show("Verifique a aba de configuração! Necessário desbloquear", "Problemas ao inicializar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        public void AtualizarAfter()
+        {
+            AbaAtualizacao.IsEnableButtonAtualizar = true;
+            AbaAtualizacao.IsEnabledBarras = false;
+        }
 
         private bool IsValidarConfiguracao(ConfiguracaoModel configuracao)
         {
@@ -205,6 +343,8 @@ namespace Atualizador
 
         #endregion
 
+        #region Eventos
+
         private void MatBtnSistemDir_Click(object sender, EventArgs e)
         {
             using (var folderDialog = new CommonOpenFileDialog())
@@ -237,5 +377,6 @@ namespace Atualizador
             }
         }
 
+        #endregion
     }
 }
