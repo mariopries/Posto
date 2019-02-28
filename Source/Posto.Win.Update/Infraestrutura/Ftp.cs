@@ -69,7 +69,7 @@ namespace Posto.Win.Update.Infraestrutura
 
         #region Funçoes
 
-        public string[] GetFileList(string path)
+        public List<string> GetFileList(string path)
         {
             string[] downloadFiles;
             StringBuilder result = new StringBuilder();
@@ -102,7 +102,7 @@ namespace Posto.Win.Update.Infraestrutura
                 }
 
                 result.Remove(result.ToString().LastIndexOf('\n'), 1);
-                return result.ToString().Split('\n');
+                return result.ToString().Split('\n').ToList();
             }
             catch (Exception e)
             {
@@ -116,7 +116,7 @@ namespace Posto.Win.Update.Infraestrutura
                     response.Close();
                 }
                 downloadFiles = null;
-                return downloadFiles;
+                return downloadFiles.ToList();
             }
         }
         public long GetFileSize(string path)

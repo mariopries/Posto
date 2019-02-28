@@ -42,6 +42,8 @@ namespace Posto.Win.Update.Infraestrutura
 
         #region Constantes
 
+        private const string FtpPath = "public_html/posto_att/";
+
         private const string PathExe = "public_html/posto_att/Update.zip";
 
         private const string PathSql = "public_html/posto_att/rmenu/";
@@ -59,7 +61,6 @@ namespace Posto.Win.Update.Infraestrutura
         private string Rmenu;
         private int PrimeiraVersao;
         private int UltimaVersao;
-        private string[] RetornoFtp;
         private List<Atualizacao> ListaSql;
 
         #endregion
@@ -466,44 +467,54 @@ namespace Posto.Win.Update.Infraestrutura
                 try
                 {
                     MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.IsIndeterminateBarra1 = false;
-                    var FileLastModified = Ftp.GetFileLasModified(PathExe);
 
-                    if (!FileLastModified.ToString().Equals(ConfiguracaoModel.VersaoArquivo))
+                    var RetornoFtp = Ftp.GetFileList(FtpPath);
+
+                    RetornoFtp.ForEach(arquivo =>
                     {
-                        MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Baixando arquivos da atualizaçãos...";                                                
-                        var arquivos = Ftp.Download(PathExe, MainWindowViewModel);
-
-                        using (MemoryStream mem = new MemoryStream(arquivos))
-                        using (ZipArchive zipStream = new ZipArchive(mem))
+                        if (arquivo.EndsWith(".rar", StringComparison.OrdinalIgnoreCase) || arquivo.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
                         {
-                            var filesCount = 1;
-                            foreach (ZipArchiveEntry file in zipStream.Entries)
+                            var FileLastModified = Ftp.GetFileLasModified(FtpPath + arquivo);
+
+                            if (!FileLastModified.ToString().Equals(ConfiguracaoModel.VersaoArquivo))
                             {
-                                string completeFileName = Path.Combine($@"{ConfiguracaoModel.LocalDiretorio}\Update", file.FullName);
-                                string directory = Path.GetDirectoryName(completeFileName);
+                                MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Baixando arquivos da atualizaçãos...";
+                                var arquivos = Ftp.Download(FtpPath + arquivo, MainWindowViewModel);
 
-                                if (!Directory.Exists(directory))
-                                    Directory.CreateDirectory(directory);
-                                if (file.Name != "")
-                                    file.ExtractToFile(completeFileName, true);
+                                using (MemoryStream mem = new MemoryStream(arquivos))
+                                using (ZipArchive zipStream = new ZipArchive(mem))
+                                {
+                                    var filesCount = 1;
+                                    foreach (ZipArchiveEntry file in zipStream.Entries)
+                                    {
+                                        string completeFileName = Path.Combine($@"{ConfiguracaoModel.LocalDiretorio}\Update", file.FullName);
+                                        string directory = Path.GetDirectoryName(completeFileName);
 
-                                MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Extraindo arquivo (" + filesCount + "/" + zipStream.Entries.Count.ToString() + ")";
-                                MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra1 = ((double)filesCount / zipStream.Entries.Count) * 100;
-                                //file.ExtractToFile(completeFileName, true);
-                                filesCount++;
+                                        if (!Directory.Exists(directory))
+                                            Directory.CreateDirectory(directory);
+                                        if (file.Name != "")
+                                            file.ExtractToFile(completeFileName, true);
+
+                                        MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Extraindo arquivo (" + filesCount + "/" + zipStream.Entries.Count.ToString() + ")";
+                                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra1 = ((double)filesCount / zipStream.Entries.Count) * 100;
+                                        filesCount++;
+                                    }
+                                }
                             }
+                            
+                            ConfiguracaoModel.VersaoArquivo = FileLastModified.ToString().Trim();
+                            ConfiguracaoModel.ToModel().GravarConfiguracao();
+                            MainWindowViewModel.Indicadores.AtualizouExe = true;
                         }
-                    }
 
-                    ConfiguracaoModel.VersaoArquivo = FileLastModified.ToString().Trim();
-                    ConfiguracaoModel.ToModel().GravarConfiguracao();
-                    MainWindowViewModel.Indicadores.AtualizouExe = true;
+                    });
+
                     return true;
                 }
                 catch (Exception e)
                 {
                     log.Error(e.Message);
-                    MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao atualizar programas.";                    
+                    MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Problemas ao atualizar programas.";
                     return false;
                 }
             });
@@ -694,8 +705,7 @@ namespace Posto.Win.Update.Infraestrutura
 
             try
             {
-                processo.StartInfo.FileName = "Posto.exe";
-                processo.StartInfo.WorkingDirectory = PathAtualizador;
+                processo.StartInfo.FileName = @"App\Posto.exe";
                 processo.StartInfo.Arguments = Parm;
                 processo.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
                 processo.Start();
@@ -715,6 +725,7 @@ namespace Posto.Win.Update.Infraestrutura
                 processo = null;
             }
         }
+
         /// <summary>
         /// Busca as versões para atualização de acordo com a versão do cliente
         /// </summary>
@@ -725,13 +736,13 @@ namespace Posto.Win.Update.Infraestrutura
                 try
                 {
                     ListaSql = new List<Atualizacao>();
-                    RetornoFtp = Ftp.GetFileList(PathSql);
+                    var RetornoFtp = Ftp.GetFileList(PathSql);
 
                     //-- Faz a formatação da string e adiciona na lista de SQLs para rodar
                     ListaSql = RetornoFtp.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
                                 .Select((row) => new Atualizacao
                                 {
-                                    Versao = Convert.ToInt32(Regex.Replace(row, "[^0-9]+", "")),
+                                    Versao = Convert.ToInt32(Regex.Replace(row.Substring(row.IndexOf("v_"), row.Length - row.IndexOf("v_")), "[^0-9]+", "")),
                                     Arquivo = row,
                                 })
                                 .Where(row => row.Versao > AtualizarModel.Versao)
