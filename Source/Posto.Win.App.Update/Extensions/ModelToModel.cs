@@ -1,12 +1,12 @@
-﻿using Posto.Win.UpdateLocal.Estrutura;
+﻿using Posto.Win.App.Structure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Posto.Win.UpdateLocal.Extensions
-{
+namespace Posto.Win.App.Extensions
+    {
     public static class ModelToModelExtension
     {
         public static Configuracoes ToModel(this ConfiguracoesXml model)

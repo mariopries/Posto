@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Posto.Win.UpdateLocal.Estrutura
+namespace Posto.Win.App.Structure
 {
     [XmlRoot("ConfiguracoesXml")]
     public class ConfiguracoesXml
     {
-        private const string Folder = @"C:\metodos\cfg";
+        private const string Folder = "cfg";
         private const string File = "AppsConfig.xml";
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Posto.Win.UpdateLocal.Estrutura
         /// </summary>
         [XmlElement("Servidor")]
         public string Servidor { get; set; }
-
+        
         /// <summary>
         /// Carrega as informações do xml
         /// </summary>
@@ -37,8 +37,8 @@ namespace Posto.Win.UpdateLocal.Estrutura
                 //Criamos um com o nome folder
                 Directory.CreateDirectory(Folder);
             }
-            //string path = string.Format("{0}/{1}/{2}", Environment.CurrentDirectory, Folder, File);
-            string path = string.Format("{0}/{1}", Folder, File);
+
+            string path = string.Format("{0}/{1}/{2}", Environment.CurrentDirectory, Folder, File);
             StreamReader sR = null;
 
             try
@@ -70,7 +70,7 @@ namespace Posto.Win.UpdateLocal.Estrutura
         public void GravarConfiguracao()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(ConfiguracoesXml));
-            string path = string.Format("{0}/{1}", Folder, File);
+            string path = string.Format("{0}/{1}/{2}", Environment.CurrentDirectory, Folder, File);
             StreamWriter sW = new StreamWriter(path);
             serializer.Serialize(sW, this);
             sW.Close();
@@ -93,5 +93,4 @@ namespace Posto.Win.UpdateLocal.Estrutura
             set { if (_servidor != value) { _servidor = value; } }
         }
     }
-
 }

@@ -1,30 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Configuration;
 using System.Threading.Tasks;
-using System.IO;
 using System.Windows.Forms;
-using Posto.Win.App.Structure;
 
-namespace Posto.Win.App
+namespace Posto.Win.UpdateLocal
 {
-    class Program
+    static class Program
     {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        //static void Main()
         static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             #if DEBUG
-            new Atualizador("1");
+                Application.Run(new Posto(Aplicativo.Retaguarda));
             #else
-            try
-            {
-                new Atualizador(args.FirstOrDefault().ToString());
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+                try
+                {
+                    var aplicativo = (Aplicativo)Enum.Parse(typeof(Aplicativo), args.FirstOrDefault().ToString());
+                    Application.Run(new Posto(aplicativo));
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                }
             #endif
         }
     }
