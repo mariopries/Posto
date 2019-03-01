@@ -115,7 +115,7 @@ namespace Posto.Win.UpdateLocal
                     }
                     if (Configuracoes.Servidor == null || Configuracoes.Servidor == "")
                     {
-                        Configuracoes.Servidor = @"C:\metodos\Update\";
+                        Configuracoes.Servidor = @"\\servidor\metodos\Update\";
                     }
 
                     Configuracoes.ToModel().GravarConfiguracao();
@@ -259,6 +259,7 @@ namespace Posto.Win.UpdateLocal
                 {
                     Arquivos.Add(new FileInfo(newPath));
                 }
+
                 //-- Adiciona .jpg
                 foreach (string newPath in Directory.GetFiles(Configuracoes.Servidor, "*.jpg", SearchOption.AllDirectories))
                 {

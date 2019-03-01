@@ -4,6 +4,8 @@ using Posto.Win.Update.DataContext;
 using Posto.Win.Update.Extensions;
 using Posto.Win.Update.Model;
 using Posto.Win.Update.ViewModel;
+using SharpCompress.Archives;
+using SharpCompress.Common;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -43,16 +45,6 @@ namespace Posto.Win.Update.Infraestrutura
         #region Constantes
 
         private const string FtpPath = "public_html/posto_att/";
-
-        private const string PathExe = "public_html/posto_att/Update.zip";
-
-        private const string PathSql = "public_html/posto_att/rmenu/";
-
-        private const string PathAtualizador = @"C:\Metodos\App\";
-
-        private const string PathLeitor = @"C:\Metodos\uLeitor.exe";
-
-        private const string PathPostoWeb = @"C:\Metodos\uPostoWe.exe";
 
         #endregion
 
@@ -225,8 +217,6 @@ namespace Posto.Win.Update.Infraestrutura
                         throw new Exception("Problemas com a comunicação com o servidor ftp");
                     }
 
-                    //if (AtualizarModel.Versao < UltimaVersao)
-                    //{
                     //-- Ativa manutenção no banco, GeneXus se encarregará de indicar manutenção                        
                     if (!await ManutencaoAtiva())
                     {
@@ -244,21 +234,13 @@ namespace Posto.Win.Update.Infraestrutura
                     //-- Encerra o processo do leitor de bombas caso parâmetro seja true
                     if (ConfiguracaoModel.LeitorBomba)
                     {
-                        Process[] processes = Process.GetProcessesByName("uLeitor");
-                        foreach (Process process in processes)
-                        {
-                            process.Kill();
-                        }
+                        Kill("uLeitor");
                     }
 
                     //-- Encerra o processo do posto web caso parâmetro seja true
                     if (ConfiguracaoModel.PostoWeb)
                     {
-                        Process[] processes = Process.GetProcessesByName("uPostoWe");
-                        foreach (Process process in processes)
-                        {
-                            process.Kill();
-                        }
+                        Kill("uPostoWe");
                     }
 
                     TimerProximaAtualizacao.Stop();
@@ -335,14 +317,6 @@ namespace Posto.Win.Update.Infraestrutura
 
         }
 
-
-        private void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            //* Do your stuff with the output (write to console/log/StringBuilder)
-            MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = outLine.Data;
-            //Console.WriteLine(outLine.Data);
-        }
-
         /// <summary>
         /// Executa rotina de backup do banco
         /// </summary>
@@ -354,6 +328,11 @@ namespace Posto.Win.Update.Infraestrutura
                 {
                     MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.IsIndeterminateBarra1 = true;
                     DateTime Time = DateTime.Now;
+
+                    // Verifica se o diretório já existe, se não, irá criar um novo
+                    if (!Directory.Exists($@"{ConfiguracaoModel.LocalDiretorio}\backup"))
+                        Directory.CreateDirectory($@"{ConfiguracaoModel.LocalDiretorio}\backup");
+
                     using (Process processo = new Process())
                     {
                         processo.StartInfo.FileName = Environment.GetEnvironmentVariable("comspec");
@@ -482,23 +461,25 @@ namespace Posto.Win.Update.Infraestrutura
                                 var arquivos = Ftp.Download(FtpPath + arquivo, MainWindowViewModel);
 
                                 using (MemoryStream mem = new MemoryStream(arquivos))
-                                using (ZipArchive zipStream = new ZipArchive(mem))
+                                using (var file = ArchiveFactory.Open(mem))
                                 {
                                     var filesCount = 1;
-                                    foreach (ZipArchiveEntry file in zipStream.Entries)
+                                    file.Entries.ToList().ForEach(entry =>
                                     {
-                                        string completeFileName = Path.Combine($@"{ConfiguracaoModel.LocalDiretorio}\Update", file.FullName);
-                                        string directory = Path.GetDirectoryName(completeFileName);
+                                        if (!entry.IsDirectory && !entry.Key.Contains("~$"))
+                                        {
+                                            string completeFileName = Path.Combine($@"{ConfiguracaoModel.LocalDiretorio}\Update", entry.Key);
+                                            string directory = Path.GetDirectoryName(completeFileName);
 
-                                        if (!Directory.Exists(directory))
-                                            Directory.CreateDirectory(directory);
-                                        if (file.Name != "")
-                                            file.ExtractToFile(completeFileName, true);
+                                            if (entry.Key != "")
+                                                entry.WriteToDirectory($@"{ConfiguracaoModel.LocalDiretorio}\Update", new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
 
-                                        MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Extraindo arquivo (" + filesCount + "/" + zipStream.Entries.Count.ToString() + ")";
-                                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra1 = ((double)filesCount / zipStream.Entries.Count) * 100;
-                                        filesCount++;
-                                    }
+                                            MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Extraindo arquivo (" + filesCount + "/" + file.Entries.Count().ToString() + ")";
+                                            MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra1 = ((double)filesCount / file.Entries.Count()) * 100;
+
+                                            filesCount++;
+                                        }
+                                    });
                                 }
                             }
                             
@@ -536,15 +517,14 @@ namespace Posto.Win.Update.Infraestrutura
                     MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Baixando o Rmenu...";
                     ListaSql.ForEach(row =>
                     {
-                        Rmenu += Encoding.ASCII.GetString(Ftp.Download((PathSql + row.Arquivo), MainWindowViewModel));
+                        Rmenu += Encoding.ASCII.GetString(Ftp.Download(($"{FtpPath}/rmenu/{row.Arquivo}"), MainWindowViewModel));
                     });
-
-                    if (backup)
+                    if (Rmenu != "")
                     {
-                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 17.5;
-
-                        if (Rmenu != "")
+                        if (backup)
                         {
+                            MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 17.5;
+
                             if (MainWindowViewModel.AbaConfiguracoes.ConfiguracaoModel.LocalPostgres == "")
                             {
                                 throw new Exception("Não definido o diretório para do postgres para a rotina de backup do banco.");
@@ -559,13 +539,13 @@ namespace Posto.Win.Update.Infraestrutura
                                 }
                             }
                         }
+
+                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 25;
+                        MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.IsIndeterminateBarra1 = true;
+                        MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Executando Rmenu de v." + AtualizarModel.Versao.ToString() + " até v." + UltimaVersao.ToString() + "";
+
+                        context.Query(Rmenu).ExecuteNonQuery();
                     }
-
-                    MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 25;
-                    MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.IsIndeterminateBarra1 = true;
-                    MainWindowViewModel.AbaAtualizar.Status.StatusLabel.LabelContent = "Executando Rmenu de v." + AtualizarModel.Versao.ToString() + " até v." + UltimaVersao.ToString() + "";
-
-                    context.Query(Rmenu).ExecuteNonQuery();
 
                     MainWindowViewModel.Indicadores.AtualizouBanco = true;
                     MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.IsIndeterminateBarra1 = false;
@@ -676,7 +656,7 @@ namespace Posto.Win.Update.Infraestrutura
                 MainWindowViewModel.AbaAtualizar.Status.BarraProgresso.ProgressoBarra2 = 0;
 
                 //-- Se diretório existir, inicia processo
-                if (File.Exists(PathAtualizador))
+                if (File.Exists($@"{ConfiguracaoModel.LocalDiretorio}\App\Posto.exe"))
                 {
                     //-- Inicia processo do leitor de bombas caso parâmetro seja true
                     if (ConfiguracaoModel.LeitorBomba)
@@ -705,7 +685,7 @@ namespace Posto.Win.Update.Infraestrutura
 
             try
             {
-                processo.StartInfo.FileName = @"App\Posto.exe";
+                processo.StartInfo.FileName = $@"{ConfiguracaoModel.LocalDiretorio}\App\Posto.exe";
                 processo.StartInfo.Arguments = Parm;
                 processo.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
                 processo.Start();
@@ -726,6 +706,15 @@ namespace Posto.Win.Update.Infraestrutura
             }
         }
 
+        private void Kill(string Parm)
+        {
+            Process[] processes = Process.GetProcessesByName(Parm);
+            foreach (Process process in processes)
+            {
+                process.Kill();
+            }
+        }
+
         /// <summary>
         /// Busca as versões para atualização de acordo com a versão do cliente
         /// </summary>
@@ -736,7 +725,7 @@ namespace Posto.Win.Update.Infraestrutura
                 try
                 {
                     ListaSql = new List<Atualizacao>();
-                    var RetornoFtp = Ftp.GetFileList(PathSql);
+                    var RetornoFtp = Ftp.GetFileList($"{FtpPath}/rmenu/");
 
                     //-- Faz a formatação da string e adiciona na lista de SQLs para rodar
                     ListaSql = RetornoFtp.Where(row => row.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))

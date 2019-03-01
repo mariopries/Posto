@@ -33,22 +33,31 @@
     </UserControl.Resources>
 
 
-    <Grid Height="100" Width="150" FocusManager.FocusedElement="{Binding ElementName=InputLogin}">
+    <Grid Height="146" Width="180" FocusManager.FocusedElement="{Binding ElementName=InputLogin}" Margin="0,10,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="31*"/>
+            <ColumnDefinition Width="29*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <StackPanel Grid.ColumnSpan="2" Margin="4,0">
+            <Image Width="173" Height="47" Source="/Atualizador;component/Resources/logo.png" HorizontalAlignment="Center" />
+        </StackPanel>
 
-        <TextBlock Text="Login"      Grid.Row="0" Foreground="#FF00B030" HorizontalAlignment="Center" FontWeight="Bold" />
+        <TextBlock Text="Login" Grid.ColumnSpan="2"  Grid.Row="1" Foreground="#FF00B030" HorizontalAlignment="Center" FontWeight="Bold" Margin="0" Width="32" VerticalAlignment="Center" />
         <PasswordBox x:Name="InputLogin"
-                                     Grid.Row="1"  Margin="0,5,0,0"
-                                     HorizontalAlignment="Stretch"
+
+
+                                     Grid.Row="2"  Margin="3"
                                      b:FocusBehavior.IsFocused="{Binding InputSenhaIsFocused}"
                                      b:PasswordBoxBehavior.BindPassword="True"
-                                     b:PasswordBoxBehavior.BoundPassword="{Binding InputLogin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     b:PasswordBoxBehavior.BoundPassword="{Binding InputLogin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"
                                      >
             <PasswordBox.InputBindings>
                 <KeyBinding Key="Tab" Command="{Binding LogarCommand}" />
@@ -56,10 +65,10 @@
             </PasswordBox.InputBindings>
         </PasswordBox>
 
-        <Button Command="{Binding LogarCommand}"    Height="30" Margin="0,8,76,6" Grid.Row="2" Grid.Column="0">Logar</Button>
-        <Button Command="{Binding CancelarCommand}"    Height="30" Margin="79,7,0,6" Grid.Row="2" Grid.Column="0">Cancelar</Button>
+        <Button Command="{Binding LogarCommand}" Margin="3,5" Grid.Row="3" Grid.Column="0">Logar</Button>
+        <Button Command="{Binding CancelarCommand}" Margin="3,5" Grid.Row="3" Grid.Column="1">Cancelar</Button>
 
-        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label FontWeight="Bold" Content="{Binding MensagemStatus, Mode=TwoWay}" />
         </StackPanel>
 

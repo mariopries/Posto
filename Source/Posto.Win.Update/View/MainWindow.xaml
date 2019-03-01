@@ -248,7 +248,7 @@
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Left" Height="57" Margin="0,19,0,0" VerticalAlignment="Top" Width="346">
                             <Label FontWeight="Bold" Content="{Binding AbaAtualizar.Status.StatusLabel.LabelContent}" Height="17" Margin="{Binding AbaAtualizar.Status.StatusLabel.LabelMargin}" Padding="0"/>
-                            <ProgressBar Height="13" Margin="10,0" Visibility="{Binding AbaAtualizar.Status.BarraProgresso.Visao}" Value="{Binding AbaAtualizar.Status.BarraProgresso.ProgressoBarra1}" IsIndeterminate="{Binding AbaAtualizar.Status.BarraProgresso.IsIndeterminateBarra1}" Foreground="{Binding AbaAtualizar.Status.BarraProgresso.ForegroundBarra1}"/>
+                            <ProgressBar Height="13" Margin="10,0" Visibility="{Binding AbaAtualizar.Status.BarraProgresso.Visao}" Value="{Binding AbaAtualizar.Status.BarraProgresso.ProgressoBarra1}" IsIndeterminate="{Binding AbaAtualizar.Status.BarraProgresso.IsIndeterminateBarra1}"/>
                             <ProgressBar Height="13" Margin="10,4,10,0" Visibility="{Binding AbaAtualizar.Status.BarraProgresso.Visao}" Value="{Binding AbaAtualizar.Status.BarraProgresso.ProgressoBarra2}"/>
                         </StackPanel>
                     </Grid>

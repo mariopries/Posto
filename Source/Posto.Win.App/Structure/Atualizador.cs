@@ -180,7 +180,7 @@ namespace Posto.Win.App.Structure
                         }
                         if (Configuracoes.Servidor == null || Configuracoes.Servidor == "")
                         {
-                            Configuracoes.Servidor = @"C:\metodos\Update\";
+                            Configuracoes.Servidor = @"\\servidor\metodos";
                         }
 
                         Configuracoes.ToModel().GravarConfiguracao();
